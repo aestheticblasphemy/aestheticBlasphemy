@@ -6,7 +6,7 @@ Created on 09-Jun-2016
 from django.conf.urls import include, url
 from .views import *
 
-urlpatters = [
+urlpatterns = [
     url(r'^(?P<postID>\d+)/$', comment_list),
-    url(r'^comment/(?<cid>\d+)$', comment_detail),
+    url(r'^comment/(?P<cid>\d+)$', comment_detail),
     ]

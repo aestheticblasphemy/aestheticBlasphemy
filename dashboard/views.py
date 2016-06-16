@@ -21,10 +21,6 @@ from django.contrib.auth.signals import user_logged_in
 # import from blogging 
 from blogging.models import get_published_count, get_pending_count, get_draft_count, get_contribution_count, get_top_articles
 
-# import from annotations
-from annotations.models import get_annotations_count 
-
-
 @receiver(user_logged_in)
 def CreateProfile(sender, request, user,**kwargs):
     """
@@ -74,7 +70,6 @@ def dashboard_home(request):
     stats['article_published'] = get_published_count(request.user)
     stats['article_draft'] = get_draft_count(request.user)
     stats['article_pending'] = get_pending_count(request.user)
-    stats['annotations_count'] = get_annotations_count(request.user)
     context = RequestContext(request, {
                                        "profile":profile,"stats":stats,
                                       })

@@ -11,7 +11,6 @@ from taggit.managers import TaggableManager
 from taggit.models import TaggedItem, Tag
 
 from django.contrib.contenttypes.fields import GenericRelation
-from annotations.models import Annotation
 
 from django.conf import settings
 from django.db.models import Count, Sum
@@ -198,11 +197,6 @@ class BlogContent(BaseContentClass):
 
     objects = RelatedManager()    
     published = PublishedManager()
-    
-    annotation = GenericRelation(Annotation, 
-                                 content_type_field='content_type', 
-                                 object_id_field='object_id',
-                                 related_query_name='blogContent')
 
     def get_absolute_url(self):
         kwargs = {'slug': self.url_path,}

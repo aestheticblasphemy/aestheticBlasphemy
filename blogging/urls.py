@@ -4,7 +4,7 @@ import blogging.views as view
 urlpatterns = [
     url(r'^sections/(?P<slug>.*)$', view.index, name='view-sections'),
 
-    url(r'^$', view.teaser, name='view-posts-by-section'),
+    url(r'^$', view.teaser, {'slug':None}, name='view-posts-by-section'),
     url(r'^(?P<slug>[\w.+-/]+)/(?P<post_id>\d+)/$', view.detail, name='view-post-detail'),
     url(r'^(?P<slug>[\w.+-/]+)/$', view.teaser, name='view-posts-by-section'),
     

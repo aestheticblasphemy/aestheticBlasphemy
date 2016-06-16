@@ -1,23 +1,51 @@
 '''
-Created on 09-Jun-2016
+Created on 07-Jun-2015
 
 @author: craft
 '''
-
+from rest_framework import serializers
 from rest_framework.serializers import (ModelSerializer, IntegerField,
                                         PrimaryKeyRelatedField, CharField,
                                         DateTimeField,
                                         EmailField, URLField)
-from comments.models import Comment
-from django.contrib.auth.models import User
 
-from django.conf import settings
 from blogging.models import BlogContent
+from django.contrib.auth.models import User
+from django.conf import settings
+from dashboard.models import UserProfile
+from comments.models import Comment
+
+class UserSerializer(serializers.ModelSerializer):
+    gravatar = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 
+                  'gravatar', 'url',)
+        
+    def get_gravatar(self, obj):
+        print "in get_gravatar"
+        print obj
+        return UserProfile.objects.get(user=obj).get_avatar_url()
+    
+    def get_url(self, obj):
+        return UserProfile.objects.get(user=obj).get_profile_page()
+
+
+class AnonymousUserSerializer(serializers.Serializer):
+    username = serializers.CharField();
+
+class BlogContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlogContent
+        fields =('id', 'title', 'create_date', 'data', 'url_path', 
+                 'author_id', 'published_flag', 'section',
+                 'comments',)
+     
 
 class CommentSerializer(ModelSerializer):
     id = IntegerField(label='ID', read_only=True)
-    content_type = PrimaryKeyRelatedField(label='Content Type', 
-                                          queryset=BlogContent.objects.all())
+    post = PrimaryKeyRelatedField(queryset=BlogContent.objects.all())
     body = CharField(style={'base_template': 'textarea.html'})
     
     author = PrimaryKeyRelatedField(label='Annotation author', 
@@ -34,7 +62,6 @@ class CommentSerializer(ModelSerializer):
                                             label='Parent Comment', 
                                             queryset=Comment.objects.all(), 
                                             required=False)
-
     class Meta:
         model=Comment
         fields = ('id', 'post',

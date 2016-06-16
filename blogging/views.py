@@ -456,16 +456,16 @@ def author_post(request,slug,post_id):
 def archive(request):	
 	return HttpResponse("Hi This is archive view")
 
-def teaser(request,slug):
+def teaser(request,slug=None):
 	"""
 	This is the blogroll method which displays the summary of entries in the
 	section requested.
 	"""
-	current_section = slug.split("/")[-1]
-	logger.debug("Printing slug {slug}".format(slug=slug))
 	max_entry = getattr(settings, 'BLOGGING_MAX_ENTRY_PER_PAGE', 10)
-	
-	if len(slug) == 0:
+	try:
+		current_section = slug.split("/")[-1]
+		logger.debug("Printing slug {slug}".format(slug=slug))
+	except (AttributeError):
 		#Show all posts sorted by publish date.
 		template = loader.get_template('blogging/teaser.html')
 		nodes = get_posts_for_section().order_by('published_date')

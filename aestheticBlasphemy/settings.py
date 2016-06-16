@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Own
+    'django.contrib.humanize',
     'django.contrib.sites',
     'blogging',
     'django_select2',
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'taggit',
     'ckeditor',
     'reversion',
+    'comments',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -70,6 +72,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'aestheticBlasphemy.urls'
@@ -136,7 +139,7 @@ TIME_ZONE = TIME_ZONE_VALUE
 
 USE_I18N = True
 
-USE_L10N = True
+#USE_L10N = True
 
 USE_TZ = True
 

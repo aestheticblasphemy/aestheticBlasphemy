@@ -4,6 +4,7 @@ Django==1.9.6
 django-allauth==0.25.2
 django-appconf==1.0.2
 django-ckeditor==5.0.3
+django-classy-tags==0.7.2
 django-crispy-forms==1.6.0
 django-formtools==1.0
 django-mptt==0.8.4
@@ -21,6 +22,7 @@ numpy==1.10.1
 oauthlib==1.1.1
 pbr==1.7.0
 pyasn1==0.1.8
+PyBindGen==0.17.0.post41+ngd10fa60
 pygccxml==1.6.2
 pyparsing==2.0.3
 python-dateutil==2.4.2
