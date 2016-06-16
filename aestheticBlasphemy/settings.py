@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_select2',
     'crispy_forms',
     'formtools',
-    'annotations',
     'dashboard',
     'meta_tags',
     'django.contrib.redirects',
@@ -182,3 +181,6 @@ LOGGING = {
         },
     },
 }
+
+#Comments App settings
+COMMENT_MODERATION_ENABLED = True
