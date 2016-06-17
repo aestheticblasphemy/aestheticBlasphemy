@@ -179,9 +179,6 @@ def new_post(request):
 
 			del request.session['content_info_id']
 			return HttpResponseRedirect(blog.get_absolute_url())
-# 			return render_to_response(
-# 									"blogging/create_page.html",
-# 	    				context, context_instance=RequestContext(request))
 
 	else:
 		initial = {'pid_count': '0'}
@@ -479,16 +476,16 @@ def teaser(request,slug=None):
 		except EmptyPage:
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			pages = paginator.page(paginator.num_pages)
-		context = RequestContext(request, {
-									'parent':None,
-                                   'nodes': pages,
-                                   'page': {'title':None, 
-											'tagline':'We learn from stolen stuff', 
-											'image': None
-											},
-                                   'max_entry': max_entry,
-                                  })
-		return HttpResponse(template.render(context))
+		context = {
+					'parent':None,
+                    'nodes': pages,
+                    'page': {'title':settings.SITE_TITLE, 
+							'tagline':settings.SITE_TAGLINE, 
+							'image': None
+							},
+                    'max_entry': max_entry,
+                   }
+		return HttpResponse(template.render(context, request))
 		
 	try:
 		section = BlogParent.objects.get(slug = str(current_section))
@@ -522,16 +519,16 @@ def teaser(request,slug=None):
 	else:
 		pages = None
 		
-	context = RequestContext(request, {
-							   'parent':section,
-                               'nodes': pages,
-                               'page': {'title':section.title, 
-										'tagline':settings.SITE_TAGLINE, 
-										'image': section.get_image_url()
-										},
-                               'max_entry': max_entry,
-                              })
-	return HttpResponse(template.render(context))
+	context = {
+			   'parent':section,
+               'nodes': pages,
+               'page': {'title':section.title, 
+						'tagline':settings.SITE_TAGLINE, 
+						'image': section.get_image_url()
+						},
+               'max_entry': max_entry,
+              }
+	return HttpResponse(template.render(context, request))
 
 
 def detail(request, slug, post_id):

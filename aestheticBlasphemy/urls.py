@@ -17,10 +17,21 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
 
+from blogging.sitemaps import BlogSitemap, BlogParentSitemap
+
 urlpatterns = i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^dashboard/', include('dashboard.urls',namespace='dashboard')),
     url(r'^comments/', include('comments.urls', namespace='comments')),
     url(r'^blog/', include("blogging.urls", namespace="blogging")),
+    url(r'^rest/', include("rest.urls", namespace="rest")),
+    url(r'^accounts/login/$', 'dashboard.views.custom_login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/'}),
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', 
+                                        {'sitemaps': {
+                                                      'blog':BlogSitemap,
+                                                      'sections':BlogParentSitemap
+                                                      }}),
     url(r'^$', include("blogging.urls", namespace="blogging")),
 )

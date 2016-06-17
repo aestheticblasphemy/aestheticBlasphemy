@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tags %}
+{% load humanize %}
+
+{% comment %}  
+
+{% block css %}
+    <link href="{% static "css/jquery.jscrollpane.css" %}" rel="stylesheet"/>
+{% endblock %}
+
+{% endcomment %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'leftbar.html' %}
+            <div class="col-md-8 pT-50 col-offset-2">
+                  <!-- DIRECT CHAT -->
+                  <div class="box-primary direct-chat direct-chat-primary">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Messages</h3>
+                      <div class="box-tools pull-right">
+                        <span data-toggle="tooltip" title="{% get_message_count request.user thread %} New Messages" class="badge bg-yellow">{% get_message_count request.user thread %}</span>
+                      </div>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                      <!-- Conversations are loaded here -->
+                      <div class="direct-chat-messages">
+                
+                {% for message in chats %}
+                        <!-- Message. Default to the left -->
+                        {% ifequal message.sender request.user %}
+
+                        <!-- Message to the right -->
+                        <div class="direct-chat-msg right">
+                          <div class="direct-chat-info clearfix">
+                            <span class="direct-chat-name pull-right">{{ message.sender.profile.get_name|title }}</span>
+                          </div><!-- /.direct-chat-info -->
+                          <img class="direct-chat-img" src="{{ message.sender.profile.get_avatar_url }}" alt="message user image"><!-- /.direct-chat-img -->
+                          <div class="direct-chat-text pull-right">
+                            {{ message.body }} <br /> <span class="direct-chat-timestamp"><small>{{ message.created|naturaltime }}</small></span>
+                          </div><!-- /.direct-chat-text -->
+                        </div><!-- /.direct-chat-msg -->
+                        {% else %}
+                        <div class="direct-chat-msg">
+                          <div class="direct-chat-info clearfix">
+                            <span class="direct-chat-name pull-left">{{ message.sender.profile.get_name|title }}</span>
+                          </div><!-- /.direct-chat-info -->
+                          <img class="direct-chat-img" src="{{ message.sender.profile.get_avatar_url }}" alt="message user image"><!-- /.direct-chat-img -->
+                          <div class="direct-chat-text pull-left">
+                            {{ message.body }} <br /> <span class="direct-chat-timestamp"><small>{{ message.created|naturaltime }}</small></span>
+                          </div><!-- /.direct-chat-text -->
+                        </div><!-- /.direct-chat-msg -->
+                        
+                        {% endifequal %}
+                {% endfor %}
+                      </div><!--/.direct-chat-messages-->
+					</div><!-- /.box-body -->                
+                    <div class="box-footer pT-16">
+                      <form  class="form form-horizontal" method="post" action="{% url 'messages:thread_messages' thread.pk %}">
+                      {% csrf_token %}
+                        <div class="input-group">
+                          <input name="body" class="form-control" type="text"></input>
+                          <span class="input-group-btn">
+                            <button type="submit" class="btn btn-warning">Send</button>
+                          </span>
+                        </div>
+                      </form>
+                    </div><!-- /.box-footer-->
+              </div><!--/.direct-chat -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% comment %}  
+
+{% block js %}
+    <script type="text/javascript" src="{% static "js/jquery.mousewheel.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.jscrollpane.min.js" %}"></script>
+    <script>
+
+    </script>
+{% endblock %}
+
+{% endcomment %}

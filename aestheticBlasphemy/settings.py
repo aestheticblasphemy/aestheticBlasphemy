@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #Own
     'django.contrib.humanize',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'blogging',
     'django_select2',
     'crispy_forms',
@@ -59,6 +60,7 @@ INSTALLED_APPS = [
     'taggit',
     'ckeditor',
     'reversion',
+    'pl_messages',
     'comments',
 ]
 
@@ -91,6 +93,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'aestheticBlasphemy.context_processors.site_processor',
+                'django.core.context_processors.media',
+                'django.core.context_processors.csrf',
             ],
         },
     },
@@ -133,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = TIME_ZONE_VALUE
 
@@ -143,6 +148,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
