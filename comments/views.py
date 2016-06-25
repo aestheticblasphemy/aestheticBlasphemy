@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
@@ -7,6 +7,7 @@ from rest_framework.status import (HTTP_200_OK,HTTP_400_BAD_REQUEST,
 from comments.models import Comment
 from comments.serializers import CommentSerializer
 
+import traceback, sys
 # Create your views here.
 class JSONResponse(HttpResponse):
     
@@ -15,7 +16,7 @@ class JSONResponse(HttpResponse):
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
 
-@csrf_exempt
+
 def comment_list(request, postID=None):
     """
     List all comments on the post
@@ -27,18 +28,48 @@ def comment_list(request, postID=None):
             comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
         return JSONResponse(serializer.data)
-    
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        if postID is None:
-            return JSONResponse(serializer.data, status=HTTP_400_BAD_REQUEST)
-        data['post'] = data.get('post', postID)
-        serializer = CommentSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=HTTP_200_OK)
-        return JSONResponse(serializer.data, status=HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
+def comment_post(request):
+    """
+    Make a new comment
+    """
+    if request.method == 'POST':
+        try:
+            data = JSONParser().parse(request)
+            postID = int(data.get('post', None))
+            
+            if postID is None:
+                print 'postID not found'
+                return JSONResponse(CommentSerializer.data, 
+                                                        status=HTTP_400_BAD_REQUEST)
+            
+            if request.user.is_authenticated():
+                print 'User is authenticated'
+                data[u'author'] =  str(request.user.id).encode('utf-8')
+            else:
+                data[u'author'] = None
+
+            serializer = CommentSerializer(data=data)
+            
+            print serializer
+            
+            if serializer.is_valid():
+                serializer.save()
+                return JSONResponse(serializer.data, status=HTTP_200_OK)
+
+            print 'Invalid data'
+            print serializer.errors
+            
+            return JSONResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        except:
+            print 'Some exception occurred.'
+            print "Unexpected error:", sys.exc_info()[0]
+            for frame in traceback.extract_tb(sys.exc_info()[2]):
+                fname,lineno,fn,text = frame
+                print "Error in %s on line %d" % (fname, lineno)
+            return JSONResponse(serializer.data, status=HTTP_400_BAD_REQUEST)
+    
 def comment_detail(request, cid):
     try:
         comment = Comment.objects.get(pk=cid)

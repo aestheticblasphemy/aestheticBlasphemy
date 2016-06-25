@@ -117,8 +117,10 @@ class BlogParent(MPTTModel):
     data = models.TextField(null= False)
     content_type = models.ForeignKey(BlogContentType,null=True,default=None)
     slug = models.SlugField()
+    
     def __unicode__(self):
-        return self.title
+        return self.title.encode('utf-8')
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         blogs = BlogContent.objects.filter(section=self.parent)
@@ -151,9 +153,10 @@ class BlogParent(MPTTModel):
     
     def get_absolute_url(self):
         kwargs = {'slug': str(self.form_url())}
-        return reverse('blogging:teaser-view', kwargs=kwargs)
+        return reverse('blogging:view-sections', kwargs=kwargs)
+    
     def get_menu_title(self):
-        return self.title
+        return self.title.encode('utf-8')
     
     def get_child_count(self):
         return self.children.count()
@@ -163,7 +166,7 @@ class BlogParent(MPTTModel):
     
     
     def get_title(self):
-        return self.title
+        return self.title.encode('utf-8')
     
     class MPTTMeta:
             order_insertion_by = ['title']
@@ -199,9 +202,10 @@ class BlogContent(BaseContentClass):
     published = PublishedManager()
 
     def get_absolute_url(self):
-        kwargs = {'slug': self.url_path,}
+        kwargs = {'slug': self.url_path,
+                  'post_id': self.id,}
         print "LOGS:: Fetching URI for node"
-        return reverse('blogging:teaser-view', kwargs=kwargs)
+        return reverse('blogging:view-post-detail', kwargs=kwargs)
     
     def get_image_url(self):
         try:
@@ -224,18 +228,18 @@ class BlogContent(BaseContentClass):
 
     
     def get_title(self):
-        return self.title
+        return self.title.encode('utf-8')
     
     
     def find_path(self,section): 
         parent_list = section.get_ancestors(include_self=True)
         return_path = '/'.join(word.slug for word in parent_list)
-        return_path = return_path + str("/") + self.slug + str("/") + str(self.id)
+        return_path = return_path + str("/") + self.slug
         print return_path
         return return_path
 
     def get_menu_title(self):
-        return self.title
+        return self.title.encode('utf-8')
 
     def get_parent(self):
         return self.section
@@ -299,7 +303,7 @@ class BlogContent(BaseContentClass):
         super(BlogContent, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return self.title.encode('utf-8')
 
     class Meta:
         ordering = ['-publication_start']

@@ -3,7 +3,7 @@ from django.db import models
 from blogging.models import *
 from django import forms
 from blogging.forms import *
-from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget 
 import json
 from django.db.models import Q 
 from mptt.forms import TreeNodeChoiceField
@@ -16,9 +16,12 @@ It defined the wrapper class for specified content type.
 class DefaultsectionForm(forms.Form):
     title = forms.CharField(max_length = 100)
     pid_count = forms.IntegerField(required=False)
-    parent = TreeNodeChoiceField(queryset=BlogParent.objects.all().filter(~Q(title="Orphan"),~Q(title="Blog")),required=True,empty_label=None, label = "Select Parent" )
+    parent = TreeNodeChoiceField(queryset=BlogParent.objects.all().filter(~Q(title="Orphan"),~Q(title="Blog")),
+                                required=False,
+                                empty_label=None, 
+                                label = "Select Parent" )
 
-    content =  forms.CharField(widget = CKEditorWidget(config_name='author'))
+    content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author'))
     def __init__(self,action, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_id = "id-DefaultSectionForm"
@@ -57,7 +60,7 @@ class DefaultsectionForm(forms.Form):
         for k,v in post.iteritems():
             if str(k) != 'pid_count' :
                 tmp = {}
-                tmp = tag_lib.insert_tag_id(str(v),self.cleaned_data["pid_count"])
+                tmp = tag_lib.insert_tag_id(v,self.cleaned_data["pid_count"])
                 post[k] = tmp['content'] 
                 post['pid_count'] = tmp['pid_count']
                 print "printing post values ", post[k], "pid count ", post['pid_count'] 

@@ -21,6 +21,7 @@ from blogging.utils import *
 from blogging.wrapper import *
 import os, errno
 from django.db.models import Q
+from django.db import OperationalError
 from django.core.mail import send_mail, mail_admins
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
@@ -107,9 +108,9 @@ def content_type(request):
 				form = ContentTypeForm()
 		else:
 			form = ContentTypeForm()
-	return render_to_response(
+	return render(request,
 	    "blogging/content_type.html",
-	    locals(), context_instance=RequestContext(request))	
+	    locals())	
 
 
 @group_required('Administrator','Editor','Author')
@@ -141,14 +142,21 @@ def new_post(request):
 						str(content_info_obj).capitalize()+'Form' )
 
 	if request.method == "POST":
+
 		post_form = form(reverse('blogging:create-post'),request.POST)
 		action = request.POST.get('submit')
+		
 		if post_form.is_valid():
 			post = request.POST.copy()
+						
 			if content_info_obj.is_leaf:
 				blog = BlogContent()
 				blog.section = post_form.cleaned_data["section"]
+				if post.get('tags', None) is None:
+					post['tags'] = None
 			else:
+				if post.get('parent', None) is None:
+					post['parent'] = None
 				blog = BlogParent()
 				blog.parent = post_form.cleaned_data["parent"]
 			blog.title = post_form.cleaned_data["title"]
@@ -173,7 +181,7 @@ def new_post(request):
 			if action == 'Publish':				
 				subject = 'Review: mail from PirateLearner'
 				message = " "+ str(blog.get_menu_title()) + "has been submitted for review by " + str(request.user.profile.get_name()) + "\n"
-				html_message = '<a href="'+ "http:"+ str(settings.DOMAIN_URL) + str(blog.get_absolute_url()) + '" target="_blank"> <strong> ' + str(blog.get_title()) + '</strong> ' + "has been submitted for review by " + str(request.user.profile.get_name())
+				html_message = '<a href="'+ "http:"+ str(settings.SITE_URLS[0]) + str(blog.get_absolute_url()) + '" target="_blank"> <strong> ' + str(blog.get_title()) + '</strong> ' + "has been submitted for review by " + str(request.user.profile.get_name())
 				 
 				mail_admins(subject, message,fail_silently=True,html_message = html_message)
 
@@ -208,6 +216,8 @@ def edit_post(request,post_id):
 			
 			if post_form.is_valid():
 				post = request.POST.copy()
+				if post.get('tags', None) is None:
+					post['tags'] = None
 				blog.title = post_form.cleaned_data["title"]
 				blog.section = post_form.cleaned_data["section"]
 # 				blog.author_id = request.user
@@ -230,8 +240,7 @@ def edit_post(request,post_id):
 				if action == 'Publish':				
 					subject = 'Review: mail from PirateLearner'
 					message = " "+ str(blog.get_menu_title()) + "has been submitted for review by " + str(request.user.profile.get_name()) + "\n"
-					html_message = '<a href="'+ "http:"+ str(settings.DOMAIN_URL) + str(blog.get_absolute_url()) + '" target="_blank"> <strong> ' + str(blog.get_title()) + '</strong> ' + "has been submitted for review by " + str(request.user.profile.get_name())
-					 
+					html_message = '<a href="'+ "http:"+ str(settings.SITE_URLS[0]) + str(blog.get_absolute_url()) + '" target="_blank"> <strong> ' + str(blog.get_title()) + '</strong> ' + "has been submitted for review by " + str(request.user.profile.get_name())
 					mail_admins(subject, message,fail_silently=True,html_message = html_message)
 				
 								
@@ -279,6 +288,8 @@ def edit_section(request,section_id):
 
 			if post_form.is_valid():
 				post = request.POST.copy()
+				if post.get('parent', None) is None:
+					post['parent'] = None
 				section.title = post_form.cleaned_data["title"]
 				section.parent = post_form.cleaned_data["parent"]
 				section.slug = slugify(section.title)
@@ -362,9 +373,12 @@ def add_new_model(request, model_name):
 			return render_to_response('blogging/includes/add_content_type.html', page_context, context_instance=RequestContext(request))
 
 
-def index(request, slug=None):
+def section_index(request, slug=None):
 	"""
 	Main view method of blogging app. Vanilla requests to sections land up here.
+	
+	@note This does NOT give the blogcontent children of sections, but the
+	hierarchy of sections.
 	"""
 	current_section = None
 	section = None
@@ -372,17 +386,23 @@ def index(request, slug=None):
 	template = loader.get_template('blogging/section.html')
 	max_entry = getattr(settings, 'BLOGGING_MAX_ENTRY_PER_PAGE', 10)
 	
-	if slug is not None:
+	if slug is not None and len(slug) > 0:
 		current_section = slug.split('/')[-1]
-	
+		if len(slug.split('/')[-1])==0:
+			current_section = slug.split('/')[-2]
+		print "Printing slug {slug}".format(slug=slug)
+		logger.debug("Printing slug {slug}".format(slug=slug))
+		
 	if current_section is not None:
 		try:
 			section = BlogParent.objects.get(slug = str(current_section))
+			print section
 			if request.GET.get('edit',None) == 'True':
 				return HttpResponseRedirect(reverse('blogging:edit-section',
 														args = (section.id,)))
 			
 			nodes = section.get_children()
+
 	
 		except (BlogParent.DoesNotExist):	
 			logger.error("Unexpected error: {val}".format(val= sys.exc_info()[0]))
@@ -407,41 +427,41 @@ def index(request, slug=None):
 			pages = paginator.page(paginator.num_pages)
 		
 		if section is not None:
-			context = RequestContext(request, {
-											   'parent': section,
-		                                       'nodes': pages,
-		                                       'page': {'title':section.title, 
-														'tagline':''},
-		                                       'max_entry': max_entry,
-		                                      })
+			context = {
+					   'parent': section,
+                       'nodes': pages,
+                       'page': {'title':section.title, 
+								'tagline':''},
+                       'max_entry': max_entry,
+                     }
 		else:
-			context = RequestContext(request, {
-											   'parent': None,
-		                                       'nodes': pages,
-		                                       'page': {'title':'Catalogue', 
-														'tagline':''},
-		                                       'max_entry': max_entry,
-		                                      })
+			context = {
+						   'parent': None,
+                           'nodes': pages,
+                           'page': {'title':'Catalogue', 
+									'tagline':''},
+                           'max_entry': max_entry,
+                       }
 	else:
 		if section is not None:
 			#This case should be made unhittable
-			context = RequestContext(request, {
-											   'parent': section,
-		                                       'nodes': None,
-		                                       'page': {'title':section.title, 
-														'tagline':''},
-		                                       'max_entry': max_entry,
-		                                      })
+			context = {
+					   'parent': section,
+                       'nodes': None,
+                       'page': {'title':section.title, 
+								'tagline':''},
+                       'max_entry': max_entry,
+                      }
 		else:
-			context = RequestContext(request, {
-											   'parent': None,
-		                                       'nodes': None,
-		                                       'page': {'title':'Catalogue', 
-														'tagline':''},
-		                                       'max_entry': max_entry,
-		                                      })
+			context = {
+					   'parent': None,
+                       'nodes': None,
+                       'page': {'title':'Catalogue', 
+								'tagline':''},
+                       'max_entry': max_entry,
+                      }
 
-	return HttpResponse(template.render(context))
+	return HttpResponse(template.render(context, request))
 
 
 def authors_list(request):
@@ -465,7 +485,10 @@ def teaser(request,slug=None):
 	except (AttributeError):
 		#Show all posts sorted by publish date.
 		template = loader.get_template('blogging/teaser.html')
-		nodes = get_posts_for_section().order_by('published_date')
+		nodes = get_posts_for_section().order_by('publication_start')
+		
+		for node in nodes:
+			print node
 		paginator = Paginator(nodes, max_entry,orphans=3)
 		page = request.GET.get('page')
 		try:
@@ -579,21 +602,22 @@ def detail(request, slug, post_id):
 				fname,lineno,fn,text = frame
 # 				logging.error("~SN~FRError~FY in %s on line ~FG%d~FY" % (fname, lineno),logger)
 				logger.error("Error in %s on line %d" % (fname, lineno))
+				print "Error in %s on line %d" % (fname, lineno)
 			raise Http404
 
-		context = RequestContext(request, {
-									   'parent': blogs.section,
-                                       'nodes': blogs,
-                                       'content':json_obj,
-                                       'page': {'title':settings.SITE_TITLE, 
-												'tagline':settings.SITE_TAGLINE
-												},
-                                       'patch': patch_html,
-                                       'meta' : meta,
-                                       'can_edit':(not blogs.published_flag) and 
-                                   				  blogs.author_id == request.user , 
-                                      })
-		return HttpResponse(template.render(context))
+		context = {
+					   'parent': blogs.section,
+                       'nodes': blogs,
+                       'content':json_obj,
+                       'page': {'title':settings.SITE_TITLE, 
+								'tagline':settings.SITE_TAGLINE
+								},
+                       'patch': patch_html,
+                       'meta' : meta,
+                       'can_edit':(not blogs.published_flag) and 
+                   				  blogs.author_id == request.user , 
+                  }
+		return HttpResponse(template.render(context, request))
 	
 	except (ValueError):
 		logger.error("Unexpected error: {val}".format(val=sys.exc_info()[0]))
@@ -719,15 +743,15 @@ def manage(request):
 #				 print "LOGS: " + pks
 				objs = BlogContent.objects.filter(pk__in=pks)
 				
-				if action == 'Publish':
-					print "LOGS: Promote the given artcles"
+				if action == 'Promote':
+					print "LOGS: Promote the given aritcles"
 					for obj in objs:
 						obj.published_flag = True
+						obj.publication_start = timezone.now()
 						obj.save()
 				elif action == 'Delete':
 					for obj in objs:
 						obj.delete()
-					messages.error(request, "Articles Deleted" )
 		articles = BlogContent.objects.all()
 		paginator = Paginator(articles, 50,orphans=30)
 		page = request.GET.get('page')
@@ -745,10 +769,17 @@ def manage(request):
 		context = {"articles": pages, "actions": actions
 				   }
 		return render_to_response("blogging/manage.html", context, context_instance=RequestContext(request))
+	
+	except OperationalError as exp:
+		print exp.__cause__
+		print "Unexpected error:", sys.exc_info()[0]
+		for frame in traceback.extract_tb(sys.exc_info()[2]):
+			fname,lineno,fn,text = frame
+			print "Error in %s on line %d" % (fname, lineno)
+		return Http404
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
 			fname,lineno,fn,text = frame
 			print "Error in %s on line %d" % (fname, lineno)
 		return Http404
-	

@@ -12,7 +12,7 @@
 {% block content %}
 <div class="container-fluid">
 	<div class="row">
-	    {% include 'leftbar.html' with active="profile" %}
+	    {% include 'dashboard/leftbar.html' with active="profile" %}
 		<div class="col-md-8 pT-50">
 		{% if user %}
 			<div class="row">
@@ -95,41 +95,6 @@
 								</div>
 							{% endif %}
 			
-							<h2 class="subheading"> Bookmarks </h2>
-							{% if bookmarks %}
-								{% for node in bookmarks %}
-									<article class="post vt-post bS-2">
-										<div class="row">
-					
-											<div class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
-												<div class="post-type post-img">
-													<div style="height:190px;overflow:hidden;position:relative;">
-														<a href="{{node.get_absolute_url}}" style="position:absolute;top:50%;transform:translate(0,-50%);">
-															<img class="img-responsive" alt="airticle image" src="{{ node.get_image_url }}"></img>
-														</a>
-													</div>			
-												</div>
-											</div>
-					
-											<div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
-												<div class="caption">
-													<h3 class="md-heading">
-														<a href="{{node.get_absolute_url}}">{{ node.get_title }}</a>
-													</h3>
-													<p>
-													 {{ node.get_summary }} 
-													 </p>
-													<a class="btn btn-default btn-more" href="{{node.get_absolute_url}}" role="button">Read More</a>
-												</div>
-											</div>						
-										</div>
-									</article>
-								{% endfor %}
-							{% else %}
-								<div class="col-xs-12">
-									<h4> <i> NO BOOKMARKS </i> </h4>
-								</div>
-							{% endif %}
 							</div>
 
 						</div>

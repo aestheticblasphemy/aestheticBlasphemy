@@ -13,4 +13,5 @@ class TagField(forms.ModelMultipleChoiceField):
     
     def __init__(self):
         super(forms.ModelMultipleChoiceField, self).__init__(
-                                                    queryset=Tag.objects.all())
+                                                    queryset=Tag.objects.all(),
+                                                    required=False)

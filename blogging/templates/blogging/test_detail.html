@@ -1,9 +1,6 @@
 {% extends "blogging/base.html" %}
+{% load comment_tags %}
 
-{% load cms_tags %}
-{% load disqus_tags %}
-{% load bookmark_tags %}
-{% disqus_dev %}
 {% block meta %}
 {% include "meta.html" with meta=meta only %}
 {% endblock %}
@@ -38,7 +35,7 @@
 					<span class="hidden rest" data-id="{{ nodes.id }}" data-content-type="{{ nodes.get_content_type }}"></span>
 					<h1 class="article-title" itemprop="headline"> 	{{ content.title }} </h1>
 					<meta itemprop="datePublished" content=" {{ meta.date_time }} "/>
-					<span class="article-author"> by <a href="{{ content.author.profile.get_profile_page }}">{{ content.author.profile.get_name|title }}</a></span>       	
+					<span class="article-author"> by <a href="{{ content.author.profile.get_profile_page }}">{{ content.author.profile.get_username|title }}</a></span>       	
 					<div class="article-actions_outer" data-spy="affix">
 						<div class="article-actions-title-small">
 							<h4 class="article-title"> 	{{ content.title  }} </h4>
@@ -137,11 +134,13 @@
 			            <li class="nav-tab article-adjunct-nav--item"><a href="#article-adjunct-tab-notes"><span>Notes</span></a></li>
 			        </ul>
 			    </nav>
+               <div class="article-adjunct-block">
+                    <div class="article-adjunct-tab active comments-container" id="article-adjunct-tab-discuss">
+                        {% comment_form %}
+                    </div>
+                </div>
 			    <div class="article-adjunct-block">
-			        <div class="article-adjunct-tab" id="article-adjunct-tab-discuss">
-						{% disqus_show_comments %}
-			        </div>
-			        <div class="article-adjunct-tab active comments-container" id="article-adjunct-tab-notes">
+			        <div class="article-adjunct-tab comments-container" id="article-adjunct-tab-notes">
 			            
 			        </div>
 			    </div>
@@ -154,16 +153,9 @@
 {% endblock %}
 
 {% block extra_script %}
-<script src="{{ STATIC_URL }}js/getuser.js"></script> 
-<script src="{{ STATIC_URL }}js/voting/voting_detail.js"></script>
-<script src="{{ STATIC_URL }}js/annotations/script.js"></script>
-<script src="{{ STATIC_URL }}js/blogging/nav_affix.js"></script>    
 
 <script src="{{ STATIC_URL }}ckeditor/ckeditor/ckeditor.js"></script>
-<script src="{{ STATIC_URL }}js/getuser.js"></script>
-<script src="{{ STATIC_URL }}js/bookmark/bookmark_details.js"></script>
-<script src="{{ STATIC_URL }}js/blogging/image_expand.js"></script>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/overlay.css"></link>
+
 	<!-- Twitter share script -->
 	<script>
 		!function(d,s,id){

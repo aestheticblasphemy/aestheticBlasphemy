@@ -143,6 +143,13 @@ class UserProfile(BaseContentClass):
         else:
             return settings.STATIC_URL + "images/add_new.png"
     
+    def get_profile_name(self):
+        name  = self.get_first_name(None)
+        if name is None or len(name) is 0:
+            name = self.get_username(None)
+        
+        return name
+    
     def get_username(self,provider=None):
         """
         Return the username of social account Facebook, Google and Twitter in that order, if provider is None.
@@ -211,7 +218,11 @@ class UserProfile(BaseContentClass):
         if profile != None:
             if self.get_provider_name(profile.provider) == 'twitter':
                 return "---"
-            return profile.extra_data['gender']
+            gender =  profile.extra_data.get('gender',None)
+            if gender is None:
+                return self.gender
+            else:
+                return gender
         else:
             return "---"
 
@@ -224,7 +235,7 @@ class UserProfile(BaseContentClass):
         if profile != None:
             if self.get_provider_name(profile.provider) == 'twitter':
                 return self.user.email
-            return profile.extra_data['email']
+            return profile.extra_data.get('email', None)
         else:
             return self.user.email
 

@@ -2,7 +2,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            {% include 'leftbar.html' with active='compose'%}
+            {% include 'dashboard/leftbar.html' with active='compose'%}
             <div class="col-md-8 pT-50">
                 <form class="form form-horizontal" action="{% url 'messages:new_message' %}" method="post">
                     {% csrf_token %}

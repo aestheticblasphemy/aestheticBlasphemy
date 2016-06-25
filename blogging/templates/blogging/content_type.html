@@ -1,5 +1,4 @@
 {% extends "blogging/base.html" %}
-{% load cms_tags %}
 
 {% block extra_script %}
 <script type="text/javascript" src="/admin/jsi18n/"></script>
@@ -19,11 +18,11 @@ Create Content - Phase-1
 {% block content_blog %}
 <div class="container-fluid" >
 	<div class="row">
-	    {% include 'leftbar.html' with active="create" %}
+	    {% include 'dashboard/leftbar.html' with active="create" %}
 
 	<div class="col-md-8 pT-50">
 		{% load crispy_forms_tags %}
-		{% crispy form form.helper %}
+		{% crispy form %}
 	</div>
 	
 	</div>

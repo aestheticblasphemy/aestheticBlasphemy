@@ -17,7 +17,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.i18n import i18n_patterns
 
+from django.conf import settings
+
 from blogging.sitemaps import BlogSitemap, BlogParentSitemap
+from django.conf.urls.static import static
 
 urlpatterns = i18n_patterns(
     url(r'^admin/', admin.site.urls),
@@ -25,6 +28,7 @@ urlpatterns = i18n_patterns(
     url(r'^comments/', include('comments.urls', namespace='comments')),
     url(r'^blog/', include("blogging.urls", namespace="blogging")),
     url(r'^rest/', include("rest.urls", namespace="rest")),
+    url(r'^messages/', include("pl_messages.urls", namespace="messages")),
     url(r'^accounts/login/$', 'dashboard.views.custom_login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/'}),
     url(r'^accounts/', include('allauth.urls')),
@@ -33,5 +37,11 @@ urlpatterns = i18n_patterns(
                                                       'blog':BlogSitemap,
                                                       'sections':BlogParentSitemap
                                                       }}),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^$', include("blogging.urls", namespace="blogging")),
+    url(r'^', include("blogging.urls", namespace="blogging")),
 )
+# This is only needed when using runserver.
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

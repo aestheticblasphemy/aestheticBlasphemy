@@ -24,15 +24,10 @@ Create Content - Phase-2
 {% endblock %}
 
 
-{% load cms_tags %}
-
-
-
-
 {% block content_blog %}
 <div class="container-fluid" >
 	<div class="row">
-	    {% include 'leftbar.html' with active="create" %}
+	    {% include 'dashboard/leftbar.html' with active="create" %}
 
 	<div class="col-md-8 pT-50">
 		{% if success %}
