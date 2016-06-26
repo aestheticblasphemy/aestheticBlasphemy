@@ -14,6 +14,59 @@ $(document).ready(function(){
 	};
 	
 	/**
+	 * Current Post's ID for fetching statistics.
+	 * 
+	 * @note it is assumed that the comment form is loaded before this call.
+	 */
+	ABC.post_id = parseInt($(".rest[data-id]").attr('data-id'));
+	
+	console.log(ABC.post_id);
+	/**
+	 * renderForm
+	 * @brief Render the form in the page.
+	 */
+	var renderForm = function(data){
+		//console.log('renderForm');
+		$('#article-adjunct-tab-comments').prepend(data);
+		/* Bind click event */
+		$('#post_comment').on('click', postComment);
+	};
+	/**
+	 * loadForm
+	 * @brief Fetch the Form HTML from Server
+	 */
+	var loadForm = function(){
+		$.ajax({
+		    // the URL for the request
+		    url: window.location.origin+'/comments/'+ABC.post_id+'/form/',
+		 
+		    // whether this is a POST or GET request
+		    type: "GET",
+		 
+		    // the type of data we expect back
+		    dataType : "html",
+		 
+		    // code to run if the request succeeds;
+		    // the response is passed to the function
+		    success: renderForm,
+		 
+		    // code to run if the request fails; the raw request and
+		    // status codes are passed to the function
+		    error: function( xhr, status, errorThrown ) {
+		        //alert( "Sorry, there was a problem!" );
+		        console.log( "Error: " + errorThrown );
+		        console.log( "Status: " + status );
+		        console.dir( xhr );
+		    },
+		 
+		    // code to run regardless of success or failure
+		    complete: function( xhr, status ) {
+		        //alert( "The request is complete!" );
+		    }
+		});
+	};
+	
+	/**
 	 * postComment
 	 * @brief : Posts an annotation.
 	 * 
@@ -22,7 +75,6 @@ $(document).ready(function(){
 	 */
 	var postComment = function(e){
 		e.preventDefault();
-		console.log('postComment');
 		/* Construct a JSON string of the data in annotation. */
 		//console.log(this);
 		/* Check login */
@@ -37,7 +89,7 @@ $(document).ready(function(){
 
 		
 		/* Current text must not be empty. Though this must be taken care of in HTML5 required flag*/
-		post = $("#id_post option:selected").val();
+		post = ABC.post_id;
 		author_name= $("#id_author_name").val();
 		author_email= $("#id_author_email").val();
 		author_url= $("#id_author_url").val();
@@ -91,7 +143,7 @@ $(document).ready(function(){
 	        contentType: "application/json;",
 	        data : JSON.stringify(data),
 	        context : this,
-	        success : renderSingleAnnotation,
+	        success : renderSingleComment,
 	        error : function (xhRequest, ErrorText, thrownError) {
 	            //alert("Failed to process annotation correctly, please try again");
 	            console.log('xhRequest: ');
@@ -102,6 +154,7 @@ $(document).ready(function(){
 	    });	
 		
 		/* Clear out form contents, if any. */
+		$("#id_body").val("");
 	    e.stopPropagation(); 
 		return false;
 	}
@@ -116,10 +169,10 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * deleteAnnotation
+	 * deleteComment
 	 * @param id: ID of paragraph to remove
 	 */
-	var deleteAnnotation = function(id){
+	var deleteComment = function(id){
 		id= parseInt($(this).attr('data-comment-id'));
 		//console.log('Deleting annotation' + id);
 		
@@ -164,38 +217,47 @@ $(document).ready(function(){
 		return false;
 	};
 	/**
-	 * renderSingleAnnotation
+	 * renderSingleComment
 	 * @param data : Payload received from the server
-	 * @brief Loads annotations in their respective containers.
+	 * @brief Loads comments in their respective containers.
 	 * 
 	 */
-	var renderSingleAnnotation = function(data){
+	var renderSingleComment = function(data){
 		data_list = [data];
-		renderAnnotations(data_list);
+		renderComments(data_list);
+		//console.log('Scroll to active view');
+		//console.log($('.comments-container-item[data-comment-id="cid_'+data['id']+'"]'));
+		//console.log($('.comments-container-item[data-comment-id="cid_'+data['id']+'"]').offset());
+		$('html, body').animate({
+	        scrollTop: $('.comments-container-item[data-comment-id="cid_'+data['id']+'"]').offset().top
+	    }, 2000);
 		return false;
 	}
+	
 	/**
-	 * renderAnnotations
+	 * renderComments
 	 * @param data : Payload received from the server
 	 * @brief Loads annotations in their respective containers.
 	 * 
 	 */
-	var renderAnnotations = function(data){
-		console.log('renderAnnotations');
-		console.log('Data received: ');
-		console.log(data);
-		console.log('Length: '+ data.length);
-		if (annotationCopy == null){
+	var renderComments = function(data){
+		//console.log('renderComments');
+		//console.log('Data received: ');
+		//console.log(data);
+		//console.log('Length: '+ data.length);
+		if ((typeof(commentContainer) === 'undefined') || 
+											commentContainer === null){
 			/* Create a fresh copy of the variable*/
 			//console.log('It is null. Make a new one');
-			annotationCopy = $('#commentable-container');
-			//console.log(annotationCopy);
+			var commentContainer = $('#article-adjunct-tab-comments');
+			//console.log(commentContainer);
 		}
 		for(i=0; i< data.length;i++){
-//			console.log(annotationCopy.children('[data-section-id="'+data[i]['paragraph_id']+'"]'));
+			//console.log('Comment:');
+			//console.log(data[i]['parent_comment']);
+			
 			/* Find the parent container */
-
-			currentObject = annotationCopy.children('[data-section-id="'+data[i]['paragraph']+'"]');
+			currentObject = commentContainer.children('[data-comment-id="cid_'+data[i]['id']+'"]');
 			/* Find the annotations container inside that and append the comment */
 			currentComment = $('<div class="comments-container-item">'+
                     			'<div class="comments-container--media">'+
@@ -212,69 +274,58 @@ $(document).ready(function(){
             					'</div>'+
             					'</div>');
 			
-			/* Create the annotation */
-			currentComment.find('.comments-author-image').attr('src', data[i]['author']['gravatar']);
-			currentComment.find('.comments-author-name').text(data[i]['author']['username']);
-			currentComment.find('.comments-author-link').attr('href',data[i]['author']['url']);
-			currentComment.find('.comments-container--text').text(data[i]['body']);
-			currentComment.find('.comments-delete').attr('data-comment-id', data[i]['id']);
+			/* Create the comment */
+			currentComment.attr('data-comment-id', 'cid_'+data[i]['id']);
+			if(data[i]['author']===null){
+				currentComment.find('.comments-author-name').text(data[i]['author_name']);
+				currentComment.find('.comments-author-link').attr('href',data[i]['author_url']);
+			}else{
+				currentComment.find('.comments-author-name').text(data[i]['author']['username']);
+				currentComment.find('.comments-author-link').attr('href',data[i]['author']['url']);
+				currentComment.find('.comments-author-image').attr('src', data[i]['author']['gravatar']);
+
+			}
 			
-			currentComment.find('.comments-delete').on('click', deleteAnnotation);
-			/* Also add to main container if the user is a guest. */
-			if((parseInt(data[i]['author']['id']) === parseInt(annotations.currentUser['id']))||
-					(parseInt(annotations.currentUser['id'])===0)){
-				/* Append to main visible list*/
-				currentObject.find('[id *="user_annotations_"]').append(currentComment);
+			currentComment.find('.comments-container--text').text(data[i]['body']);
+			currentComment.find('.comments-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
+			
+			currentComment.find('.comments-delete').on('click', deleteComment);
+			/* Also add to main container if the comment has no parent. */
+			if(data[i]['parent_comment']===null){
+				/* Append to main comments container*/
+				commentContainer.append(currentComment);
 			}
 			else{
-				/* Append to the folded list */
-				currentObject.find('[id *="other_annotations_"]').append(currentComment);
-				/* Now that we have other annotations, unhide the show button too */
-				console.log('Unhide the button');
-				
-				if(currentObject.find('.comments-bucket-toggle').hasClass('hidden')){
-					currentObject.find('.comments-bucket-toggle').removeClass('hidden');
-					/* Bind event to show fold or unfold other annotations*/
-					currentObject.find('.comments-bucket-toggle').on('click', toggleOtherAnnotations);
-				}				
-				
-				if(!currentObject.find('.comments-bucket-toggle').hasClass('unfolded')){
-					currentObject.find('.comments-bucket-toggle').removeClass('unfolded');
-					currentObject.find('.comments-bucket-toggle').addClass('folded');
+				/* Append as a child of its parent comment */
+				currentObject.append(currentComment);
+//				/* Now that we have other annotations, unhide the show button too */
+//				console.log('Unhide the button');
+//				
+//				if(currentObject.find('.comments-bucket-toggle').hasClass('hidden')){
+//					currentObject.find('.comments-bucket-toggle').removeClass('hidden');
+//					/* Bind event to show fold or unfold other annotations*/
+//					currentObject.find('.comments-bucket-toggle').on('click', toggleOtherAnnotations);
+//				}				
+//				
+//				if(!currentObject.find('.comments-bucket-toggle').hasClass('unfolded')){
+//					currentObject.find('.comments-bucket-toggle').removeClass('unfolded');
+//					currentObject.find('.comments-bucket-toggle').addClass('folded');
 				}
 			}
 			/* Also append it to the bucket list.*/
-			$('#article-adjunct-tab-notes').append(currentComment.clone());
-			
-			/* Update the annotation count on the button */
-			temp = currentObject.find('.comments--toggle p').text();
-			//console.log('Comment Count is ' +temp);
-			commentCount = ((temp = currentObject.find('.comments--toggle p').text()) ==='+') ? 1 : (parseInt(temp)+1);
-			//console.log(currentObject.find('.comments-container'));
-			currentObject.find('.comments--toggle p').text(commentCount);
-			if(!currentObject.find('.comments--toggle').hasClass('has-annotations') && commentCount > 0)
-			{
-				currentObject.find('.comments--toggle').addClass('has-annotations');
-			}
-			//console.log('Updated comment count to '+ commentCount);
-		}
-		/* Put the variable back to sleep now */
-		annotationCopy = null;
+//			$('#article-adjunct-tab-notes').append(currentComment.clone());
+//		}
 		return false;
 	};
 	
 	
 	/*
-	 * Load Annotations
+	 * Load Comments
 	 */
-	var loadAnnotations = function(){
-		/*
-		 * At some point of time, this method will be making Ajax queries. For now, it is just calls renderAnnotations directly by passing fixtures.
-		 */
-		//renderAnnotations(fixtures);
+	var loadComments = function(){
 		$.ajax({
 		    // the URL for the request
-		    url: '/rest/blogcontent/'+annotations.id+'/comments/',
+		    url: window.location.origin+'/comments/'+ABC.post_id+'/',
 		 
 		    // the data to send (will be converted to a query string)
 		    data: {
@@ -289,7 +340,7 @@ $(document).ready(function(){
 		 
 		    // code to run if the request succeeds;
 		    // the response is passed to the function
-		    success: renderAnnotations,
+		    success: renderComments,
 		 
 		    // code to run if the request fails; the raw request and
 		    // status codes are passed to the function
@@ -307,124 +358,17 @@ $(document).ready(function(){
 		});
 	};
 	
+	/**
+	 * Load form 
+	 */
+	loadForm();
 	
 	/**
-	 * toggleAnnotations
-	 * @param event 
-	 * @brief Hides or unhides the annotations depending on their current state.
-	 * @detail TODO
+	 * Load comments
 	 */
-	toggleAnnotations = function(e){
-		/* 
-		 * If the clicked annotation is the same is the one that was active, we need to close its annotations only,
-		 * otherwise we must close it and open the currently active's annotations.
-		 */
-		activeID = parseInt($(this).parents('.annotation--container').attr('data-section-id'));
-		
-		/* Hide all other annotations first */
-		$('.comments').children('.comments-container').addClass('hidden');
-		/* If we clicked on the same bubble, it must collapse, and we return to initial state */
-		if(annotations.currentAnnotation === activeID ){
-			/* Remove the higlight class from the bubble: .annotation-highlight */
-			$(this).removeClass('annotation-highlight');
-			$(this).parents("#commentable-container").removeClass('annotations-active');
-			annotations.currentAnnotation = 0;
-			/*
-			 * Unbind 'click anywhere' also from the entire document
-			 */
-			$(document).unbind('click');
-			
-			/* hide the form too */
-			hideForm();
-			return;
-		}
-		
-		/* Else, we've selected a new bubble (and have already hidden everything.)*/
-		/* 
-		 * We could first find the previous object to remove the annotation-highlight class from it
-		 * or we could directly ask jquery to remove that class from all.
-		 * That is one reason why Jquery makes things seem very simple, though it might be a preformance hit
-		 * internally. 
-		 */
-		//$('.comments--toggle').removeClass('annotation-highlight');
-		/*
-		 * If there is no previous annotation selected, then we must bind a 'click anywhere to close' 
-		 * event to document.
-		 */
-		if(annotations.currentAnnotation === 0){
-			$(document).on('click', function(e) {
-				//console.log($(event.target));
-				//console.log($(event.target).closest('.side-comment').length);
-
-				/*
-				 * If the element we clicked on is not close to the comments,
-				 * close the annotations then.
-				 */
-				if (!($(e.target).closest('.comments').length)){
-					/* Hide all other annotations */
-					$('.comments').children('.comments-container').addClass('hidden');
-					$('*[data-section-id="'+annotations.currentAnnotation+'"]').find('.comments--toggle').removeClass('annotation-highlight');
-					$('#commentable-container').removeClass('annotations-active');
-					/* Reset the currently selected Annotation state */
-					annotations.currentAnnotation = 0;
-					/* Also hide the form */
-					hideForm();
-					/* unbind this listener too*/
-					$(document).unbind('click');
-				}
-			});
-		}
-		
-		/* OR the other method */
-		$('*[data-section-id="'+annotations.currentAnnotation+'"]').find('.comments--toggle').removeClass('annotation-highlight');
-		/* Update state variable */
-		annotations.currentAnnotation = parseInt($(this).parents('.annotation--container').attr('data-section-id'));
-//		console.log('Current Annotation is: ' + annotations.currentAnnotation);
-		/* find the parent with classname 'comments' */
-		$(this).addClass('annotation-highlight');
-		$(this).parent('.comments').children('.comments-container').removeClass('hidden');
-		
-		/* Add class annotations-active to the parent with ID commentable-container */
-		if(!$(this).parents("#commentable-container").hasClass('annotations-active')){
-			$(this).parents("#commentable-container").addClass('annotations-active');
-		}
-		
-		/* show the form too */
-		showForm(activeID);
-		return false;
-	};
+	loadComments();
 	
-	var bindAnnotations = function(){
-		/* Find all annotation toggle buttons and bind the click event to them. */
-		$('.comments--toggle').on('click', annotations.toggleAnnotations );
-//		console.log('Binding complete');
-	};
-	
-	var wrapContent = function(){
-		index = parseInt($(this).attr('id'));
-		
-		if(!isNaN(index)){
-			
-			$(this).wrap('<div data-section-id="'+index+'" class="annotation--container clearfix"></div>');
-			
-			$('<div class="comments clearfix">'+
-                '<h3 class="comments--toggle rectangular-speech"><p>+</p></h3>'+
-                '<div class="comments-container hidden">'+
-                '<div class="comments-container-bucket" id="user_annotations_'+index+'"></div>'+
-                '<button class="comments-bucket-toggle folded hidden" type="button"> other annotations</button>'+
-                '<div class="comments-container-bucket hidden" id="other_annotations_'+index+'"></div>'+
-                '</div>'+
-                '</div>').insertAfter($(this));
-		}
-		//else do not wrap
-	};
-		
-	/*
-	 * Load annotations
-	 */
-//	loadAnnotations();
-	
-	/*
+	/**
 	 * Handle tabs
 	 */
 	$('.article-adjunct-nav--item a').on('click', function(e)  {
@@ -439,10 +383,7 @@ $(document).ready(function(){
         e.preventDefault();
     });
 	
-	/* Show current active tab */
+	/** Show current active tab */
 	$($('.article-adjunct-nav--list').children('.active').children('a').attr('href')).show().siblings().hide();
-	
-	/* Bind click event */
-	$('#post_comment').on('click', postComment);
 	
 });

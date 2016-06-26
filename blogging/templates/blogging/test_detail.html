@@ -1,5 +1,5 @@
 {% extends "blogging/base.html" %}
-{% load comment_tags %}
+{% load staticfiles %}
 
 {% block meta %}
 {% include "meta.html" with meta=meta only %}
@@ -135,8 +135,8 @@
 			        </ul>
 			    </nav>
                <div class="article-adjunct-block">
-                    <div class="article-adjunct-tab active comments-container" id="article-adjunct-tab-discuss">
-                        {% comment_form %}
+                    <div class="article-adjunct-tab active comments-container" id="article-adjunct-tab-comments">
+
                     </div>
                 </div>
 			    <div class="article-adjunct-block">
@@ -163,6 +163,6 @@
 		if(!d.getElementById(id)){js=d.createElement(s);
 		js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 	</script>
-
+    <script src="{% static "js/comments/comments.js" %}"></script>
 {% endblock %}
 

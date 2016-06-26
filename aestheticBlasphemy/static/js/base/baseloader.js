@@ -83,6 +83,7 @@ function GlobalSiteContainer(){
 											},
 								},
 		});
+	
 }; /* ABC = AestheticBlasphemyContainer*/
 
 var ABC = ABC || new GlobalSiteContainer();

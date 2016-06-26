@@ -1,11 +1,16 @@
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
+from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.status import (HTTP_200_OK,HTTP_400_BAD_REQUEST,
                                    HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT)
 from comments.models import Comment
-from comments.serializers import CommentSerializer
+from rest.serializers import CommentSerializer
+
+from forms import CommentForm
 
 import traceback, sys
 # Create your views here.
@@ -23,13 +28,13 @@ def comment_list(request, postID=None):
     """
     if request.method == 'GET':
         if postID is not None:
-            comments = Comment.objects.filter(post_id=postID)
+            comments = Comment.objects.filter(post_id=postID).order_by('date_created')
         else:
-            comments = Comment.objects.all()
+            comments = Comment.objects.all().order_by('date_created')
         serializer = CommentSerializer(comments, many=True)
         return JSONResponse(serializer.data)
 
-@csrf_exempt
+
 def comment_post(request):
     """
     Make a new comment
@@ -92,3 +97,22 @@ def comment_detail(request, cid):
     elif request.method=='DELETE':
         comment.delete()
         return HttpResponse(status = HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+@renderer_classes((TemplateHTMLRenderer,))
+def comment_form(request, postID):
+    print 'Fetch form'
+    
+    if len(postID) is 0:
+        return HttpResponse(status=HTTP_400_BAD_REQUEST)
+    
+    if request.method == 'GET':
+        try:
+            post = Comment.objects.get(pk=int(postID))
+            comment = CommentForm(initial={'post': post})
+            return(Response(data={'request':request,
+                                  'comment':comment},
+                            template_name="comments/form.html"))
+        except Comment.DoesNotExist:
+            return Response(status=HTTP_404_NOT_FOUND)

@@ -16,12 +16,14 @@ from dashboard.models import UserProfile
 from comments.models import Comment
 
 class UserSerializer(serializers.ModelSerializer):
+    comments = serializers.PrimaryKeyRelatedField(many=True, 
+                                                 queryset=Comment.objects.all())
     gravatar = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 
-                  'gravatar', 'url',)
+                  'gravatar', 'url', 'comments')
         
     def get_gravatar(self, obj):
         print "in get_gravatar"
@@ -44,24 +46,6 @@ class BlogContentSerializer(serializers.ModelSerializer):
      
 
 class CommentSerializer(ModelSerializer):
-    id = IntegerField(label='ID', read_only=True)
-    post = PrimaryKeyRelatedField(queryset=BlogContent.objects.all())
-    body = CharField(style={'base_template': 'textarea.html'})
-    
-    author = PrimaryKeyRelatedField(label='Annotation author', 
-                                    queryset=User.objects.all())
-    author_name = CharField(label="Name",
-                            style={'base_template': 'textarea.html'})
-    author_email = EmailField(label="Email",
-                            style={'base_template': 'textarea.html'})
-    author_url = URLField(label="URL",
-                            style={'base_template': 'textarea.html'})    
-    date_created = DateTimeField(read_only=True)
-    date_modified = DateTimeField(read_only=True)
-    parent_comment = PrimaryKeyRelatedField(allow_null=True, 
-                                            label='Parent Comment', 
-                                            queryset=Comment.objects.all(), 
-                                            required=False)
     class Meta:
         model=Comment
         fields = ('id', 'post',
@@ -78,10 +62,11 @@ class CommentSerializer(ModelSerializer):
         Serializers have a save method, which will in turn invoke these 
         functions
         """
+        print "CommentSerializer: In Create"
         comment = Comment()
         
-        comment.author = validated_data.get('author')
-        
+        comment.author = validated_data.get('author', None)
+
         if comment.author is None:
             comment.author_name = validated_data.get('author_name', None)
             comment.author_email = validated_data.get('author_email', None)
@@ -95,7 +80,7 @@ class CommentSerializer(ModelSerializer):
         comment.published = False
         if comment.author is not None and settings.COMMENT_MODERATION_ENABLED is not True:
             comment.published = True
-        elif comment.author is not None and comment.author.is_staff():
+        elif comment.author is not None and comment.author.is_staff:
             comment.published = True 
 
         comment.save()
@@ -106,6 +91,7 @@ class CommentSerializer(ModelSerializer):
         Update and return an existing 'Comment' instance, given the 
         validated data
         """
+        print "CommentSerializer: In Update"
         instance.body = validated_data.get('body', instance.body)
         instance.author = validated_data.get('author', instance.author)
         instance.parent_comment = validated_data.get('parent_comment',
