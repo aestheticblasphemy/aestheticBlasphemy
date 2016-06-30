@@ -111,8 +111,13 @@ WSGI_APPLICATION = 'aestheticBlasphemy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'migratedb',
+        'HOST': '127.0.0.1', 
+        'USER': 'root', 
+        'PASSWORD': 'root', 
+        'PORT': '3306',
         'TIME_ZONE': 'Asia/Kolkata',
     }
 }
@@ -491,6 +496,7 @@ META_FB_APP_ID = ''
 
 #blogging app settings
 BLOGGING_MAX_ENTRY_PER_PAGE = 10
+BLOGGING_CSS_FRAMEWORK = 'bootstrap4'
 
 LOGGING = {
     'version': 1,

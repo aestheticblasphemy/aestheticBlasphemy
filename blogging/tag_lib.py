@@ -1,7 +1,9 @@
 import re
 import six
+import bs4
 from bs4 import BeautifulSoup
 
+from utils import get_css_styles
 """
 
 tags to be identified 
@@ -95,7 +97,8 @@ def insert_tag_id(data,id_count):
 #    print soup.body.contents
 
     filter_elements = ['p','span','img']
-
+    css_styles = get_css_styles()
+    
     if isinstance(id_count, unicode):
         print "s is unicode, %r" % id_count
         id_count = str(id_count)
@@ -124,7 +127,13 @@ def insert_tag_id(data,id_count):
         print "printing original html: \n {content}".format(content=initial_content)
         
         # add description itemproperty in the first paragraph
-        soup('p')[0]['itemprop'] = "description"
+        try:
+            if soup('p') is not None:
+                soup('p')[0]['itemprop'] = "description"
+            elif soup('li') is not None:
+                soup('li')[0]['itemprop'] = "description"
+        except IndexError as ex:
+            print ex
         
         for tag in soup.body.children:
             
@@ -153,10 +162,22 @@ def insert_tag_id(data,id_count):
         for tag_child in soup.body.descendants:
             if tag_child.name == 'img':
                 tag_child['itemprop'] = "image"
-                tag_child['class'] = 'img-fluid'
+                if tag_child.get('class', None) is not None:
+                    tag_child['class'].append(css_styles['image'])
+                else:
+                    tag_child['class'] = css_styles['image']
             
             if tag_child.name in filter_elements:
                 tag_child['style'] = " "
+            
+            if type(tag_child) is bs4.element.Tag and tag_child.get('class', None) is not None:
+                if 'rtecenter' in tag_child['class']:
+                    tag_child['class'].remove('rtecenter')
+                    tag_child['class'].append(css_styles['center'])
+                elif 'rtejustify' in tag_child['class']:
+                    tag_child['class'].remove('rtejustify')
+                    tag_child['class'].append(css_styles['justify'])
+            
     
         final_content = ''.join(str(tag.encode('utf-8')) for tag in soup.body.contents)
         final_content = final_content.replace('\xc2\xa0', ' ')

@@ -16,9 +16,9 @@ It defined the wrapper class for specified content type.
 class DefaultsectionForm(forms.Form):
     title = forms.CharField(max_length = 100)
     pid_count = forms.IntegerField(required=False)
-    parent = TreeNodeChoiceField(queryset=BlogParent.objects.all().filter(~Q(title="Orphan"),~Q(title="Blog")),
+    parent = TreeNodeChoiceField(queryset=BlogParent.objects.all(),
                                 required=False,
-                                empty_label=None, 
+                                empty_label='---', 
                                 label = "Select Parent" )
 
     content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author'))
@@ -44,7 +44,22 @@ class DefaultsectionForm(forms.Form):
                 Submit('submit', 'Save Draft', css_class='button white')
             ),
         )
+        instance = kwargs.pop('instance', None)
+        if instance:
+            json_data = json.loads(instance.data)
+            kwargs.update(initial={
+                        # 'field': 'value'
+                        'title': instance.title,
+                        'parent': instance.parent,
+                        'content': json_data['content'],
+                        'pid_count': json_data['pid_count'],
+
+                })
+
+
         super(DefaultsectionForm, self).__init__(*args, **kwargs)
+        if instance:
+            self.fields['parent'].queryset = BlogParent.objects.all().filter(~Q(title=instance.title))
 
 
 

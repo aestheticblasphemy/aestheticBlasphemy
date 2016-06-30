@@ -102,8 +102,6 @@ def comment_detail(request, cid):
 @permission_classes((AllowAny,))
 @renderer_classes((TemplateHTMLRenderer,))
 def comment_form(request, postID):
-    print 'Fetch form'
-    
     if len(postID) is 0:
         return HttpResponse(status=HTTP_400_BAD_REQUEST)
     

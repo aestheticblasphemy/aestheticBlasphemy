@@ -7,6 +7,40 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import user_passes_test
 import unicodedata
 
+css_styles = {
+			'bootstrap3': {
+						'center': 'text-center',
+						'left': 'text-left',
+						'right': 'text-right',
+						'justify': 'text-justify',
+						'image': 'img-responsive',
+						'gray' : 'text-muted',
+						'float-left': 'pull-left',
+						'float-right': 'pull-right',
+						},
+			'bootstrap4': {
+						'center': 'text-xs-center',
+						'left': 'text-xs-left',
+						'right': 'text-xs-right',
+						'justify': 'text-justify',
+						'image': 'img-fluid',
+						'gray' : 'text-muted',
+						'float-left': 'pull-md-left',
+						'float-right': 'pull-md-right'
+						},
+			'mdl': {
+				},
+			}
+
+def get_css_styles():
+	try:
+		import django.conf.settings as settings
+		if settings is not None:
+			return css_styles[settings.BLOGGING_CSS_FRAMEWORK]
+	except ImportError:
+		return css_styles['bootstrap4']
+	
+	
 def create_content_type(name,form_dict,is_leaf):
 	"""
 	This function will create the form and template for new contentype

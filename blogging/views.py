@@ -485,7 +485,7 @@ def teaser(request,slug=None):
 	except (AttributeError):
 		#Show all posts sorted by publish date.
 		template = loader.get_template('blogging/teaser.html')
-		nodes = get_posts_for_section().order_by('publication_start')
+		nodes = get_posts_for_section().order_by('-publication_start')
 		
 		for node in nodes:
 			print node
