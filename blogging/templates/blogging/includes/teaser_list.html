@@ -32,6 +32,13 @@
 								<p>{{ node.get_summary }}</p>
 								<a class="btn btn-default btn-more" href="{{ node.get_absolute_url }}" role="button">Read More</a>
 							</div>
+		                	<div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+    		            		<ul class="post-tags">
+            	    			{% for tag in node.get_tags %}
+                					 <li> <a href="{{ tag.url }}"> {{ tag.name }}</a></li>
+                				{% endfor %} 
+                				</ul>
+                			</div>
 						</div>						
 					</div>
 				</article>
