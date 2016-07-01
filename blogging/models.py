@@ -204,7 +204,7 @@ class BlogContent(BaseContentClass):
     def get_absolute_url(self):
         kwargs = {'slug': self.url_path,
                   'post_id': self.id,}
-        print "LOGS:: Fetching URI for node"
+        print "LOGS:: Fetching URI for node", self.id, self.slug
         return reverse('blogging:view-post-detail', kwargs=kwargs)
     
     def get_image_url(self):

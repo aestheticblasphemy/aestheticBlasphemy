@@ -487,8 +487,6 @@ def teaser(request,slug=None):
 		template = loader.get_template('blogging/teaser.html')
 		nodes = get_posts_for_section().order_by('-publication_start')
 		
-		for node in nodes:
-			print node
 		paginator = Paginator(nodes, max_entry,orphans=3)
 		page = request.GET.get('page')
 		try:

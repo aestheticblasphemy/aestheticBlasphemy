@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
+{% load section_tags %}
 {% block title %}
 Explore
 {% endblock %}
@@ -8,6 +8,10 @@ Explore
 {% block breadcrumb %}
         {% block blog_breadcrumb %}
         {% endblock blog_breadcrumb %}
+{% endblock %}
+
+{% block section_menu %}
+	{% section_tree %}
 {% endblock %}
 
 {% block content %}
