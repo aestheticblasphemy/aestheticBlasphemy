@@ -482,6 +482,7 @@ def teaser(request,slug=None):
 	try:
 		current_section = slug.split("/")[-1]
 		logger.debug("Printing slug {slug}".format(slug=slug))
+		print 'slug is {slug}'.format(slug=slug)
 	except (AttributeError):
 		#Show all posts sorted by publish date.
 		template = loader.get_template('blogging/teaser.html')
@@ -510,7 +511,6 @@ def teaser(request,slug=None):
 		
 	try:
 		section = BlogParent.objects.get(slug = str(current_section))
-
 	except (BlogParent.DoesNotExist):	
 		logger.error("Unexpected error:{val}".format(val= sys.exc_info()[0]))
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
@@ -521,7 +521,7 @@ def teaser(request,slug=None):
 	#Have a section. Get its contents
 	template = loader.get_template('blogging/teaser.html')
 	
-	if request.GET.get('strict', None) is not None:
+	if request.GET.get('strict', None) is None:
 		nodes = get_posts_for_section(section)
 	else:
 		nodes = BlogContent.published.filter(section=section)
