@@ -155,6 +155,10 @@ class BlogParent(MPTTModel):
         kwargs = {'slug': str(self.form_url())}
         return reverse('blogging:view-sections', kwargs=kwargs)
     
+    def get_content_url(self):
+        kwargs = {'slug': str(self.form_url())}
+        return reverse('blogging:view-posts-by-section', kwargs=kwargs)    
+
     def get_menu_title(self):
         return self.title.encode('utf-8')
     
@@ -204,7 +208,7 @@ class BlogContent(BaseContentClass):
     def get_absolute_url(self):
         kwargs = {'slug': self.url_path,
                   'post_id': self.id,}
-        print "LOGS:: Fetching URI for node", self.id, self.slug
+        #print "LOGS:: Fetching URI for node", self.id, self.slug
         return reverse('blogging:view-post-detail', kwargs=kwargs)
     
     def get_image_url(self):
