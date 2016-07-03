@@ -46,6 +46,7 @@ class BlogContentSerializer(serializers.ModelSerializer):
      
 
 class CommentSerializer(ModelSerializer):
+    #body = serializers.CharField(style={'base_template': 'textarea.html'})
     class Meta:
         model=Comment
         fields = ('id', 'post',
@@ -76,6 +77,7 @@ class CommentSerializer(ModelSerializer):
                 return None 
         
         comment.body = validated_data.get('body')
+        print type(validated_data.get('body'))
         comment.post = validated_data.get('post')
         comment.published = False
         if comment.author is not None and settings.COMMENT_MODERATION_ENABLED is not True:

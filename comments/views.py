@@ -13,6 +13,7 @@ from rest.serializers import CommentSerializer
 from forms import CommentForm
 
 import traceback, sys
+from blogging.models import BlogContent
 # Create your views here.
 class JSONResponse(HttpResponse):
     
@@ -101,16 +102,30 @@ def comment_detail(request, cid):
 @api_view(['GET'])
 @permission_classes((AllowAny,))
 @renderer_classes((TemplateHTMLRenderer,))
-def comment_form(request, postID):
+def comment_form(request, postID, commentID=0):
+    print 'commentForm', postID, commentID
     if len(postID) is 0:
         return HttpResponse(status=HTTP_400_BAD_REQUEST)
     
     if request.method == 'GET':
         try:
-            post = Comment.objects.get(pk=int(postID))
-            comment = CommentForm(initial={'post': post})
+            post = BlogContent.objects.get(pk=int(postID))
+            if commentID is not None:
+                parent_comment = Comment.objects.get(pk=int(commentID))
+                comment = CommentForm(initial={'post': post,
+                                               'parent_comment': parent_comment})
+            else:
+                comment = CommentForm(initial={'post': post,})
+
             return(Response(data={'request':request,
                                   'comment':comment},
                             template_name="comments/form.html"))
         except Comment.DoesNotExist:
             return Response(status=HTTP_404_NOT_FOUND)
+        except:
+            print 'Some exception occurred.'
+            print "Unexpected error:", sys.exc_info()[0]
+            for frame in traceback.extract_tb(sys.exc_info()[2]):
+                fname,lineno,fn,text = frame
+                print "Error in %s on line %d" % (fname, lineno)
+            return Response(status=HTTP_400_BAD_REQUEST)

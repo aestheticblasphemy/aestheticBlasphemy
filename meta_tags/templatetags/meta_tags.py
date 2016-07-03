@@ -65,3 +65,10 @@ def meta_tag_list(name, lst):
         return '<meta name="%s" content="%s">' % (name, ', '.join(lst))
     except:
         return ''
+
+@register.simple_tag
+def meta_tag_feed(feed):
+    try:
+        return '<link rel="alternate" type="application/rss+xml" title="{title}" href="{url}" />'.format(title=feed['title'], url=feed['url'])
+    except:
+        return ''

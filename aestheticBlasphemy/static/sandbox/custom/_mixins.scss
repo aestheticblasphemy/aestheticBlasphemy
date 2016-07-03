@@ -1,0 +1,59 @@
+
+//Complete border radius
+@mixin border-radius($x-radius: 0px, $y-radius: 0px ) {
+  -webkit-border-top-left-radius:$x-radius $y-radius;
+  -webkit-border-top-right-radius:$x-radius $y-radius;
+  -webkit-border-bottom-right-radius:$x-radius $y-radius;
+  -webkit-border-bottom-left-radius:$x-radius $y-radius;
+  //Escape 
+  -moz-border-radius:#{$x-radius}/#{$y-radius};
+  -ms-border-radius:#{$x-radius}/#{$y-radius};
+  border-radius:#{$x-radius}/#{$y-radius};
+}
+
+//Selective edges: Used in Annotation Bubbles
+@mixin border-bottom-right-radius($x-radius: 0px, $y-radius: 0px ){
+  -webkit-border-bottom-right-radius:$x-radius $y-radius;
+  -moz-border-radius-bottomright:$x-radius $y-radius;
+  -o-border-bottom-right-radius:$x-radius $y-radius;
+  border-bottom-right-radius:$x-radius $y-radius;
+}
+
+@mixin border-bottom-left-radius($x-radius: 0px, $y-radius: 0px ){
+  -webkit-border-bottom-left-radius:$x-radius $y-radius;
+  -moz-border-radius-bottomleft:$x-radius $y-radius;
+  -ms-border-radius-bottom-left:$x-radius $y-radius;
+  -o-border-bottom-left-radius:$x-radius $y-radius;
+  border-bottom-left-radius:$x-radius $y-radius;
+}
+
+// Background color gradient
+// Color stops are not available in IE9 and below.
+@mixin background-gradient($direction: top, $start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%){
+  background:-webkit-gradient($direction, 0 $start-percent , 0 $end-percent, from( $start-color ), to( $end-color ));
+  background:-moz-linear-gradient($direction, $start-color, $end-color);
+  background:-o-linear-gradient($direction, $start-color, $end-color);
+  background:linear-gradient($direction, $start-color, $end-color);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=1); // IE9 and down
+ }
+
+@mixin background-size($size){
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -o-background-size: $size;
+  background-size: $size;
+}
+ 
+@mixin transform-translate($x-transform: 0px, $y-transform:0px){
+  -webkit-transform:translate($x-transform, $y-transform);
+  -moz-transform:translate($x-transform, $y-transform);
+  -ms-transform:translate($x-transform, $y-transform);
+  -o-transform:translate($x-transform, $y-transform);
+  transform:translate($x-transform, $y-transform);
+ }
+  
+@mixin animation($function: fadeIn, $duration: .3s){
+  -webkit-animation: $function $duration;
+  animation: $function $duration;
+}

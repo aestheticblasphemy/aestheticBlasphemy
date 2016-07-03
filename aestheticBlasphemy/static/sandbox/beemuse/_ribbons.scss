@@ -1,0 +1,429 @@
+/****************************************************************************
+ * Beemuse: Ribbons
+ *
+ * Copyright 2014 ITMUSTBE, Inc.
+ * Licensed under the MIT License
+ * http://opensource.org/licenses/MIT
+ *
+ * Designed and built with all the buzz in the world @itmustbe
+****************************************************************************/
+
+// Configurable variables
+// **************************************************************************
+
+$ribbonHorizHeight: 42px;
+
+$ribbonHighlight:           #fff; // white
+$ribbonShadow:              #f7f7f7; // 97% off-white
+$ribbonStitch:              #ccc; // 80% light-gray
+$ribbonText:                #666; // 40% dark-gray
+
+// @todo stitch offset and border radii should move up here
+
+// Configurable margins and padding
+// **************************************************************************
+
+.ribbon {
+    margin: 0 5px 10px 0;
+
+    &.ribbon-set {
+        margin: 0 -15px 10px -20px;
+    }
+
+    p, a {
+        margin: 0;
+        padding: 10px;
+    }
+
+    &.ribbon-right {
+        p, a {
+            padding-left: 15px;
+        }
+    }
+
+    &.ribbon-left {
+        p, a {
+            padding-right: 15px;
+        }
+    }
+}
+
+// Ribbon base
+// **************************************************************************
+
+.ribbon {
+    .ribbon-stitch {
+        &:after {
+            z-index: 3;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+        &:before {
+            z-index: 3;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+        &:after,
+        &:before {
+            background-image: linear-gradient(to right, rgba($ribbonStitch, 0.4), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.4));
+        }
+    }
+}
+.ribbon-left {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            background-image: linear-gradient(to right, rgba($ribbonStitch, 0.4), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.8));
+        }
+    }
+}
+.ribbon-right {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            background-image: linear-gradient(to right, rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.8), rgba($ribbonStitch, 0.4));
+        }
+    }
+}
+.ribbon-out {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            left: 26px;
+            right: 26px;
+        }
+    }
+    &.ribbon-left {
+        .ribbon-stitch {
+            &:after,
+            &:before {
+                left: 26px;
+                right: 0;
+            }
+        }
+    }
+    &.ribbon-right {
+        .ribbon-stitch {
+            &:after,
+            &:before {
+                left: 0;
+                right: 26px;
+            }
+        }
+    }
+}
+.ribbon-in {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            left: 6px;
+            right: 6px;
+        }
+    }
+    &.ribbon-left {
+        .ribbon-stitch {
+            &:after,
+            &:before {
+                left: 6px;
+                right: 0;
+            }
+        }
+    }
+    &.ribbon-right {
+        .ribbon-stitch {
+            &:after,
+            &:before {
+                left: 0;
+                right: 6px;
+            }
+        }
+    }
+}
+.ribbon-in-out {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            left: 6px;
+            right: 26px;
+        }
+    }
+}
+.ribbon-out-in {
+    .ribbon-stitch {
+        &:after,
+        &:before {
+            left: 26px;
+            right: 6px;
+        }
+    }
+}
+
+.ribbon {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    transition: 0.3s cubic-bezier(.12,.89,.83,.67);
+
+    p, a {
+        display: block;
+    }
+
+    .ribbon-stitch {
+        position: relative;
+        overflow: hidden;
+    }
+
+    &.ribbon-left {
+        .ribbon-stitch {
+            border-right: 1px solid $ribbonStitch;
+        }
+    }
+
+    &.ribbon-right {
+        .ribbon-stitch {
+            border-left: 1px solid $ribbonStitch;
+        }
+    }
+
+    .ribbon-fabric {
+        // border-bottom: 1px solid red;
+        position: relative;
+        z-index: 2;
+
+        &:after,
+        &:before {
+            content: '';
+            position: absolute;
+            z-index: -1; // @todo hack for links
+        }
+    }
+
+    .ribbon-top-right,
+    .ribbon-bottom-right,
+    .ribbon-top-left,
+    .ribbon-bottom-left,
+    .ribbon-center-left,
+    .ribbon-center-right {
+        width: $ribbonHorizHeight;
+        height: $ribbonHorizHeight;
+        margin-right: 5px;
+        margin-left: 5px;
+        position: absolute;
+        z-index: 1;
+        transform: rotate(45deg);
+    }
+
+    .ribbon-top-right,
+    .ribbon-bottom-right {
+        box-shadow: 0 5px 10px 0 rgba(black, 0.2);
+    }
+
+    .ribbon-top-left,
+    .ribbon-bottom-left {
+        box-shadow: 5px 0 10px 0 rgba(black, 0.2);
+    }
+
+    .ribbon-center-right,
+    .ribbon-center-left {
+        box-shadow: 0 0 10px 0 rgba(black, 0.1);
+    }
+}
+
+// Ribbon colors
+// **************************************************************************
+
+.ribbon {
+    p, a {
+        color: $ribbonText;
+    }
+
+    .ribbon-fabric {
+        background-color: $ribbonShadow;
+    }
+
+    .ribbon-top-right,
+    .ribbon-bottom-right,
+    .ribbon-top-left,
+    .ribbon-bottom-left,
+    .ribbon-center-left,
+    .ribbon-center-right {
+        background: $ribbonShadow;
+    }
+
+    .ribbon-fabric:after {
+        border-top: 1px dashed $ribbonStitch;
+        border-bottom: 1px dashed $ribbonStitch;
+    }
+
+    .ribbon-fabric:before {
+        border-top: 1px dashed $ribbonHighlight;
+        border-bottom: 1px dashed $ribbonHighlight;
+    }
+
+    &.ribbon-right {
+        .ribbon-fabric {
+            background-image: linear-gradient(to right, $ribbonHighlight, $ribbonShadow);
+        }
+
+        .ribbon-fabric:after {
+            border-left: 1px dashed $ribbonStitch;
+        }
+
+        .ribbon-fabric:before {
+            border-left: 1px dashed $ribbonHighlight;
+        }
+    }
+
+    &.ribbon-left {
+        .ribbon-fabric {
+            background-image: linear-gradient(to right, $ribbonShadow, $ribbonHighlight);
+        }
+
+        .ribbon-fabric:after {
+            border-right: 1px dashed $ribbonStitch;
+        }
+
+        .ribbon-fabric:before {
+            border-right: 1px dashed $ribbonHighlight;
+        }
+    }
+
+    &.ribbon-both {
+        .ribbon-fabric {
+            background-image: linear-gradient(to right, $ribbonShadow, $ribbonHighlight, $ribbonHighlight, $ribbonShadow);
+        }
+    }
+}
+
+// Ribbon
+// **************************************************************************
+
+.ribbon {
+
+    height: $ribbonHorizHeight;
+
+    .ribbon-stitch {
+        height: $ribbonHorizHeight;
+        // border-top: 1px solid rgba(black, 0.3);
+        // border-bottom: 1px solid rgba(black, 0.3);
+    }
+
+    .ribbon-fabric {
+        height: $ribbonHorizHeight;
+
+        &:after {
+            top: 5px;
+            right: 0;
+            bottom: 5px;
+            left: 0;
+        }
+
+        &:before {
+            top: 6px;
+            right: 1px;
+            bottom: 4px;
+            left: 1px;
+        }
+    }
+
+    .ribbon-top-right,
+    .ribbon-bottom-right,
+    .ribbon-center-right {
+        right: 9px;
+    }
+
+    .ribbon-top-left,
+    .ribbon-bottom-left,
+    .ribbon-center-left {
+        left: 9px;
+    }
+
+    .ribbon-top-right,
+    .ribbon-top-left {
+        bottom: ($ribbonHorizHeight / 2);
+    }
+
+    .ribbon-bottom-right,
+    .ribbon-bottom-left {
+        top: ($ribbonHorizHeight / 2);
+    }
+
+    .ribbon-center-left,
+    .ribbon-center-right {
+        bottom: 0;
+    }
+
+    @mixin radii-right {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+    @mixin radii-left {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    @mixin radii-right-stitch {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+
+    @mixin radii-left-stitch {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    &.ribbon-right {
+        @include radii-right;
+
+        .ribbon-stitch {
+            @include radii-right;
+            padding-right: 26px;
+        }
+
+        .ribbon-fabric {
+            @include radii-right;
+
+            &:after,
+            &:before {
+                @include radii-right-stitch;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    &.ribbon-left {
+        @include radii-left;
+
+        .ribbon-stitch {
+            @include radii-left;
+            padding-left: 26px;
+        }
+
+        .ribbon-fabric {
+            @include radii-left;
+
+            &:after,
+            &:before {
+                @include radii-left-stitch;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    &.ribbon-both {
+        .ribbon-stitch {
+            padding-right: 26px;
+            padding-left: 26px;
+        }
+    }
+}

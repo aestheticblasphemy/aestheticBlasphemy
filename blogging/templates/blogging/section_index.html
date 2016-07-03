@@ -1,19 +1,20 @@
 {% load staticfiles %}
 {% load mptt_tags %}
 
-<ul class="nav navbar-nav">
-	{% recursetree sections %}
-    {% if not node.is_leaf_node %}
-    <li class="nav-item dropdown">
-        <a href="{{ node.get_content_url }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ node.get_menu_title }}</a>
-
-        <ul class="dropdown-menu" aria-labelledby="Preview">
-                {{ children }}
-        </ul>
-    {% else %}
-    <li class="nav-item">
-        <a href="{{ node.get_content_url }}" class="nav-link">{{ node.get_menu_title }}</a>
-    {% endif %}        
-    </li>
-	{% endrecursetree %}
-</ul>
+<nav class="site-nav">
+	<ul class="nav navbar-nav dropdown clearfix" role="menu" aria-labelledby="dropdownMenu">
+		{% recursetree sections %}
+	    {% if not node.is_leaf_node %}
+	    <li class="nav-item">
+	        <a id="dLabel" href="{{ node.get_content_url }}" data-target="#" type="button" id="dropdownMenu{{ node.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ node.get_menu_title }}</a>	
+	        <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ node.id }}">
+	                {{ children }}
+	        </ul>
+	    {% else %}
+	    <li class="nav-item">
+	        <a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a>
+	    {% endif %}        
+	    </li>
+		{% endrecursetree %}
+	</ul>
+</nav>

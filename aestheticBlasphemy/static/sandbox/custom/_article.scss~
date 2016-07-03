@@ -1,0 +1,139 @@
+//Article Detail Page
+//--------------------
+.article-title{
+  padding-left: 10px;
+  text-decoration: none;
+  text-align: left;  
+}
+
+.article-author{
+  text-decoration: none;
+  font-style: italic;
+}
+
+.article-actions{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  position: relative;
+  font-size: 1.5rem;
+  height: 3em;
+  padding: 2px 5px;
+  
+  .article-actions__button{
+    position: relative;
+    float: left;
+    padding-left: 3px;
+    padding-right: 3px;
+    
+    > *{
+      text-align: center;
+      display: block;
+      text-decoration: none;
+    }
+    
+    > .glyphicon {
+      font-size: 1.2em;
+    }
+    
+    > .icon-helper{
+      font-size: 0.8em;
+      color: inherit;  
+    }
+    
+    &:hover{
+      background-color: rgba(139, 134, 134, 0.33);
+      color: black;
+     
+      *{
+        text-decoration: none;
+      } 
+    }
+  }
+}
+
+.article-body{
+  background-color: transparent;
+  padding: 0 3% 0 2%;
+  padding-top:3%;
+
+//  font-size: 22px;
+//  line-height: 1.5;
+//  font-style: normal;
+  /*
+  width:95%;    
+  @media(min-width: $screen-md){
+    width: 55rem;
+  }
+  */
+  margin: 0 auto;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+  text-align: justify;
+  
+  border: 1px solid $default-border-color;
+  border-top:none;
+  border-left: none;
+  border-bottom: none;
+  
+  img{
+    max-height: 480px;
+    width: auto;
+    margin: 0 auto;
+  }
+  /*
+  p:not(.comment):first-of-type::first-letter{
+    font-style: normal;
+    font-size: 3rem;
+  }
+  */
+  p{
+    padding-bottom: 1.5rem;  
+  }
+}
+
+.article-image{
+  max-height: 480px;
+  width: auto;
+  margin: 0 auto;
+  padding: 10px 0 20px 0;
+}
+
+.article-footer{
+  position: relative;
+  margin: 0 auto;
+  border-top: 1px solid black;
+  width: 100%;
+  display: block;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 5em;
+}
+
+.fullscreen-mode {
+
+  .article-title{
+    text-decoration: none;
+    text-align: center;  
+  }
+  
+  .article-author{
+    display: block;
+    text-decoration: none;
+    font-style: italic;
+    text-align: center;
+  }
+  .article-body{
+    padding: 0;
+    padding-top:3%;
+    margin: 0 auto;
+    font-size: 22px;
+    line-height: 1.5;
+    font-style: normal;
+    width: 90rem;
+  }
+}
+.content-stack-article{
+  width: 100%;
+  margin: 5px;
+}

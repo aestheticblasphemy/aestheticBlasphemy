@@ -68,6 +68,7 @@ class Meta(object):
         self.publisher_fb_id = kwargs.get('pub_fb_id', settings.PUBLISHER_FB_ID)
         self.publisher_google_id = kwargs.get('pub_google_id', settings.PUBLISHER_GOOGLE_ID)
         self.fb_app_id = kwargs.get('fb_app_id', settings.FB_APP_ID)
+        self.feed_list = kwargs.get('feed_list', None)
         
     def get_domain(self):
         if self.use_sites:
@@ -111,6 +112,12 @@ class Meta(object):
             self.get_domain(),
             url
         )
+        
+    def get_feed_list(self):
+        return self.feed_list
+    
+    def put_feed_item(self, feed):
+        self.feed_list.append(feed)
 
     @property
     def keywords(self):

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 from django.conf.global_settings import CACHES, MEDIA_ROOT, STATIC_ROOT,\
-    STATICFILES_DIRS, LOGIN_REDIRECT_URL
+    STATICFILES_DIRS, LOGIN_REDIRECT_URL, APPEND_SLASH
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -77,6 +77,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'aestheticBlasphemy.urls'

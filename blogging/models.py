@@ -10,20 +10,8 @@ from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItem, Tag
 
-from django.contrib.contenttypes.fields import GenericRelation
-
-from django.conf import settings
-from django.db.models import Count, Sum
-
 from reversion import revisions as reversion
 
-
-if 'cms' in settings.INSTALLED_APPS:
-    try:
-        from cms.models.pluginmodel import CMSPlugin
-        from djangocms_text_ckeditor.models import Text
-    except ImportError:
-        print 'CMS not installed'
     
 from blogging.utils import get_imageurl_from_data, truncatewords, slugify_name
 from django.utils.html import strip_tags
@@ -82,6 +70,7 @@ class PublishedManager(RelatedManager):
         qs = qs.filter(publication_start__lte=now)
         qs = qs.filter(Q(published_flag=True))
         return qs
+
 
 
 class BlogContentType(BaseContentClass):
@@ -292,6 +281,9 @@ class BlogContent(BaseContentClass):
         else:
             return self.last_modified.strftime("%B, %d")
     
+    def is_published(self):
+        return self.published_flag
+    
     def get_published_year(self):
         pass
     def get_published_month(self):
@@ -312,62 +304,6 @@ class BlogContent(BaseContentClass):
     class Meta:
         ordering = ['-publication_start']
 
-if 'cms' in settings.INSTALLED_APPS:
-    class LatestEntriesPlugin(CMSPlugin):
-    
-        latest_entries = models.IntegerField(default=5, help_text=('The number of latests entries to be displayed.'))
-        parent_section = models.ForeignKey(BlogParent,null=True,blank=True)
-        tags = models.ManyToManyField('taggit.Tag', blank=True, help_text=('Show only the blog posts tagged with chosen tags.'))
-        template = models.CharField('Template', max_length=255,
-                                    choices = LATEST_PLUGIN_TEMPLATES, default='blogging/plugin/plugin_teaser.html')
-        def __unicode__(self):
-            return str(self.latest_entries)
-    
-        def copy_relations(self, oldinstance):
-            self.tags = oldinstance.tags.all()
-    
-        def get_posts(self):
-            if self.parent_section:
-                if self.parent_section.is_leaf_node():
-                    posts = BlogContent.published.filter(section=self.parent_section)
-                else:
-                    parent_list = self.parent_section.get_descendants()
-                    posts = BlogContent.published.filter(section__in=parent_list)
-            else:
-                posts = BlogContent.published.all()
-            
-            tags = list(self.tags.all())
-            if tags:
-                posts = posts.filter(tags__in=tags)
-            return posts[:self.latest_entries]
-        
-        def get_section(self):
-            return self.parent_section
-
-    class SectionPlugin(CMSPlugin):
-    
-        section_count = models.IntegerField(default=None, blank=True,null=True, help_text=('The number of sections to be displayed.'))
-        parent_section = models.ForeignKey(BlogParent,null=True,blank=True)
-    
-        def __unicode__(self):
-            return str(self.section_count)
-    
-        def get_sections(self):
-            if self.parent_section:
-                sections = self.parent_section.get_children()
-            else:
-                sections = BlogParent.objects.all(~Q(title='Orphan'),level=0)
-            if self.section_count:
-                return sections[:self.section_count]
-            return sections
-    
-    class ContactPlugin(CMSPlugin):
-        to_email = models.EmailField(default= 'captain@piratelearner.com')
-        thanks_text = models.CharField(max_length=100,default = 'Thanks for reaching out to Us. We will get back to you soon.')
-        def __unicode__(self):
-            return 'ContactPlugin'
-        def thanks(self):
-            return self.thanks_text
 
 def get_published_count(user = None):
     if user:

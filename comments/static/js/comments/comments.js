@@ -57,6 +57,7 @@ $(document).ready(function(){
 		        console.log( "Error: " + errorThrown );
 		        console.log( "Status: " + status );
 		        console.dir( xhr );
+		        console.log(xhr['responseText']);
 		    },
 		 
 		    // code to run regardless of success or failure
@@ -286,7 +287,7 @@ $(document).ready(function(){
 
 			}
 			
-			currentComment.find('.comments-container--text').text(data[i]['body']);
+			currentComment.find('.comments-container--text').text(unescape(data[i]['body']));
 			currentComment.find('.comments-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
 			
 			currentComment.find('.comments-delete').on('click', deleteComment);
@@ -358,6 +359,16 @@ $(document).ready(function(){
 		});
 	};
 	
+	var scrollNav = function(e) {
+		e.preventDefault();
+		console.log('scrollNav');
+		$('html, body').stop().animate({
+	        scrollTop: $('#article-adjunct-tab-comments').offset().top
+	    }, 2000);
+		
+		return(false);
+	}
+	
 	/**
 	 * Load form 
 	 */
@@ -383,7 +394,5 @@ $(document).ready(function(){
         e.preventDefault();
     });
 	
-	/** Show current active tab */
-	$($('.article-adjunct-nav--list').children('.active').children('a').attr('href')).show().siblings().hide();
-	
+	$('#article-actions__gotoComments').on('click', scrollNav);
 });

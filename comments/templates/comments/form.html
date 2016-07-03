@@ -3,7 +3,7 @@
     {{ comment.non_field_errors }}
     <fieldset>
         {% csrf_token %}
-        <div class="control-group invisible">
+        <div class="control-group invisible hidden-xs-up">
             {{ comment.post.errors }}
             <label for="{{ comment.post.id_for_post}}" 
                         class="control-label">Post ID:</label>
