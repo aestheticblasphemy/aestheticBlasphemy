@@ -11,14 +11,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from django.conf.global_settings import CACHES, MEDIA_ROOT, STATIC_ROOT,\
-    STATICFILES_DIRS, LOGIN_REDIRECT_URL, APPEND_SLASH
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 from custom_settings import *
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -479,7 +478,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-
 META_SITE_PROTOCOL = 'http'
 # META_SITE_DOMAIN = 'pirateLearner.com' using META_USE_SITE SETTING
 META_SITE_TYPE = 'article' # override when passed in __init__
@@ -496,7 +494,7 @@ META_PUBLISHER_GOOGLE_ID = 'https://plus.google.com/116465481265465787624' # Goo
 META_FB_APP_ID = ''
 
 #blogging app settings
-BLOGGING_MAX_ENTRY_PER_PAGE = 10
+BLOGGING_MAX_ENTRY_PER_PAGE = 5
 BLOGGING_CSS_FRAMEWORK = 'bootstrap4'
 
 LOGGING = {

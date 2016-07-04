@@ -364,7 +364,7 @@ $(document).ready(function(){
 		console.log('scrollNav');
 		$('html, body').stop().animate({
 	        scrollTop: $('#article-adjunct-tab-comments').offset().top
-	    }, 2000);
+	    }, 1000);
 		
 		return(false);
 	}

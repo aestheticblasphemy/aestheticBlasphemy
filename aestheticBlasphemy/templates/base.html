@@ -24,7 +24,6 @@
     <link href="{% static "css/ab.css" %}" rel="stylesheet">
     <link href="{% static "css/styles.css" %}" rel="stylesheet">
     {% block styles %}
-    <link href="{% static "css/dashboard/style.css" %}" rel="stylesheet">
     {% endblock %}
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -55,74 +54,41 @@
 	<script src="{% static "js/base/baseloader.js" %}"></script>
   </head>
 
-  <body>
-    <div class="container">
-      <div class="center-block text-xs-center">
+  <body class="clearfix">
+    <div class="container clearfix">
+      {% block site-head %}
+      <div class="site-mast center-block text-xs-center">
         <h1 class="site-head"><a href="http://{{ site.domain }}">Aesthetic Blasphemy</a></h1>
         <h3 class="site-subhead">a million little things...</h3>
+        <div class="stationary-login btn-group">
+            {% if user.is_authenticated and user.is_staff %}
+            <a class="btn staff-logged-in" href="{% url 'dashboard:dashboard-home' %}">Dashboard</a>
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-image:url({{ user.profile.get_avatar_url }})">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path|safe }}">Logout</a>
+            </div>
+            {% elif user.is_authenticated %}
+            <button type="button logged-in" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-image:url({{ user.profile.get_avatar_url }})">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path|safe }}">Logout</a>
+            </div>
+            {% else %}
+            <a class="btn" href="{% url 'account_login' %}?next={{ request.path|safe }}">Login</a>
+            {% endif %}
+        </div>
       </div>
+    {% endblock %}
     {% block navbar %}
-    {% comment %}<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-      <a id="site-name" class="navbar-brand" href="http://{{ site.domain }}">Aesthetic Blasphemy</a>
-      <ul class="nav navbar-nav">
-        <li class="nav-item active">
-            <a href="/" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-            <a href="/contact/" class="nav-link">Contact Form</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item"> 
-            <a href="{% url 'dashboard:dashboard-home' %}" class="nav-link">
-                <span class="glyphicon glyphicon-dashboard"></span>
-                <small>Dashboard</small>
-            </a> 
-        </li>
-        <li class="dropdown nav-item">
-           <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-               <span class="glyphicon glyphicon-user "></span>&nbsp; 
-               <span class="glyphicon glyphicon-chevron-down"></span>
-           </a>
-           <ul class="dropdown-menu dropdown-user">
-               <li>
-                   <a href="{% url 'dashboard:dashboard-profile' request.user.id %}">
-                       <span class="glyphicon glyphicon-user "></span> 
-                       Profile 
-                   </a>
-               </li>
-               <li class="divider"></li>
-               <li>
-                   <a href="{% url 'account_logout' %}?next={{ request.path|safe }}">
-                       <span class="glyphicon glyphicon-log-out"></span> 
-	                   Logout 
-                   </a>
-	           </li>
-           </ul>
-        </li>
-        {% else %}
-        <li class="dropdown nav-item">
-            <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
-                <span class="glyphicon glyphicon-user "></span>&nbsp; 
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li>
-                    <a href="{% url 'account_login' %}?next={{ request.path|safe }}">
-                        <span class="glyphicon glyphicon-log-in"></span> 
-                        Login 
-                    </a>
-                </li>
-            </ul>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-    {% endcomment %}
+    
     {% endblock %}
     {% block section_menu %}
 
     {% endblock %}
-    <div class="content-area clearfix">
+    
     {% block content %}
     <div>
       <p>
@@ -133,7 +99,20 @@
         <button type="button" class="btn btn-primary" onclick="window.location='/blogging/content-type'">Click here to start creating.</button>
       </div>      
     {% endblock %}
-    </div>
+    <footer>
+      <div class="footer-upper text-muted">
+        <div>Copyright <span class="fa fa-copyright"></span>2016, Aesthetic Blasphemy.</div>
+        <span class="fix-RB">
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">
+            <img alt="Creative Commons Licence" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
+          </a>
+        </span>
+      </div> 
+      <div class="footer-lower text-muted small">
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">All content hosted on Aesthetic Blasphemy</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+      </div>
+    </footer>
+  </div>
 
 {% load socialaccount %}
 

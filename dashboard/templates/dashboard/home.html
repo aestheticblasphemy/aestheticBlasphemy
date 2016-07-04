@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% load social_profile %}
 {% load blogging_tags %}
+{% load static %}
 {% block extra_script %}
 {% if stats.article_total > 1 %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -39,6 +40,10 @@
 </script>
 {% endif %}
 
+{% endblock %}
+
+{% block styles %}
+<link href="{% static "css/dashboard/style.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}

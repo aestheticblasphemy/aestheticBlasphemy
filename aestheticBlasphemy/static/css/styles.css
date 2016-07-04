@@ -16,6 +16,8 @@
  *
  * Designed and built with all the buzz in the world @itmustbe
 ****************************************************************************/
+@import "http://designmodo.github.io/Flat-UI/dist/css/flat-ui.min.css";
+@import "https://daneden.github.io/animate.css/animate.min.css";
 @import "https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,700i";
 .flip {
   position: relative;
@@ -229,6 +231,35 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 400; }
 
+.site-mast {
+  position: relative; }
+  .site-mast .stationary-login {
+    position: absolute;
+    top: 1em;
+    right: 1em; }
+    .site-mast .stationary-login * {
+      background-color: #ffffff; }
+    .site-mast .stationary-login .btn, .site-mast .stationary-login button {
+      border-radius: 0.5em;
+      border-width: 1px;
+      border-color: rgba(233, 233, 233, 0.7); }
+      .site-mast .stationary-login .btn.logged-in, .site-mast .stationary-login button.logged-in {
+        border-radius: 2em;
+        display: none; }
+        .site-mast .stationary-login .btn.logged-in + .dropdown-toggle, .site-mast .stationary-login button.logged-in + .dropdown-toggle {
+          border-radius: 50%;
+          padding: .75em;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: center;
+          height: 3em;
+          width: 3em; }
+          .site-mast .stationary-login .btn.logged-in + .dropdown-toggle:after, .site-mast .stationary-login button.logged-in + .dropdown-toggle:after {
+            visibility: hidden; }
+    .site-mast .stationary-login button.btn {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0; }
+
 .site-head {
   padding: 20px;
   margin: 0 auto;
@@ -243,6 +274,11 @@ body {
   margin: 0 auto;
   padding: 2% 0;
   width: 100%; }
+  .site-nav .nav-item.dropdown-toggle {
+    margin-left: 0;
+    padding-left: 0; }
+  .site-nav .dropdown-menu > * {
+    padding-left: 1em; }
   .site-nav ul {
     border-width: 1px;
     border-color: #E1E1E1;
@@ -253,9 +289,7 @@ body {
       padding: 1%;
       padding-right: .5%;
       padding-left: .5%;
-      text-align: center; }
-      .site-nav ul > li:first-of-type {
-        padding-left: 1%; }
+      text-align: left; }
   .site-nav .nav-item {
     background-color: none; }
     .site-nav .nav-item:active {
@@ -309,6 +343,7 @@ body {
       margin: 0;
       padding-top: 1em;
       padding-left: 1em;
+      padding-bottom: 1.2em;
       display: table-cell;
       width: 70%; }
       .teaser-list .teaser-item .teaser-content > * {
@@ -586,5 +621,93 @@ body {
     text-align: left; }
   .social-login-buttons + * {
     margin-top: 1em; }
+
+footer {
+  border-top-color: rgba(233, 233, 233, 0.7);
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  font-weight: 200;
+  position: relative; }
+  footer > * {
+    margin: 0 auto;
+    padding: 5px; }
+  footer *:first-child {
+    margin-top: 1em; }
+  footer .footer-upper > * {
+    display: inline-block; }
+  footer .fix-RB {
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.5em; }
+
+/*
+#wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  padding-left: 0;
+  transition: all 0.5s ease;
+}
+#wrapper.toggled {
+  padding-left: 220px;
+  #sidebar-wrapper {
+    width: $width1;
+  }
+  #page-content-wrapper {
+    margin-right: -220px;
+    position: absolute;
+  }
+}
+
+#sidebar-wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  background: #1a1a1a;
+  height: $full-height;
+  left: 220px;
+  margin-left: -220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  width: 0;
+  z-index: 1000;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+*/
+/* make sidebar nav vertical */
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none; }
+
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block; }
+
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block; }
+
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px; } }
+.sidebar .list-group {
+  display: table;
+  width: 100%; }
+  .sidebar .list-group .active {
+    color: #FFFFFF; }
+    .sidebar .list-group .active a.nav-link {
+      text-decoration: none;
+      color: inherit; }
+  .sidebar .list-group > li {
+    padding: 0.5em 1em 0.5em 1em;
+    display: table-row;
+    width: 100%; }
+    .sidebar .list-group > li.nav-item {
+      margin: 0; }
 
 /*# sourceMappingURL=styles.css.map */

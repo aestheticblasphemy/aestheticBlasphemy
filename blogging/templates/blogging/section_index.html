@@ -5,13 +5,17 @@
 	<ul class="nav navbar-nav dropdown clearfix" role="menu" aria-labelledby="dropdownMenu">
 		{% recursetree sections %}
 	    {% if not node.is_leaf_node %}
-	    <li class="nav-item">
-	        <a id="dLabel" href="{{ node.get_content_url }}" data-target="#" type="button" id="dropdownMenu{{ node.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ node.get_menu_title }}</a>	
-	        <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ node.id }}">
-	                {{ children }}
-	        </ul>
+	    <li class="btn-group">
+	    <a type="button" class="btn" href="{{ node.get_content_url }}">{{ node.get_menu_title }}</a>
+        <a type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></a>
+        <ul class="dropdown-menu">
+        {{ children }}
+	    </ul>
+	    {% elif node.parent == None %}
+	    <li class="btn-group">
+            <span type="button" class="btn"><a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a></span>
 	    {% else %}
-	    <li class="nav-item">
+	    <li class="dropdown-item">
 	        <a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a>
 	    {% endif %}        
 	    </li>

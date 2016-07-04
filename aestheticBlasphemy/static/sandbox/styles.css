@@ -243,6 +243,8 @@ body {
   margin: 0 auto;
   padding: 2% 0;
   width: 100%; }
+  .site-nav .nav-item.dropdown-toggle {
+    margin-left: 0; }
   .site-nav ul {
     border-width: 1px;
     border-color: #E1E1E1;
@@ -586,5 +588,19 @@ body {
     text-align: left; }
   .social-login-buttons + * {
     margin-top: 1em; }
+
+footer {
+  border-top-color: rgba(233, 233, 233, 0.7);
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  font-weight: 200; }
+  footer > * {
+    margin: 0 auto;
+    padding: 5px; }
+  footer *:first-child {
+    margin-top: 1em; }
+  footer .footer-upper > * {
+    display: inline-block; }
 
 /*# sourceMappingURL=styles.css.map */

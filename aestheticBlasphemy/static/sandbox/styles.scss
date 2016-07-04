@@ -1,6 +1,41 @@
 //Beemuse styles
 @import "beemuse";
 
+
+@import "http://designmodo.github.io/Flat-UI/dist/css/flat-ui.min.css";
+@import "https://daneden.github.io/animate.css/animate.min.css";
+
+
+// BACKGROUND COLOR
+$bg-color: #583e7e;
+
+// TEXT COLOR
+$text-color: #fff;
+
+// SIDEBAR LINK COLOR VARIABLES
+$side-color-1: #1a1a1a;
+$side-color-2: darken($side-color-1, 5%);
+$side-color-3: darken($side-color-2, 5%);
+$side-color-4: $bg-color;
+$side-color-5: lighten($side-color-4, 5%);
+$side-color-6: lighten($side-color-5, 5%);
+$side-color-7: lighten($side-color-6, 5%);
+$side-color-8: lighten($side-color-7, 5%);
+$side-color-9: lighten($side-color-8, 5%);
+
+// HAMBURGER COLOR
+$hamburger-color-closed: fadeout($text-color, 30);
+$hamburger-color-open: $text-color;
+
+// WIDTH VARIABLES
+$width1: 220px;
+$width2: 100px;
+$full-width: 100%;
+
+// HEIGHT VARIABLES
+$full-height: 100%;
+
+
 $body-bg : #ffffff;
 $screen-lg: 920px;
 $screen-md: 740px;
@@ -43,6 +78,49 @@ body{
   font-weight:400;
 }
 
+.site-mast{
+  position: relative;
+
+  .stationary-login{
+    position: absolute;
+    top:1em;
+    right:1em;
+
+    *{
+    background-color: #ffffff;
+    }
+
+    .btn, button{
+      border-radius: 0.5em;
+      border-width:1px;
+      border-color: $button-border-color;
+
+      &.logged-in{
+        border-radius: 2em;
+        display:none;
+
+        &+.dropdown-toggle{
+          border-radius: 50%;
+          padding: .75em;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: center;
+          height:3em;
+          width:3em;
+          &:after{
+            visibility:hidden;
+            }
+          }
+        }
+    }
+
+    button.btn{
+      border-top-left-radius:0;
+      border-bottom-left-radius:0;
+    }
+
+  }
+}
 .site-head{
   padding: 20px;
   margin: 0 auto;
@@ -60,6 +138,18 @@ body{
   padding: 2% 0;
   width: 100%;
 
+  .nav-item.dropdown-toggle{
+    margin-left:0;
+    padding-left:0;
+
+  }
+
+  .dropdown-menu{
+    >*{
+      padding-left: 1em;
+      }
+  }
+
   ul {
     border-width:1px;
     border-color: #E1E1E1;
@@ -71,12 +161,7 @@ body{
       padding: 1%;
       padding-right: .5%;
       padding-left:.5%;
-      text-align: center;
-
-
-      &:first-of-type{
-        padding-left: 1%
-      }
+      text-align: left;
     }
   }
 
@@ -153,6 +238,7 @@ body{
         margin:0;
         padding-top: 1em;
         padding-left: 1em;
+        padding-bottom: 1.2em;
         display: table-cell;
         width:70%;
         @media only screen and (min-width: 640px)
@@ -553,5 +639,118 @@ body{
 
   & + *{
   margin-top:1em;
+  }
+}
+
+footer{
+  border-top-color: $default-border-color;
+  border-top-style: solid;
+  border-top-width: 1px;
+  text-align: center;
+  font-weight: 200;
+  position: relative;
+
+  >* {
+    margin: 0 auto;
+    padding: 5px;
+  }
+
+  & *:first-child{
+    margin-top:1em;
+  }
+
+  .footer-upper{
+    >* {
+      display: inline-block;   
+    }
+  }
+
+  .fix-RB{
+    position: absolute;
+    bottom:0.5em;
+    right:0.5em;
+  }
+
+}
+
+/*
+#wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  padding-left: 0;
+  transition: all 0.5s ease;
+}
+#wrapper.toggled {
+  padding-left: 220px;
+  #sidebar-wrapper {
+    width: $width1;
+  }
+  #page-content-wrapper {
+    margin-right: -220px;
+    position: absolute;
+  }
+}
+
+#sidebar-wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  background: #1a1a1a;
+  height: $full-height;
+  left: 220px;
+  margin-left: -220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  width: 0;
+  z-index: 1000;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+*/
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.sidebar{
+  .list-group{
+    display: table;
+    width:100%;
+
+    .active{
+      color: #FFFFFF;
+      a.nav-link {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    >li{
+      padding: 0.5em 1em 0.5em 1em;
+      
+      &.nav-item{
+        margin:0;
+      } 
+      
+      display: table-row;
+      width:100%;
+    }
   }
 }
