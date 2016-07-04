@@ -1,7 +1,7 @@
 {% load humanize %}
 
 
-<section  id="section-view" class="teaser-list col-md-8 col-sm-12">
+      <section  id="section-view" class="teaser-list col-md-8 col-sm-12">
         {% if nodes|length > 0 %}
             {% for node in nodes %}
                 <article class="teaser-item clearfix card card-block">
@@ -30,19 +30,45 @@
         {% else %}
             {% include 'under_construction.html' %}
         {% endif %}
-
-{% if nodes.paginator.count > max_entry %}
-    <div class="text-center">
-    <ul class="pagination">
+        {% if nodes.paginator.count > max_entry %}
+        <nav class="page-pagination">
+          <ul class="pagination center-block">
             {% if nodes.has_previous %}
-                <li><a href="?page={{ nodes.previous_page_number }}">&laquo;</a></li>
+            <li class="page-item">
+              <a href="?page={{ nodes.previous_page_number }}" class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page={{ nodes.previous_page_number }}">{{ nodes.previous_page_number }}</a></li>
+            {% else %}
+            <li class="page-item disabled">
+              <a href="#" class="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
             {% endif %}
-              <li><a href="">{{ nodes.number }} of {{ nodes.paginator.num_pages }}</a></li>
+            <li class="page-item active">
+              <a href="#" class="page-link">{{ nodes.number }}<span class="sr-only">(current)</span></a>
+            </li>
             {% if nodes.has_next %}
-                <li><a href="?page={{ nodes.next_page_number }}">&raquo;</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ nodes.next_page_number }}">{{ nodes.next_page_number }}</a></li>
+            <li class="page-item">
+              <a href="?page={{ nodes.next_page_number }}" class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <a href="#" class="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
             {% endif %}
-    </ul>
-    </div>
-{% endif %}
-
-</section>
+          </ul>
+        </nav>
+        {% endif %}
+      </section>

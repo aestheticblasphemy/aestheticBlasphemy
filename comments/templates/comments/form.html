@@ -31,55 +31,41 @@
 	            <div class="row form-group">
 		            {{ comment.author_name.errors }}
 		            <label for="{{ comment.author_name.id_for_author_name}}" class="form-control-label sr-only">Name</label>
-		            <div class="form-control">
-		                {{ comment.author_name }}
-		            </div>
+	                {{ comment.author_name }}
 		        </div>
 		        <div class="row form-group">
 	                {{ comment.author_email.errors }}
 	                <label for="{{ comment.author_email.id_for_author_email }}" class="form-control-label sr-only">e-mail</label>
-	                <div class="form-control">
                     {{ comment.author_email }}
-	                </div>
 	            </div>
 	            <div class="row form-group">
 					{{ comment.author_url.errors }}
-					<label for="{{ comment.author_url.id_for_url }}" class="form-control-label">Homepage</label>
-					<div class="controls">
+					<label for="{{ comment.author_url.id_for_url }}" class="form-control-label sr-only">Homepage</label>
 					{{ comment.author_url }}
-					</div>
 	            </div>
 	        {% else %}
 	            <div class="row form-group ">
 	                <label for="name" class="form-control-label sr-only">Name</label>
-	                <div class="form-control">
-	                  <input class ="user-input" type="text" id="id_author_name" name="name" value="{{ request.user.profile.get_profile_name }}" disabled></input>
-	                </div>
+                  	<input class ="user-input form-control" type="text" id="id_author_name" name="name" value="{{ request.user.profile.get_profile_name }}" disabled></input>
 	            </div>
 	            <div class="row form-group ">
 	                <label for="email" class="form-control-label sr-only">e-mail</label>
-	                <div class="form-control">
-	                    <input class ="user-input" type="email" id="id_author_email" name="email" value="{{ request.user.profile.get_email }}" disabled></input>
-	                </div>
+                    <input class ="user-input form-control" type="email" id="id_author_email" name="email" value="{{ request.user.profile.get_email }}" disabled></input>
 	            </div>
 	            <div class="row form-group ">
 	                <label for="url" class="form-control-label sr-only">Homepage</label>
-	                <div class="form-control">
-	                    <input class ="user-input" type="url" id="id_author_url" name="url" placeholder="www." value="{{ request.user.profile.get_website|default:"" }}"></input>
-	                </div>
+                    <input class ="user-input form-control" type="url" id="id_author_url" name="url" placeholder="www." value="{{ request.user.profile.get_website|default:"" }}"></input>
 	            </div>
 	        {% endif %}
 	        </div>
 	        <div class="row form-group ">
 	            {{ comment.body.errors }}
 	            <label for="{{ comment.body.id_for_body }}" class="form-control-label sr-only">Comment</label>
-	            <div class="controls">
-	                {{ comment.body }}
-	            </div>
+                {{ comment.body }}
 	        </div>
-	        <div class="form-actions">
-	            <button id="post_comment" type="button" class="btn btn-primary" title="Make a POST request on the Comments resource">POST</button>
+			<div class="row form-group">
+                <button id="post_comment" type="button" class="btn btn-primary btn-block btn-lg" title="Make a POST request on the Comments resource">Post Comment</button>
 	        </div>
-	    </fieldset>
+        </fieldset>
 	</form>
 </div>
