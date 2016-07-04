@@ -36,5 +36,11 @@
 {% if meta.image %}{% googleplus_prop 'image' meta.image %}{% endif %}
 {% endif %}
 
+{% if meta.feed_list %}
+{% for feed in meta.feed_list %}
+    {% meta_tag_feed feed %}
+{% endfor %}
+{% endif %}
+
 {% endautoescape%}
 {% endif %}

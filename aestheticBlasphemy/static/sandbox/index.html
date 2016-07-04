@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">    
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+   
+    <title>Aesthetic Blasphemy</title>
+    <meta name="description" content="Aesthetic Blasphemy">
+    <meta name="author" content="Anshul Thakur">
+    <link rel="publisher" href="https://plus.google.com/116465481265465787624"/>
+    <meta property="article:publisher" content="https://www.facebook.com/AestheticBlasphemy">
+    <meta property="og:site_name" content="Aesthetic Blasphemy">
+    <link rel="alternate" type="application/rss+xml" title="Blog Post Feed" href="/blog/feed/" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/ab.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+    
+    <meta name="msapplication-TileImage" content="img/apple-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#000">
+    <meta http-equiv="cleartype" content="on">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/static/js/tether.min.js"></script><!-- Tether for Bootstrap -->
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/base/baseloader.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+      <a id="site-name" class="navbar-brand" href="http://aestheticblasphemybeta.com">Aesthetic Blasphemy</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+            <a href="/" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+            <a href="/contact/" class="nav-link">Contact Me</a>
+        </li>
+        
+        <li class="nav-item"> 
+            <a href="/dashboard/" class="nav-link">
+                <span class="glyphicon glyphicon-dashboard"></span>
+                <small>Dashboard</small>
+            </a> 
+        </li>
+        <li class="dropdown nav-item">
+           <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+               <span class="glyphicon glyphicon-user "></span>&nbsp; 
+               <span class="glyphicon glyphicon-chevron-down"></span>
+           </a>
+           <ul class="dropdown-menu dropdown-user">
+               <li>
+                   <a href="/dashboard/1/profile">
+                       <span class="glyphicon glyphicon-user "></span> 
+                       Profile 
+                   </a>
+               </li>
+               <li class="divider"></li>
+               <li>
+                   <a href="/accounts/logout/?next=/">
+                       <span class="glyphicon glyphicon-log-out"></span> 
+                     Logout 
+                   </a>
+             </li>
+           </ul>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="container content-area">
+      <nav class="">
+        <ul class="nav navbar-nav dropdown clearfix" role="menu" aria-labelledby="dropdownMenu">   
+          <li class="nav-item">
+            <a id="dLabel" href="/blog/blog/" data-target="#" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog</a> 
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li class="nav-item">
+                <a href="/blog/blog/careless-sharings/" >Careless sharings</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/contest-entries/" >Contest Entries</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/fictional/" >Fictional</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/guest-posts/" >Guest Posts</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/hindi/" >Hindi</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/life/" >Life</a>
+              </li>
+              <li class="nav-item">
+                <a href="/blog/blog/random/" >Random</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+              <a id="dLabel" href="/blog/book-reviews/" data-target="#" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book Reviews</a> 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                 <li class="nav-item">
+                  <a href="/blog/book-reviews/discussion/" >Discussion</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/book-reviews/fiction/" >Fiction</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/book-reviews/non-fiction/" >Non-Fiction</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/book-reviews/technical-book/" >Technical-Book</a>
+                </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a href="/blog/learning-experience/" >Learning Experience</a>
+          </li>   
+
+          <li class="nav-item">
+              <a id="dLabel" href="/blog/opinion/" data-target="#" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opinion</a> 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu6">
+                <li class="nav-item">
+                  <a href="/blog/opinion/general/" >General</a>  
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/opinion/lifestyle/" >Lifestyle</a>  
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/opinion/politics/" >Politics</a>
+                </li>
+              </ul>
+          </li>
+
+          <li class="nav-item">
+              <a id="dLabel" href="/blog/quotables/" data-target="#" type="button" id="dropdownMenu27" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quotables</a>  
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu27">
+                <li class="nav-item">
+                  <a href="/blog/quotables/inspiration/" >Inspiration</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/quotables/life-quotes/" >Life Quotes</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/quotables/love/" >Love</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/quotables/nibbles/" >Nibbles</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/quotables/philosophy/" >Philosophy</a>
+                </li>    
+              </ul>              
+          </li>   
+          
+          <li class="nav-item">
+              <a id="dLabel" href="/blog/scoops/" data-target="#" type="button" id="dropdownMenu7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scoops</a> 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu7">
+                <li class="nav-item">
+                    <a href="/blog/scoops/harvest/" >Harvest</a>                  
+                </li>
+                <li class="nav-item">
+                  <a href="/blog/scoops/humour/" >Humour</a>  
+                </li>
+              </ul>
+          </li>
+        
+          <li class="nav-item">
+              <a href="/blog/technical/">Technical</a>
+          </li> 
+        </ul>
+      </nav>
+
+<div class="container-fluid" >
+  <div class="row">
+    <div class="center-block text-xs-center">
+      <h2> Aesthetic Blasphemy </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mR-40">
+      <section  id="section-view">
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/book-reviews/fiction/book-review-ours-are-the-streets/443" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="http://aestheticblasphemy.com/sites/default/files/field/image/ours-are-the-streets.gif"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>May 29, 2016</strong></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/book-reviews/fiction/book-review-ours-are-the-streets/443">Book Review - Ours are the streets</a>
+                </h3>
+                <p>'Ours are the streets' is the debut album by Sunjeev Sahota, born to a Pakistani family living in England. The book had...</p>
+                <a class="btn btn-default btn-more" href="/blog/book-reviews/fiction/book-review-ours-are-the-streets/443" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/blog/careless-sharings/the-joke-is-on-me/442" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="http://aestheticblasphemy.com/sites/default/files/field/image/i-bought-you-flours.jpg"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Feb. 25, 2016</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/blog/careless-sharings/the-joke-is-on-me/442">The joke is on Me.</a>
+                </h3>
+                <p>There was a pun-joke I came across a couple of days back. I got it today! You know you are a mess when you suddenly...</p>
+                <a class="btn btn-default btn-more" href="/blog/blog/careless-sharings/the-joke-is-on-me/442" role="button">Read More</a>
+              </div>
+                  <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                    <ul class="post-tags">
+                    
+                       <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                    
+                       <li> <a href="/blog/tag/Humour/"> Humour</a></li>
+                    
+                       <li> <a href="/blog/tag/Life/"> Life</a></li>
+                    
+                       <li> <a href="/blog/tag/Random/"> Random</a></li>
+                     
+                    </ul>
+                  </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/book-reviews/non-fiction/book-review-the-diving-bell-and-the-butterfly/439" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="/sites/default/files/diving-bell-cover.jpg"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Jan. 5, 2016</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/book-reviews/non-fiction/book-review-the-diving-bell-and-the-butterfly/439">Book Review: The Diving Bell and the Butterfly</a>
+                </h3>
+                <p>The Diving Bell and the Butterfly
+
+Jean-Dominique Bauby
+
+Random House, Inc.
+
+ISBN 978-0-375-70121-4
+
+
+
+
+(Image...</p>
+                <a class="btn btn-default btn-more" href="/blog/book-reviews/non-fiction/book-review-the-diving-bell-and-the-butterfly/439" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                        
+                           <li> <a href="/blog/tag/Book-Review/"> Book-Review</a></li>
+                        
+                           <li> <a href="/blog/tag/books/"> books</a></li>
+                        
+                           <li> <a href="/blog/tag/Review/"> Review</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/quotables/love/the-bud-and-the-flower/441" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src=""></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Jan. 3, 2016</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/quotables/love/the-bud-and-the-flower/441">The bud and the flower</a>
+                </h3>
+                <p>फूल से बोली कली क्यों व्यस्त मुरझाने में है
+
+फ़ायदा क्या गंध औ मकरंद बिखराने में है
+
+तूने अपनी उम्र क्यों वातावरण में...</p>
+                <a class="btn btn-default btn-more" href="/blog/quotables/love/the-bud-and-the-flower/441" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Hindi/"> Hindi</a></li>
+                        
+                           <li> <a href="/blog/tag/Love/"> Love</a></li>
+                        
+                           <li> <a href="/blog/tag/Poem/"> Poem</a></li>
+                        
+                           <li> <a href="/blog/tag/Poetry/"> Poetry</a></li>
+                        
+                           <li> <a href="/blog/tag/Quotes/"> Quotes</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/blog/careless-sharings/treasure-chests-of-yesteryears/440" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="http://aestheticblasphemy.com/sites/default/files/field/image/treasure-chest.gif"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Jan. 1, 2016</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/blog/careless-sharings/treasure-chests-of-yesteryears/440">Treasure Chests of Yesteryears</a>
+                </h3>
+                <p>Another year draws its curtains tonight. Standing on the threshold of this new year, I steal a look at the years gone...</p>
+                <a class="btn btn-default btn-more" href="/blog/blog/careless-sharings/treasure-chests-of-yesteryears/440" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                        
+                           <li> <a href="/blog/tag/Computers/"> Computers</a></li>
+                        
+                           <li> <a href="/blog/tag/Life/"> Life</a></li>
+                        
+                           <li> <a href="/blog/tag/perspective/"> perspective</a></li>
+                        
+                           <li> <a href="/blog/tag/Random/"> Random</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/blog/hindi/acquaintances/438" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src=""></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Dec. 13, 2015</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/blog/hindi/acquaintances/438">Acquaintances</a>
+                </h3>
+                <p>पूछती हो जब मिलती हो,
+ख्यालों में या किस्सों में,
+या सपनों की किश्तों में,
+हमारे बीच क्या है?
+
+सुनो!
+
+मेरा और...</p>
+                <a class="btn btn-default btn-more" href="/blog/blog/hindi/acquaintances/438" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                        
+                           <li> <a href="/blog/tag/Blogging/"> Blogging</a></li>
+                        
+                           <li> <a href="/blog/tag/Hindi/"> Hindi</a></li>
+                        
+                           <li> <a href="/blog/tag/Love/"> Love</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/blog/careless-sharings/catching-up/437" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="/sites/default/files/warp3.jpg"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Dec. 5, 2015</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/blog/careless-sharings/catching-up/437">Catching up</a>
+                </h3>
+                <p>You know, I am a small ball. And the world is a big ball. That's quite an opposite but I want contrast, not just a...</p>
+                <a class="btn btn-default btn-more" href="/blog/blog/careless-sharings/catching-up/437" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                        
+                           <li> <a href="/blog/tag/perspective/"> perspective</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/quotables/inspiration/patterned-passages-should-be-fallbacks-with-frequent-excursions/436" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src=""></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Nov. 29, 2015</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/quotables/inspiration/patterned-passages-should-be-fallbacks-with-frequent-excursions/436">Patterned passages should be fallbacks with frequent excursions.</a>
+                </h3>
+                <p>
+“This sentence has five words. Here are five more words. Five-word sentences are fine. But several together become...</p>
+                <a class="btn btn-default btn-more" href="/blog/quotables/inspiration/patterned-passages-should-be-fallbacks-with-frequent-excursions/436" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Knowledge/"> Knowledge</a></li>
+                        
+                           <li> <a href="/blog/tag/Love/"> Love</a></li>
+                        
+                           <li> <a href="/blog/tag/Poetry/"> Poetry</a></li>
+                        
+                           <li> <a href="/blog/tag/Quotes/"> Quotes</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/quotables/life-quotes/lives-that-i-am-not-living/435" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src=""></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Oct. 31, 2015</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/quotables/life-quotes/lives-that-i-am-not-living/435">Lives that I am not living</a>
+                </h3>
+                <p>
+“Sometimes I can feel my bones straining under the weight of all the lives I’m not living.”
+
+
+~ Jonathan Safran Foer...</p>
+                <a class="btn btn-default btn-more" href="/blog/quotables/life-quotes/lives-that-i-am-not-living/435" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Duality/"> Duality</a></li>
+                        
+                           <li> <a href="/blog/tag/Life/"> Life</a></li>
+                        
+                           <li> <a href="/blog/tag/perspective/"> perspective</a></li>
+                        
+                           <li> <a href="/blog/tag/Philosophy/"> Philosophy</a></li>
+                        
+                           <li> <a href="/blog/tag/Quotes/"> Quotes</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+      
+        <article class="post vt-post">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+              <div class="post-type post-img">
+                <div style="height:190px;overflow:hidden;position:relative;">
+                  <a href="/blog/blog/random/aftertaste/434" style="position:absolute;top:50%;transform:translate(0,-50%);">
+                    <img class="img-responsive" alt="article image" src="http://aestheticblasphemy.com/sites/default/files/field/image/raynauds_photo-articlelarge_1.jpg"></img>
+                  </a>
+                </div>
+                <div class="author-info author-info-2" style="float:none;">
+                  <ul class="list-inline">
+                    <li>
+                      <div class="info"> <p> Posted on:</p> <strong>Oct. 16, 2015</strong></div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+              <div class="caption">
+                <h3 class="md-heading">
+                  <a href="/blog/blog/random/aftertaste/434">Aftertaste</a>
+                </h3>
+                <p>I try to let you go in my waking hours; I can't say I tried to move on, you were always too far. You come back to me in...</p>
+                <a class="btn btn-default btn-more" href="/blog/blog/random/aftertaste/434" role="button">Read More</a>
+              </div>
+                      <div class="feature-tags"><span class="glyphicon glyphicon-tags"></span> <b>Tags:</b> 
+                        <ul class="post-tags">
+                        
+                           <li> <a href="/blog/tag/Blog/"> Blog</a></li>
+                        
+                           <li> <a href="/blog/tag/Blogging/"> Blogging</a></li>
+                        
+                           <li> <a href="/blog/tag/Hindi/"> Hindi</a></li>
+                        
+                           <li> <a href="/blog/tag/Love/"> Love</a></li>
+                        
+                           <li> <a href="/blog/tag/Random/"> Random</a></li>
+                         
+                        </ul>
+                      </div>
+            </div>            
+          </div>
+        </article>
+
+
+          <div class="text-center">
+            <ul class="pagination">      
+              <li><a href="">1 of 33</a></li>
+              <li><a href="?page=2">&raquo;</a></li>                  
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="fb-root"></div>
+<script id="allauth-facebook-settings" type="application/json">
+{"cancelUrl": "http://127.0.0.1:8000/accounts/social/login/cancelled/", "loginByTokenUrl": "http://127.0.0.1:8000/accounts/facebook/login/token/", "version": "v2.4", "logoutUrl": "http://127.0.0.1:8000/accounts/logout/", "loginOptions": {"scope": ""}, "appId": "354498934726628", "locale": "en_US", "loginUrl": "http://127.0.0.1:8000/accounts/facebook/login/", "csrfToken": "KnryNuYKtCeWAT8X1SUnkupijUtN8fIA", "errorUrl": "http://127.0.0.1:8000/accounts/social/login/error/"}
+</script>
+<script type="text/javascript" src="/static/facebook/js/fbconnect.js"></script>  
+    
+  </body>
+</html>

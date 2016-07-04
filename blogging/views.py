@@ -516,6 +516,7 @@ def teaser(request,slug=None):
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
 			fname,lineno,fn,text = frame
 			logger.error("Error in %s on line %d" % (fname, lineno))
+			print "Error in %s on line %d" % (fname, lineno)
 		raise Http404
 	
 	#Have a section. Get its contents
@@ -566,6 +567,9 @@ def detail(request, slug, post_id):
 		except BlogContent.DoesNotExist:
 			raise Http404
 		
+		if blogs.is_published() is False and request.user.is_staff() is False:
+			raise Http404
+		
 		template = loader.get_template('blogging/includes/'+ blogs.content_type.__str__().lower() + '.html')
 		try:
 			json_obj = json.loads(blogs.data)
@@ -579,7 +583,7 @@ def detail(request, slug, post_id):
 						author = blogs.author_id, 
 						date_time = blogs.publication_start ,
 						object_type = 'article', 
-						keywords = [ tags.name for tags in blogs.tags.all()]
+						keywords = [ tags.name for tags in blogs.tags.all()],
 						)
 
 			json_obj['title'] = blogs.title

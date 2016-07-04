@@ -17,32 +17,7 @@ This template will include 4 major html files: section_title.html, indext_tree.h
 
 
 {% block content_blog %}
-
-<div class="container-fluid" >
-	<div class="row">
-	    {% include 'blogging/section_title.html' with page=page %}
-	</div>
-
-	<div class="row">
-		<!-- indext tree -->
-		<!--<div class="content-tree col-md-2 ">
-			{% include 'blogging/index_tree.html' with parent=parent %}
-		</div>
-        -->
-		<!-- Main teaser list -->
-		<!--<div class="col-md-7 col-sm-12">-->
-			<div class="mR-40">
-				{% include "blogging/includes/teaser_list.html" with nodes=nodes max_entry=max_entry page=page %}
-			</div>
-		<!--</div>-->
-	
-		<!-- Sidebar for extra information -->
-        <!--<div class="col-lg-3 col-md-3 col-sm-12 ">
-		{% comment %}	{% include 'rightbar.html' %} {% endcomment %}
-		</div>
-        -->	
-	</div>
-	
-</div>
-
+{% include "blogging/includes/teaser_list.html" with nodes=nodes max_entry=max_entry page=page %}
+<!-- Sidebar for extra information -->
+{% include 'rightbar.html' %} 
 {% endblock %}

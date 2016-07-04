@@ -1,5 +1,6 @@
 from django.conf.urls import url
 import blogging.views as view
+from blogging.feeds import LatestBlogEntiresFeed
 
 urlpatterns = [
     url(r'^sections/(?P<slug>.*)/?$', view.section_index, name='view-sections'),
@@ -22,10 +23,11 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[-\w]+)/$', view.tagged_post, name='tagged-posts'),
     url(r'^manage/$', view.manage , name='manage_articles'),
     
+    url(r'^feed/$', LatestBlogEntiresFeed(), name='latest-posts-feed'),
+    
     url(r'^(?P<slug>[a-z0-9.+-/]+)/(?P<post_id>\d+)/?$', view.detail, name='view-post-detail'),
     url(r'^(?P<slug>[a-z0-9.+-/]+)/$', view.teaser, name='view-posts-by-section'),
     
-#    url(r'^feed/$', LatestEntriesFeed(), name='latest-posts-feed'),
     url(r'^(?P<year>\d{4})/$', view.archive, name='archive-year'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', view.archive, name='archive-month'),
     url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/$', view.archive, name='archive-day'),
