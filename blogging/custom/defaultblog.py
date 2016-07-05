@@ -47,6 +47,9 @@ class DefaultblogForm(forms.Form):
             
             )
         super(DefaultblogForm, self).__init__(*args, **kwargs)
+        
+        self['tags'].label_tag(attrs={'class': 'checkbox-inline'})        
+        self.order_fields(['title', 'section', 'content', 'pid_count', 'tags'])
 
     
     def save(self,post,commit=False):

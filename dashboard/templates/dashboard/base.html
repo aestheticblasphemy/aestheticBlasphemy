@@ -1,16 +1,6 @@
-{% extends "blogging/base.html" %}
-{% load i18n %}
+{% extends 'base.html'%}
 {% load static %}
-{% block extra_script %}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/forms.css"/>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/base.css"/>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}admin/css/widgets.css"/>
 
-
-
-{{ form.media }}
-
-{% endblock %}
 {% block styles %}
 <link href="{% static "css/dashboard/style.css" %}" rel="stylesheet">
 <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
@@ -19,18 +9,7 @@
 {% endblock %}
 {% block container-close %}
 {% endblock %}
-{% block content_blog %}
-<div class="container-fluid" >
-	<div class="row">
-	    {% include 'dashboard/leftbar.html' with active="create" %}
 
-	<div class="col-md-8 pT-50">
-		{% load crispy_forms_tags %}
-		{% crispy form form.helper %}
-	</div>
-	</div>
-</div>
-{% endblock %}
 {% block site-head %}
     <nav class="navbar navbar-dark bg-inverse">
         <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -47,8 +26,4 @@
           <button type="text" class="btn btn-danger pull-xs-right" data-target="/accounts/logout/?next=/">Logout</button>
         </div>
       </nav>
-{% endblock %}
-
-{% block section_menu %}
-
 {% endblock %}

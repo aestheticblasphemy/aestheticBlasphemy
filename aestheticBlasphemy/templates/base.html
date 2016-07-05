@@ -24,6 +24,7 @@
     <link href="{% static "css/ab.css" %}" rel="stylesheet">
     <link href="{% static "css/styles.css" %}" rel="stylesheet">
     {% block styles %}
+    
     {% endblock %}
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -55,8 +56,10 @@
   </head>
 
   <body class="clearfix">
+    {% block container-open %}
     <div class="container clearfix">
-      {% block site-head %}
+    {% endblock %}
+    {% block site-head %}
       <div class="site-mast center-block text-xs-center">
         <h1 class="site-head"><a href="http://{{ site.domain }}">Aesthetic Blasphemy</a></h1>
         <h3 class="site-subhead">a million little things...</h3>
@@ -97,7 +100,7 @@
         </p> 
         <br/>
         <button type="button" class="btn btn-primary" onclick="window.location='/blogging/content-type'">Click here to start creating.</button>
-      </div>      
+      </div>
     {% endblock %}
     <footer>
       <div class="footer-upper text-muted">
@@ -112,7 +115,9 @@
         <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">All content hosted on Aesthetic Blasphemy</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_GB">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
       </div>
     </footer>
-  </div>
+    {% block container-close %}
+    </div>
+    {% endblock %}
 
 {% load socialaccount %}
 

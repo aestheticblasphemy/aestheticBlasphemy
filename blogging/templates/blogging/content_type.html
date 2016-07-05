@@ -1,5 +1,5 @@
 {% extends "blogging/base.html" %}
-
+{% load static %}
 {% block extra_script %}
 <script type="text/javascript" src="/admin/jsi18n/"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}admin/js/core.js"></script>
@@ -15,6 +15,15 @@
 Create Content - Phase-1 
 {% endblock %}
 
+{% block styles %}
+<link href="{% static "css/dashboard/style.css" %}" rel="stylesheet">
+<link href="{% static "css/dashboard.css" %}" rel="stylesheet">
+{% endblock %}
+{% block container-open %}
+{% endblock %}
+{% block container-close %}
+{% endblock %}
+
 {% block content_blog %}
 <div class="container-fluid" >
 	<div class="row">
@@ -27,4 +36,23 @@ Create Content - Phase-1
 	
 	</div>
 </div>
+{% endblock %}
+{% block site-head %}
+    <nav class="navbar navbar-dark bg-inverse">
+        <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Aesthetic Blasphemy (Admin)</a>
+        <div id="navbar">
+          <nav class="nav navbar-nav pull-xs-left">
+            <a class="nav-item nav-link" href="/">Home</a>
+          </nav>
+          <button type="text" class="btn btn-danger pull-xs-right" data-target="/accounts/logout/?next=/">Logout</button>
+        </div>
+      </nav>
+{% endblock %}
+{% block section_menu %}
 {% endblock %}

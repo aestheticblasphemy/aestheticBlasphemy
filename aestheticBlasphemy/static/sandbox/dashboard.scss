@@ -1,0 +1,167 @@
+
+@import "http://designmodo.github.io/Flat-UI/dist/css/flat-ui.min.css";
+@import "https://daneden.github.io/animate.css/animate.min.css";
+
+
+// BACKGROUND COLOR
+$bg-color: #583e7e;
+
+// TEXT COLOR
+$text-color: #fff;
+
+// SIDEBAR LINK COLOR VARIABLES
+$side-color-1: #1a1a1a;
+$side-color-2: darken($side-color-1, 5%);
+$side-color-3: darken($side-color-2, 5%);
+$side-color-4: $bg-color;
+$side-color-5: lighten($side-color-4, 5%);
+$side-color-6: lighten($side-color-5, 5%);
+$side-color-7: lighten($side-color-6, 5%);
+$side-color-8: lighten($side-color-7, 5%);
+$side-color-9: lighten($side-color-8, 5%);
+
+// HAMBURGER COLOR
+$hamburger-color-closed: fadeout($text-color, 30);
+$hamburger-color-open: $text-color;
+
+// WIDTH VARIABLES
+$width1: 220px;
+$width2: 100px;
+$full-width: 100%;
+
+// HEIGHT VARIABLES
+$full-height: 100%;
+
+
+$body-bg : #ffffff;
+$screen-lg: 920px;
+$screen-md: 740px;
+
+$default-border-color: rgba(233,233,233,0.7);
+
+$body-background-color: $body-bg;
+$image-borders: rgba(233,233,233,0.7);
+
+$btn-custom-color: rgba(233,233,233,0.7);
+
+$button-border-color: $image-borders;
+$quote-border-color: rgba(44,44,44,0.1);
+
+$error-text-color: #D8646A;
+$link-default: #38578C;
+
+$text-color: #000000;
+
+//Complete border radius
+@mixin border-radius($x-radius: 0px, $y-radius: 0px ) {
+  -webkit-border-top-left-radius:$x-radius $y-radius;
+  -webkit-border-top-right-radius:$x-radius $y-radius;
+  -webkit-border-bottom-right-radius:$x-radius $y-radius;
+  -webkit-border-bottom-left-radius:$x-radius $y-radius;
+  //Escape 
+  -moz-border-radius:#{$x-radius}/#{$y-radius};
+  -ms-border-radius:#{$x-radius}/#{$y-radius};
+  border-radius:#{$x-radius}/#{$y-radius};
+}
+
+@mixin animation($function: fadeIn, $duration: .3s){
+  -webkit-animation: $function $duration;
+  animation: $function $duration;
+}
+
+
+/*
+#wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  padding-left: 0;
+  transition: all 0.5s ease;
+}
+#wrapper.toggled {
+  padding-left: 220px;
+  #sidebar-wrapper {
+    width: $width1;
+  }
+  #page-content-wrapper {
+    margin-right: -220px;
+    position: absolute;
+  }
+}
+
+#sidebar-wrapper {
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  background: #1a1a1a;
+  height: $full-height;
+  left: 220px;
+  margin-left: -220px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  width: 0;
+  z-index: 1000;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+*/
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+.sidebar{
+  .list-group{
+    display: table;
+    width:100%;
+
+    .active{
+      color: #FFFFFF;
+      a.nav-link {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    >li{
+      padding: 0.5em 1em 0.5em 1em;
+      
+      &.nav-item{
+        margin:0;
+      } 
+      
+      display: table-row;
+      width:100%;
+    }
+  }
+}
+
+.dashboard-panel{
+
+  ul.notifications-list{
+    padding-left:0;
+
+    list-style: none;
+
+    > li{
+      display:block;
+    }
+  }
+
+}
