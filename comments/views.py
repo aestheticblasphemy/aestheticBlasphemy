@@ -1,7 +1,7 @@
 from django.http import HttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, renderer_classes, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
@@ -14,6 +14,13 @@ from forms import CommentForm
 
 import traceback, sys
 from blogging.models import BlogContent
+
+from comments.signals import comment_approved
+
+from rest_framework.pagination import PageNumberPagination
+from collections import OrderedDict
+from rest_framework.generics import GenericAPIView
+
 # Create your views here.
 class JSONResponse(HttpResponse):
     
@@ -23,16 +30,39 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-def comment_list(request, postID=None):
+class CommentList(GenericAPIView):
     """
     List all comments on the post
     """
-    if request.method == 'GET':
+    permission_classes = (AllowAny,)
+    queryset = Comment.objects.all().order_by('-date_created')
+    page_size_query_param = 'size'
+    
+    max_page_size = 1000
+    pagination_class = PageNumberPagination
+    serializer_class = CommentSerializer
+
+    def get(self, request, postID=None, format=None):        
         if postID is not None:
-            comments = Comment.objects.filter(post_id=postID).order_by('date_created')
+            self.queryset = Comment.objects.filter(post_id=postID).order_by('-date_created')
         else:
-            comments = Comment.objects.all().order_by('date_created')
-        serializer = CommentSerializer(comments, many=True)
+            self.queryset = Comment.objects.all().order_by('-date_created')
+
+        self.paginator.page_size_query_param = self.page_size_query_param
+
+        comments = self.paginate_queryset(self.queryset)
+
+        if comments is not None:
+            print 'Got serializer'
+            serializer = self.get_serializer(comments, many=True)
+            return JSONResponse(OrderedDict([
+                                            ('count', self.paginator.page.paginator.count),
+                                            ('next', self.paginator.get_next_link()),
+                                            ('previous', self.paginator.get_previous_link()),
+                                            ('results', serializer.data)
+                                        ]))
+        
+        serializer = self.get_serializer(self.queryset, many=True)
         return JSONResponse(serializer.data)
 
 
@@ -129,3 +159,21 @@ def comment_form(request, postID, commentID=0):
                 fname,lineno,fn,text = frame
                 print "Error in %s on line %d" % (fname, lineno)
             return Response(status=HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes((IsAdminUser,))
+def comment_approve(request):
+    if request.method=='POST':
+        try:
+            comment_id = request.POST['id']
+            comment = Comment.objects.get(pk=int(comment_id))
+            comment_approved.send(sender=Comment)
+            return JSONResponse(status=HTTP_200_OK)
+
+        except:
+            print 'Some exception occurred.'
+            print "Unexpected error:", sys.exc_info()[0]
+            for frame in traceback.extract_tb(sys.exc_info()[2]):
+                fname,lineno,fn,text = frame
+                print "Error in %s on line %d" % (fname, lineno)
+            return JSONResponse(status=HTTP_400_BAD_REQUEST)

@@ -33,11 +33,10 @@ Create Content - Phase-2
 
 
 {% block content_blog %}
-<div class="container-fluid" >
-	<div class="row">
+<div class="container-fluid clearfix" >
 	    {% include 'dashboard/leftbar.html' with active="create" %}
 
-	<div class="col-md-8 pT-50">
+	<div id="page-content-wrapper" class="col-md-10 dashboard-panel">
 		{% if success %}
 		
 		<h1> Save Success! Thank You For Time. </h1> 
@@ -45,16 +44,36 @@ Create Content - Phase-2
 		
 		{% else %}
 		
-		{% load crispy_forms_tags %}
-		{% crispy form %}
+    <form  action="{{ form.action }}" id="id-DefaultblogForm" class="form-horizontal" method="post" >
+      {{ form.non_field_errors }}
+      {% csrf_token %}
+      {% for field in form.visible_fields %}
+       <div class="row form-group ">
+	      {{ field.errors }}
+	      <label for="{{ field.id_for_label }}" class="col-sm-1 form-control-label">{{ field.label }}</label>
+	      <div class="col-sm-11">
+	      {{ field }}  
+	      {% if field.help_text %}
+	      <p class="help">{{ field.help_text|safe }}</p>
+	      {% endif %}
+	  	  </div>
+      </div>
+      {% endfor %}
+      {% for hidden in form.hidden_fields %}
+	  {{ hidden }}
+	  {% endfor %}
+      <div class="row form-group">
+        <input type="submit" name="submit" value="Publish" class="btn btn-primary button blue" id="submit-id-submit"/>
+        <input type="submit" name="submit" value="Save Draft" class="btn btn-primary button white" id="submit-id-submit"/>
+      </div>
+    </form>
 		
 		{% endif %}
-	</div>
 	</div>
 </div>
 {% endblock %}
 {% block site-head %}
-    <nav class="navbar navbar-dark bg-inverse">
+    <nav class="navbar navbar-dark bg-inverse dashboard-head">
         <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>

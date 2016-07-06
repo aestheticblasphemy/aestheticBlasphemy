@@ -23,7 +23,8 @@ def api_root(request, format=None):
     return Response({
         'blogcontent': reverse('rest:blogcontent-list', request=request, format=format),
         'user': reverse('rest:user-list', request=request, format=format),
-        'currentUser': reverse('rest:current-user', request=request, format=format),            
+        'currentUser': reverse('rest:current-user', request=request, format=format), 
+        'comments': reverse('comments:view-comments', request=request, format=format)           
         })
  
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

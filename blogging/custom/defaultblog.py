@@ -7,7 +7,6 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 import json
 from django.db.models import Q 
 from mptt.forms import TreeNodeChoiceField
-from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
 """
 This is auto generated script file.
 It defined the wrapper class for specified content type.
@@ -15,40 +14,22 @@ It defined the wrapper class for specified content type.
 
 class DefaultblogForm(forms.Form):
     content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author'))
-    title = forms.CharField(max_length = 100)
+    title = forms.CharField(max_length = 100, 
+                            widget=forms.TextInput(attrs={  'placeholder': 'Title of post',
+                                                            'class':"form-control",}),
+                            required= True)
     tags = TagField()
-    section = TreeNodeChoiceField(queryset=BlogParent.objects.all(),required=True,empty_label=None, label = "Select Section" )
-    pid_count = forms.IntegerField(required=False)
+    section = TreeNodeChoiceField(queryset=BlogParent.objects.all(),
+                                  required=True,
+                                  empty_label=None,
+                                  label = "Select Section",
+                                  widget=forms.Select(attrs={'class': "form-control"}))
+    pid_count = forms.IntegerField(required=False, 
+                                   widget=forms.HiddenInput(attrs={'class': 'hidden-xs-up'}))
     def __init__(self,action, *args, **kwargs):
-        self.helper = FormHelper()
-        
-        self.helper.form_id = 'id-DefaultblogForm'
-#        self.helper.form_class = 'blueForms'
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
-        self.helper.form_method = 'post'
-#         self.helper.form_action = reverse('blogging:create-post')
-        self.helper.form_action = action
-        self.helper.layout = Layout(
-                Fieldset(
-                'Create Content of Type DefaultBlog',
-                'tags',
-                'title',
-                Field('pid_count', type="hidden"),
-                'section',
-                'content',
-            ),
-            
-            ButtonHolder(
-                Submit('submit', 'Publish', css_class='button blue'),
-                Submit('submit', 'Save Draft', css_class='button white')
-            ),
-            
-            )
         super(DefaultblogForm, self).__init__(*args, **kwargs)
-        
-        self['tags'].label_tag(attrs={'class': 'checkbox-inline'})        
+
+        self.action = action
         self.order_fields(['title', 'section', 'content', 'pid_count', 'tags'])
 
     

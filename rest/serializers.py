@@ -38,6 +38,8 @@ class AnonymousUserSerializer(serializers.Serializer):
     username = serializers.CharField();
 
 class BlogContentSerializer(serializers.ModelSerializer):
+    comments = serializers.PrimaryKeyRelatedField(many=True, 
+                                                 queryset=Comment.objects.all())
     class Meta:
         model = BlogContent
         fields =('id', 'title', 'create_date', 'data', 'url_path', 
@@ -46,7 +48,11 @@ class BlogContentSerializer(serializers.ModelSerializer):
      
 
 class CommentSerializer(ModelSerializer):
-    #body = serializers.CharField(style={'base_template': 'textarea.html'})
+    post = serializers.SerializerMethodField()
+
+    def get_post(self, obj):
+        return obj.post.get_absolute_url()
+
     class Meta:
         model=Comment
         fields = ('id', 'post',

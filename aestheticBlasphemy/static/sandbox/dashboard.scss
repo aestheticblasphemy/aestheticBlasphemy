@@ -152,6 +152,9 @@ $text-color: #000000;
   }
 }
 
+.dashboard-head+*{
+  margin-top:0;
+}
 .dashboard-panel{
 
   ul.notifications-list{
@@ -164,4 +167,13 @@ $text-color: #000000;
     }
   }
 
+  form ul{
+    list-style:none;
+    padding-left:0;
+
+    li{
+      display: inline-block;
+      padding: 0.2em 0.5em 0.1em 0.5em;
+    }
+  }
 }

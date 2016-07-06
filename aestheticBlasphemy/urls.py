@@ -38,6 +38,7 @@ urlpatterns = i18n_patterns(
                                                       'sections':BlogParentSitemap
                                                       }}),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    url(r'^rest/', include('rest.urls', namespace="rest")),
     url(r'^$', include("blogging.urls", namespace="blogging")),
     url(r'^', include("blogging.urls", namespace="blogging")),
 )

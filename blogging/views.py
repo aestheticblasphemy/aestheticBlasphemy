@@ -567,7 +567,8 @@ def detail(request, slug, post_id):
 		except BlogContent.DoesNotExist:
 			raise Http404
 		
-		if blogs.is_published() is False and request.user.is_staff() is False:
+		if blogs.is_published() is False and request.user.is_staff is False:
+			print 'Not published'
 			raise Http404
 		
 		template = loader.get_template('blogging/includes/'+ blogs.content_type.__str__().lower() + '.html')

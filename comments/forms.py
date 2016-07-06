@@ -34,3 +34,4 @@ class CommentForm(forms.Form):
         if kwargs.get('initial', None) is not None:
             self.fields['parent_comment'].queryset = Comment.objects.filter(post= kwargs['initial']['post'])
             self.fields['post'].queryset = BlogContent.objects.filter(pk= kwargs['initial']['post'].id)
+         
