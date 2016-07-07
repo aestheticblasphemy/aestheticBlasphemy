@@ -55,8 +55,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    #'allauth.socialaccount.providers.google',
-    #'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
     'taggit',
     'ckeditor',
     'ckeditor_uploader',
@@ -124,7 +124,12 @@ DATABASES = {
     }
 }
 
-
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

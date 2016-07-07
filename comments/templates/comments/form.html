@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load socialaccount %}
 <div class="comment-form-head card-header">Leave a comment</div>
 <div class="card-text form-body">
 	<form id="comment-form" class="comment-form" autocomplete="on">
@@ -23,9 +24,22 @@
 	        {% if request.user.is_authenticated != True %}
 		        <div class="social-login-buttons">
 		          <small class="talk">Login using </small>
-		          <span class="fa fa-google-plus"></span>
-		          <span class="fa fa-facebook"></span>
-		          <span class="fa fa-twitter"></span>
+		          {% get_providers as providers %}
+                  {% for provider in providers %}
+                    {% if provider.name == "Facebook" %}
+                    <a title="Facebook" class="social-account-fb" href="{% provider_login_url provider.id process='login' next=path|safe %}">
+                        <span class="fa fa-facebook"></span>
+                    </a>
+                    {% elif provider.name == "Google"%}
+                    <a title="Google" class="social-account-g" href="{% provider_login_url provider.id process='login' next=path|safe %}">
+                    <span class="fa fa-google-plus"></span>
+                    </a>
+                    {% elif provider.name == "Twitter"%}
+                    <a title="Twitter" class="social-account-t" href="{% provider_login_url provider.id process='login' next=path|safe %}">
+                    <span class="fa fa-twitter"></span>
+                    </a>
+                    {% endif %}
+                  {% endfor %}
 		        </div> 
 	            
 	            <div class="row form-group">
@@ -69,3 +83,4 @@
         </fieldset>
 	</form>
 </div>
+{% providers_media_js %}

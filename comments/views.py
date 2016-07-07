@@ -171,7 +171,8 @@ def comment_form(request, postID, commentID=0):
                 comment = CommentForm(initial={'post': post,})
 
             return(Response(data={'request':request,
-                                  'comment':comment},
+                                  'comment':comment,
+                                  'path': post.get_absolute_url()},
                             template_name="comments/form.html"))
         except Comment.DoesNotExist:
             return Response(status=HTTP_404_NOT_FOUND)

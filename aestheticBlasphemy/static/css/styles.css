@@ -696,6 +696,15 @@ body {
   .social-login-buttons + * {
     margin-top: 1em; }
 
+.social-account-t {
+  color: #1B95E0; }
+
+.social-account-g {
+  color: #DC4A38; }
+
+.social-account-fb {
+  color: #4267B2; }
+
 footer {
   border-top-color: rgba(233, 233, 233, 0.7);
   border-top-style: solid;
