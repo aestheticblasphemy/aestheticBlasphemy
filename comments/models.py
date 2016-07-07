@@ -5,7 +5,36 @@ from aestheticBlasphemy.models import BaseContentClass
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+
+from django.utils.safestring import mark_safe
+
+
 from blogging.models import BlogContent
+
+def truncatewords(Value,limit=30):
+    try:
+        limit = int(limit)
+        # invalid literal for int()
+    except ValueError:
+        # Fail silently.
+        return Value
+
+    # Make sure it's unicode
+    Value = unicode(Value)
+
+    # Return the string itself if length is smaller or equal to the limit
+    if len(Value) <= limit:
+        return Value
+
+    # Cut the string
+    Value = Value[:limit]
+
+    # Break into words and remove the last
+    words = Value.split(' ')[:-1]
+
+    # Join the words and return
+    return ' '.join(words) + '...'
 
 # Create your models here.
 class Comment(BaseContentClass):
@@ -29,6 +58,14 @@ class Comment(BaseContentClass):
                                null=True
                                )
     published = models.BooleanField(default=False)
+    
+    def get_absolute_url(self):
+        kwargs = {'cid': self.id}
+        return reverse("comments:view-comment", kwargs=kwargs)
+    
+    def get_summary(self):
+        description = self.body
+        return mark_safe(truncatewords(description,50))
     
     def __unicode__(self):
         return self.body

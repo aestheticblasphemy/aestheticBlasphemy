@@ -2,14 +2,13 @@
 {% load social_profile %}
 {% load blogging_tags %}
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid clearfix" id="wrapper">
+    <div class="overlay"></div>
 		{% include 'dashboard/leftbar.html' with active="pending" %}
-        <div class="col-md-8 pT-50">
-			{% if request.user.is_authenticated %}
-				{% render_pending_articles request.user%}
-			{% endif %}
-        </div>
+    <div id="page-content-wrapper" class="col-md-10 dashboard-panel">
+	{% if request.user.is_authenticated %}
+	{% render_pending_articles request.user%}
+    {% endif %}
     </div>
 </div>
 {% endblock %}

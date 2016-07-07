@@ -20,7 +20,6 @@ $(document).ready(function(){
 	 */
 	ABC.post_id = parseInt($(".rest[data-id]").attr('data-id'));
 	
-	console.log(ABC.post_id);
 	/**
 	 * renderForm
 	 * @brief Render the form in the page.
@@ -161,12 +160,12 @@ $(document).ready(function(){
 	}
 		
 	/**
-	 * removeAnnotation
+	 * commentDeleted
 	 * @param data
 	 */
-	var removeAnnotation = function(data){
-		//console.log('Remove Annotation response');
-		//console.log(data);
+	var commentDeleted = function(data){
+    	console.log(data);
+    	$('.comments-container-item[data-comment-id="cid_'+data[0]+'"]').remove();
 	};
 	
 	/**
@@ -174,49 +173,44 @@ $(document).ready(function(){
 	 * @param id: ID of paragraph to remove
 	 */
 	var deleteComment = function(id){
-		id= parseInt($(this).attr('data-comment-id'));
-		//console.log('Deleting annotation' + id);
-		
-		$.ajaxSetup({
-	        beforeSend: function(xhr, settings) {
-	            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-	                xhr.setRequestHeader("X-CSRFToken", annotations.csrftoken);
-	            }
-	        }
-	    });
-	    //Save Form Data........
-	    $.ajax({
-	        cache: false,
-	        url : "/rest/annotations/"+id+"/",
-	        type: "DELETE",
-	        dataType : "json",
-	        contentType: "application/json;",
-	        //data : JSON.stringify(data),
-	        context : this,
-	        success : removeAnnotation,
-	        error : function (xhRequest, ErrorText, thrownError) {
-	            //alert("Failed to process annotation correctly, please try again");
-	            console.log('xhRequest: ' + xhRequest + "\n");
-	            console.log('ErrorText: ' + ErrorText + "\n");
-	            console.log('thrownError: ' + thrownError + "\n");
-	        }
-	    });	
-	    
-	    /* Update annotation count on adjoining container */
-	    //console.log($(this).closest('.comments').find('.comments--toggle p'));
-	    commentCount = parseInt($(this).closest('.comments').find('.comments--toggle p').text());
-	    //console.log('Comment Count now is '+ commentCount);
-	    if((commentCount -1)==0){
-	    	$(this).closest('.comments').find('.comments--toggle p').text('+');
-	    }
-	    else{
-	    	$(this).closest('.comments').find('.comments--toggle p').text(commentCount -1);
-	    }
-	    
-	    /* Remove the annotation from flow */
-	    $(this).closest('.comments-container-item').remove();
+	      selected = new Array();
+	      id= parseInt($(this).attr('data-comment-id').split('_').slice(-1)[0]);
+	      
+	      selected.push(id);
+	      
+	      console.log(selected);
+	      
+	      data={'selection': selected,
+	    		'action': 'Delete'};
+
+	      $.ajaxSetup({
+		        beforeSend: function(xhr, settings) {
+		            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		                xhr.setRequestHeader("X-CSRFToken", ABC.csrf);
+		            }
+		        }
+		    });
+		    //Save Form Data........
+		    $.ajax({
+		        cache: false,
+		        url : window.location.origin+"/comments/approve/",
+		        type: "POST",
+		        dataType : "json",
+		        contentType: "application/json;",
+		        data : JSON.stringify(data),
+		        context : this,
+		        success : commentDeleted,
+		        error : function (xhRequest, ErrorText, thrownError) {
+		            //alert("Failed to process annotation correctly, please try again");
+		            console.log('xhRequest: ');
+		            console.log(xhRequest);
+		            console.log('ErrorText: ' + ErrorText + "\n");
+		            console.log('thrownError: ' + thrownError + "\n");
+		        }
+		    });	
 		return false;
 	};
+	
 	/**
 	 * renderSingleComment
 	 * @param data : Payload received from the server
@@ -243,9 +237,7 @@ $(document).ready(function(){
 	 */
 	var renderComments = function(data){
 		//console.log('renderComments');
-		//console.log('Data received: ');
-		//console.log(data);
-		//console.log('Length: '+ data.length);
+		console.log(data);
 		if ((typeof(commentContainer) === 'undefined') || 
 											commentContainer === null){
 			/* Create a fresh copy of the variable*/
@@ -256,9 +248,6 @@ $(document).ready(function(){
 		for(i=0; i< data.length;i++){
 			//console.log('Comment:');
 			//console.log(data[i]['parent_comment']);
-			
-			/* Find the parent container */
-			currentObject = commentContainer.children('[data-comment-id="cid_'+data[i]['id']+'"]');
 			/* Find the annotations container inside that and append the comment */
 			currentComment = $('<div class="comments-container-item">'+
                     			'<div class="comments-container--media">'+
@@ -267,11 +256,6 @@ $(document).ready(function(){
             					'<div class="comments-container--block">'+
             					'<a class="comments-author-link" href="#"><span class="comments-author-name"></span></a>'+
             					'<span class="comments-container--text"></span>'+
-            					'<div class="comments-control-box">'+
-            					'<span class="comments-control comments-delete">Delete</span>'+
-            					'<span class="comments-control">Shared with</span>'+
-            					'</div>'+
-            					'<span class="comments-delete glyphicon glyphicon-remove"></span>'+
             					'</div>'+
             					'</div>');
 			
@@ -280,46 +264,104 @@ $(document).ready(function(){
 			if(data[i]['author']===null){
 				currentComment.find('.comments-author-name').text(data[i]['author_name']);
 				currentComment.find('.comments-author-link').attr('href',data[i]['author_url']);
+				currentComment.find('.comments-author-image').attr('src', '/static/images/user.png');
 			}else{
 				currentComment.find('.comments-author-name').text(data[i]['author']['username']);
 				currentComment.find('.comments-author-link').attr('href',data[i]['author']['url']);
 				currentComment.find('.comments-author-image').attr('src', data[i]['author']['gravatar']);
-
 			}
-			
-			currentComment.find('.comments-container--text').text(unescape(data[i]['body']));
-			currentComment.find('.comments-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
-			
-			currentComment.find('.comments-delete').on('click', deleteComment);
+			currentComment.find('.comments-container--text').text(data[i]['body']);
 			/* Also add to main container if the comment has no parent. */
+			if(ABC.user['is_admin'] || (data[i]['author'] != null && data[i]['author']['id'] == ABC.user['id'])){
+				controls = $('<div class="comments-control-box btn-group">'+
+    					'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+    					'<span class="fa fa-ellipsis-v"</span></button>'+
+    					'<div class="dropdown-menu">'+
+    					'<span class="dropdown-item comments-control comments-delete">Delete</span>'+
+    					'</div>'+
+    					'</div>');
+				currentComment.find('.comments-container--block').append(controls);
+				currentComment.find('.comments-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
+				currentComment.find('.comments-delete').on('click', deleteComment);
+				if(data[i]['published']==false && ABC.user['is_admin']){
+					currentComment.find('div.dropdown-menu').append($('<span class="dropdown-item comments-control comment-publish">Publish</span>'));
+					currentComment.find('.comment-publish').attr('data-comment-id', 'cid_'+data[i]['id']);
+					currentComment.find('.comment-publish').on('click', publishComment);
+				}
+			}
+			if(data[i]['published']== false){
+				currentComment.append('<span class="comment-moderated text-muted">(Awaiting Moderation)</span>')
+			}
 			if(data[i]['parent_comment']===null){
 				/* Append to main comments container*/
 				commentContainer.append(currentComment);
+				currentComment.wrap('<div class="comments-container-thread"></div>');
 			}
 			else{
+				/* Find the parent container */
+				currentObject = commentContainer.find('[data-comment-id="cid_'+data[i]['parent_comment']+'"]');
 				/* Append as a child of its parent comment */
-				currentObject.append(currentComment);
-//				/* Now that we have other annotations, unhide the show button too */
-//				console.log('Unhide the button');
-//				
-//				if(currentObject.find('.comments-bucket-toggle').hasClass('hidden')){
-//					currentObject.find('.comments-bucket-toggle').removeClass('hidden');
-//					/* Bind event to show fold or unfold other annotations*/
-//					currentObject.find('.comments-bucket-toggle').on('click', toggleOtherAnnotations);
-//				}				
-//				
-//				if(!currentObject.find('.comments-bucket-toggle').hasClass('unfolded')){
-//					currentObject.find('.comments-bucket-toggle').removeClass('unfolded');
-//					currentObject.find('.comments-bucket-toggle').addClass('folded');
+				currentComment.insertAfter(currentObject[0]);
 				}
 			}
-			/* Also append it to the bucket list.*/
-//			$('#article-adjunct-tab-notes').append(currentComment.clone());
-//		}
 		return false;
 	};
 	
-	
+	/**
+     * publishComment
+     * 
+     * @brief Send request to approve selected comments
+     */
+    var publishComment = function(){
+      console.log('publishComment');
+      
+      selected = new Array();     
+      id= parseInt($(this).attr('data-comment-id').split('_').slice(-1)[0]);
+      
+      selected.push(id);
+      
+      console.log(selected);
+      
+      data={'selection': selected,
+    		'action': 'Approve'};
+
+      $.ajaxSetup({
+	        beforeSend: function(xhr, settings) {
+	            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+	                xhr.setRequestHeader("X-CSRFToken", ABC.csrf);
+	            }
+	        }
+	    });
+	    //Save Form Data........
+	    $.ajax({
+	        cache: false,
+	        url : window.location.origin+"/comments/approve/",
+	        type: "POST",
+	        dataType : "json",
+	        contentType: "application/json;",
+	        data : JSON.stringify(data),
+	        context : this,
+	        success : commentsApproved,
+	        error : function (xhRequest, ErrorText, thrownError) {
+	            //alert("Failed to process annotation correctly, please try again");
+	            console.log('xhRequest: ');
+	            console.log(xhRequest);
+	            console.log('ErrorText: ' + ErrorText + "\n");
+	            console.log('thrownError: ' + thrownError + "\n");
+	        }
+	    });	
+		return false;
+    };
+    /**
+     * commentsApproved
+     * 
+     * @brief Comment Approved. Update DOM
+     */
+    var commentsApproved = function(data){
+    	console.log(data);
+    	console.log($('.comments-container-item[data-comment-id="cid_'+data[0]+'"]').find('.comment-moderated'));
+    	$('.comments-container-item[data-comment-id="cid_'+data[0]+'"]').find('.comment-moderated').remove();
+    }
 	/*
 	 * Load Comments
 	 */

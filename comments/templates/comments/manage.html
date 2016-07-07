@@ -1,0 +1,107 @@
+{% extends 'dashboard/base.html'%}
+
+{% load static %}
+{% block extra_script %}
+<script type="text/javascript" src="{% static "js/comments/manage.js" %}"></script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid clearfix" id="wrapper">
+    <div class="overlay"></div>
+    {% include 'dashboard/leftbar.html' with active="manage_comments" %}
+    <div id="page-content-wrapper" class="col-md-10 dashboard-panel">
+	    {% if messages %}
+	    <ul class="messages" id="message_head">
+	      {% for message in messages %}
+	      <li{% if message.tags %} class="{{ message.tags }}"{% endif %} >{{ message }}</li>
+	      {% endfor %}
+	    </ul>
+	    {% endif %}
+	
+	    <div class="message hidden-xs-up" id = "flash_message">
+	      <div class = "alert-info hidden-xs-up" id = "flash_info">
+	        <p></p>
+	       </div>
+	      <div class = "alert-danger hidden-xs-up" id = "flash_danger">
+	        <p></p>
+	      </div>
+	      <div class = "alert-warning hidden-xs-up" id = "flash_warning">
+	        <p></p>
+	      </div>
+	      <div class = "alert-success hidden-xs-up" id = "flash_success">
+	        <p></p>
+	     </div>
+	    </div>
+	    
+	    <form method="post" class="card">
+	      {% csrf_token %}
+	      <!-- Default panel contents -->
+	      <div class="card-header">Manage Comments</div>
+	
+	      <div class="card-text">
+		    <div class="form-group">
+	          <select class="col-md-7 c-select" id="action" name="action">
+	          {% for action in actions %}
+	            <option value="{{ action.name }}" >{{ action.name }} -- {{ action.help }}</option>
+	          {% endfor %}
+	          </select>
+	          <input type="button" name="Submit" value="Save" class="btn btn-primary col-md-5 no-curve" id="save_actions"></input>
+	        </div>
+	        <!-- Table -->
+	        <table class="table table-striped">
+	          <thead class="thead-inverse">
+	            <tr>
+	                <th><input type="checkbox" name="checkall" id="checkall_id" ></th>
+	                <th>Author</th>
+	                <th>Comment</th>
+	                <th>Post</th>
+	                <th>Status</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            {% for comment in comments %}
+	            <tr>
+	              <td scope="row">
+	                <input type="checkbox" name="selection" id="Checkboxes_id" class="checkbox" value="{{ comment.id }}">
+	              </td>
+	              <td>
+	                {% if comment.author != None %}
+	                <a href="{% url "dashboard:dashboard-profile" comment.author.id %}"> {{ comment.get_author.profile.get_profile_name }} </a>
+	                {% elif comment.author_url != None and comment.author_name != None%}
+	                <a href="{{ comment.author_url}}"> {{ comment.author_name }} </a>
+	                {% elif comment.author_url != None and comment.author_email != None%}
+	                <a href="{{ comment.author_url}}"> {{ comment.author_email }} </a>
+	                {% elif comment.author_url != None %}
+	                <a href="{{ comment.author_url}}"> {{ comment.author_url }} </a>
+	                {% elif comment.author_url == None and comment.author_name != None%}
+	                {{ comment.author_name }}
+	                {% elif comment.author_url == None and comment.author_email != None%}
+	                {{ comment.author_email }}
+	                {% endif %}
+	              </td>
+	              <td>
+	                <a href="{{ comment.get_absolute_url }}">{{ comment.get_summary }}</a>
+	              </td>
+	              <td>
+	                <a href="{{ comment.post.get_absolute_url }}">{{ comment.post.get_title }}</a>
+	              </td>
+	              <td>
+	              {% if comment.published %}
+	                <span class="fa fa-check publish-state" style="color:green" aria-hidden="true"></span>
+	              {% else %}
+	                <span class="fa fa-times publish-state" style="color:red" aria-hidden="true"></span>
+	              {% endif %}
+	              </td>
+	            </tr>
+	            {% endfor %}
+	          </tbody>
+	        </table>
+	      </div> <!-- input group -->
+	   </form>
+       {% if comments.paginator.count > max_entry %}
+       <nav class="page-pagination">
+       {% include "pagination.html" with obj_list=comments getvars=getvars only %}
+       </nav>
+       {% endif %}
+   </div>
+</div><!--end wrapper -->
+{% endblock %}

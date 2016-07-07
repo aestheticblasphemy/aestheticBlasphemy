@@ -1,0 +1,114 @@
+{% load common_tags %}
+{# getvars context contains the queryset passed in url #}
+{% with total_pages=obj_list.paginator.num_pages current_page=obj_list.number%} 
+
+<ul class="pagination center-block"> 
+    {% if obj_list.has_previous %}              
+    <li class="page-item">
+      <a href="?page={{ obj_list.previous_page_number }}{{getvars}}"class="page-link" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% else %}    
+    <li class="page-item disabled">
+      <a href="#" class="page-link" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if total_pages < 11 %}
+    {% for p in obj_list.paginator.page_range %}
+     {% if p == current_page %}
+     <li class="page-item active">
+       <a href="#" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% else %}
+     <li class="page-item">
+       <a href="?page={{ p }}{{getvars}}" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% endif %}
+     </li>
+     {% endfor %}
+     {% else %}
+     {% if current_page <= 4 %}
+     {% for p in 1|make_range:"4" %}
+     {% if p == current_page %}
+     <li class="page-item active">
+        <a href="#" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% else %}
+     <li class="page-item">
+        <a href="?page={{ p }}{{getvars}}" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% endif %}
+     </li>
+     {% endfor %}
+     {% if current_page == 4 %}
+     <li class="page-item">
+       <a href="?page={{ 5 }}{{getvars}}" class="page-link" aria-label="{{ 5 }}">{{ 5 }}</a>
+     </li>
+     {% endif %}
+     <li class="page-item"><span class="page-link">...</span></li>
+     <li class="page-item">
+       <a href="?page={{ total_pages}}{{getvars}}"class=" page-link" aria-label="{{ total_pages }}">{{ total_pages }}</a>
+     </li>
+     {% elif current_page >= total_pages|add:"-3" %}
+     <li class="list-item">
+       <a href="?page={{ 1 }}{{getvars}}" class="page-link" aria-label="{{ 1 }}">{{ 1 }}</a>
+     </li>
+     <li class="page-item"><span class="page-link">...</span></li>
+     {% if current_page == total_pages|add:"-3" %}
+     <li class="page-item">
+       <a href="?page={{ total_pages|add:"-4" }}{{getvars}}" class="page-link" aria-label="{{ total_pages|add:"-4" }}">{{ total_pages|add:"-4" }}</a>
+     </li>
+     {% endif %}
+     {% with x=total_pages|add:"-3" %}
+     {% for p in x|make_range:"4" %}
+     {% if p == current_page %}
+     <li class="page-item active">
+       <a href="#" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% else %}
+     <li class="page-item">
+       <a href="?page={{ p }}{{getvars}}" class="page-link" aria-label="{{ p }}">{{ p }}</a>
+     {% endif %}
+     </li>
+     {% endfor %}
+     {% endwith %}
+
+     {% else %}
+     <li class="page-item">
+       <a href="?page={{ 1 }}{{getvars}}" class="page-link" aria-label="{{ 1 }}">{{ 1 }}</a>
+     </li>
+     <li class="page-item"><span class="page-link">...</span></li>
+     <li class="page-item">
+       <a href="?page={{ obj_list.previous_page_number }}{{getvars}}" class="page-link" aria-label="{{ obj_list.previous_page_number }}">{{ obj_list.previous_page_number }}</a>
+     </li>
+     <li class="page-item active">
+       <a href="#" class="page-link" aria-label="{{ current_page }}">{{ current_page }}</a>
+     </li>
+     <li class="page-item">
+       <a href="?page={{ obj_list.next_page_number }}{{getvars}}" class="page-link" aria-label="{{ obj_list.next_page_number }}">{{ obj_list.next_page_number }}</a>
+     </li>
+     <li class="page-item"><span class="page-link">...</span></li>
+     <li class="page-item">
+       <a href="?page={{ total_pages }}{{getvars}}" class="page-link" aria-label="{{ total_pages }}">{{ total_pages }}</a>
+     </li>
+    {% endif %}
+    {% endif %}
+    {% if obj_list.has_next %}
+    <li class="page-item">
+      <a href="?page={{ obj_list.next_page_number }}" class="page-link" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="page-item disabled">
+      <a href="#" class="page-link" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+{% endif %}
+</ul>
+
+{% endwith %}

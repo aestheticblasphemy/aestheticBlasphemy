@@ -26,8 +26,8 @@
 		<tbody>
 			{% for forms in formset.forms %}
     		<tr id="{{ forms.prefix }}-row" class="dynamic-form">
-				<td>{{ forms.field_name|as_crispy_field:"bootstrap3" }}</td>
-				<td>{{ forms.field_type|as_crispy_field:"bootstrap3" }}</td>
+				<td>{{ forms.field_name|as_crispy_field:"bootstrap4" }}</td>
+				<td>{{ forms.field_type|as_crispy_field:"bootstrap4" }}</td>
 		 		<td{% if forloop.first %} class="hidden"{% endif %}>
 					<a id="remove-{{ forms.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger"> Delete </a>
 				</td>

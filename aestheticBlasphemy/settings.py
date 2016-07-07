@@ -97,6 +97,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'aestheticBlasphemy.context_processors.site_processor',
+                'aestheticBlasphemy.context_processors.getvars',
                 'django.core.context_processors.media',
                 'django.core.context_processors.csrf',
             ],

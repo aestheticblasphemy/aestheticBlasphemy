@@ -42,8 +42,10 @@ from blogging.db_migrate import migrate
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 
+import datetime
 # import the logging library
 import logging
+from django.template.loader import get_template
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -746,18 +748,28 @@ def manage(request):
 #				 print "LOGS: " + pks
 				objs = BlogContent.objects.filter(pk__in=pks)
 				
-				if action == 'Promote':
-					print "LOGS: Promote the given aritcles"
+				if action == 'Publish':
+					print "LOGS: Promote the given articles"
 					for obj in objs:
-						obj.published_flag = True
-						obj.publication_start = timezone.now()
-						obj.save()
+						if obj.published_flag is not True:
+							obj.published_flag = True
+							obj.publication_start = datetime.datetime.now()
+							obj.save()
+				elif action == 'Unpublish':
+					print "LOGS: Unpublish the given articles"
+					for obj in objs:
+						if obj.published_flag is not False:
+							obj.published_flag = False
+							obj.publication_start = None
+							obj.save()
 				elif action == 'Delete':
 					for obj in objs:
 						obj.delete()
 		articles = BlogContent.objects.all()
-		paginator = Paginator(articles, 50,orphans=30)
 		page = request.GET.get('page')
+		size= request.GET.get('size', 15)
+		size = int(size)
+		paginator = Paginator(articles, size, orphans=30)
 		try:
 			pages = paginator.page(page)
 		except PageNotAnInteger:
@@ -766,13 +778,15 @@ def manage(request):
 		except EmptyPage:
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			pages = paginator.page(paginator.num_pages)
-		actions = [{"name":"Delete", "help":"Delete selected artcles"},
-				   {"name":"Promote", "help":"Promote selected artcles"},
+		actions = [{"name":"Publish", "help":"Promote selected articles"},
+				   {"name":"Unpublish", "help":"Unpublish selected articles"},
+				   {"name":"Delete", "help":"Delete selected articles"},
 				   ]
 		context = {"articles": pages, "actions": actions
 				   }
-		return render_to_response("blogging/manage.html", context, context_instance=RequestContext(request))
-	
+		
+		template = loader.get_template("blogging/manage.html")
+		return HttpResponse(template.render(context, request))
 	except OperationalError as exp:
 		print exp.__cause__
 		print "Unexpected error:", sys.exc_info()[0]

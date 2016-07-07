@@ -141,7 +141,7 @@ class UserProfile(BaseContentClass):
         if profile != None:
             return profile.get_avatar_url()
         else:
-            return settings.STATIC_URL + "images/add_new.png"
+            return settings.STATIC_URL + "images/user.png"
     
     def get_profile_name(self):
         name  = self.get_first_name(None)

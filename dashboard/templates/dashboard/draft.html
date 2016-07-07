@@ -2,34 +2,13 @@
 {% load social_profile %}
 {% load blogging_tags %}
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-		{% include 'dashboard/leftbar.html' with active="draft" %}
-        <div class="col-md-8 pT-50">
-			{% if request.user.is_authenticated %}
-				{% render_draft_articles request.user%}
-			{% endif %}
-        </div>
+<div class="container-fluid clearfix" id="wrapper">
+    <div class="overlay"></div>
+    {% include 'dashboard/leftbar.html' with active="draft" %}
+    <div id="page-content-wrapper" class="col-md-10 dashboard-panel">
+    {% if request.user.is_authenticated %}
+    {% render_draft_articles request.user%}
+    {% endif %}
     </div>
 </div>
-{% endblock %}
-{% block site-head %}
-    <nav class="navbar navbar-dark bg-inverse">
-        <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Aesthetic Blasphemy (Admin)</a>
-        <div id="navbar">
-          <nav class="nav navbar-nav pull-xs-left">
-            <a class="nav-item nav-link" href="/">Home</a>
-          </nav>
-          <button type="text" class="btn btn-danger pull-xs-right" data-target="/accounts/logout/?next=/">Logout</button>
-        </div>
-      </nav>
-{% endblock %}
-{% block navbar %}
-
 {% endblock %}

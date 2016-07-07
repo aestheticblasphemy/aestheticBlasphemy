@@ -18,6 +18,7 @@ from blogging.models import BlogContent
 from taggit.models import Tag
 from django.core.urlresolvers import reverse
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import sys
 import traceback
 
@@ -185,9 +186,25 @@ class DraftTag(InclusionTag):
     def _get_context(self,context, user):
         extra_context = {}
         if user:
-            extra_context['drafts'] = BlogContent.objects.filter(published_flag=False,special_flag=True,author_id=user)
+            blogs = BlogContent.objects.filter(published_flag=False,special_flag=True,author_id=user)
         else:
-            extra_context['drafts'] = BlogContent.objects.filter(published_flag=False,special_flag=True)
+            blogs = BlogContent.objects.filter(published_flag=False,special_flag=True)
+            
+        page = context['request'].GET.get('page', 1)
+        page = int(page)
+        size= context['request'].GET.get('size', 15)
+        size = int(size)
+        paginator = Paginator(blogs, size, orphans=30)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            pages = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            pages = paginator.page(paginator.num_pages)
+        
+        extra_context['drafts'] = pages
         return extra_context  
 
 class PendingTag(InclusionTag):
@@ -228,11 +245,25 @@ class PendingTag(InclusionTag):
     def _get_data_context(self,context,user):
         extra_context = copy(context)
         if user:
-            print "User ", user
-            extra_context['pending'] = BlogContent.objects.filter(published_flag=False,special_flag=False,author_id=user)
-            print "Printing pending articles ", extra_context['pending']
+            blogs = BlogContent.objects.filter(published_flag=False,special_flag=False,author_id=user)
         else:
-            extra_context['pending'] = BlogContent.objects.filter(published_flag=False,special_flag=False)
+            blogs = BlogContent.objects.filter(published_flag=False,special_flag=False)
+            
+        page = context['request'].GET.get('page', 1)
+        page = int(page)
+        size= context['request'].GET.get('size', 15)
+        size = int(size)
+        paginator = Paginator(blogs, size, orphans=30)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            pages = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            pages = paginator.page(paginator.num_pages)
+        
+        extra_context['pending'] = pages
         return extra_context
             
 
@@ -244,12 +275,6 @@ class PendingTag(InclusionTag):
 class ReviewTag(InclusionTag):
     template = 'blogging/templatetags/review.html'
     name = 'render_review_articles'
-#     options = Options(
-#         Argument('template_name'),
-#         Argument('count'),
-#         Argument('base_parent', default=None, required=False),
-#         Argument('tags', default=None, required=False),
-#     )
 
     def __init__(self, parser, tokens):
         self.parser = parser
@@ -278,7 +303,24 @@ class ReviewTag(InclusionTag):
             return "Http404"
     def _get_context(self,context, **kwargs):
         extra_context = {}
-        extra_context['review'] = BlogContent.objects.filter(published_flag=False,special_flag=False)
+        
+        blogs = BlogContent.objects.filter(published_flag=False,special_flag=False)
+
+        page = context['request'].GET.get('page', 1)
+        page = int(page)
+        size= context['request'].GET.get('size', 15)
+        size = int(size)
+        paginator = Paginator(blogs, size, orphans=30)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            pages = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            pages = paginator.page(paginator.num_pages)
+            
+        extra_context['review'] = pages
         return extra_context  
 
 
@@ -320,11 +362,26 @@ class PublishedTag(InclusionTag):
     def _get_data_context(self,context,user):
         extra_context = copy(context)
         if user:
-            print "User ", user
-            extra_context['published'] = BlogContent.objects.filter(published_flag=True,author_id=user)
-            print "Printing published articles ", extra_context['published']
+            blogs = BlogContent.objects.filter(published_flag=True,author_id=user)
         else:
-            extra_context['published'] = BlogContent.objects.filter(published_flag=True)
+            blogs = BlogContent.objects.filter(published_flag=True)
+            
+        page = context['request'].GET.get('page', 1)
+        page = int(page)
+        size= context['request'].GET.get('size', 15)
+        size = int(size)
+        paginator = Paginator(blogs, size, orphans=30)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            pages = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            pages = paginator.page(paginator.num_pages)
+        extra_context['published'] = pages
+        
+        print "Printing published articles ", extra_context['published']
         return extra_context
             
 

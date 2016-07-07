@@ -2,14 +2,13 @@
 {% load social_profile %}
 {% load blogging_tags %}
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-		{% include 'dashboard/leftbar.html' with active="published" %}
-        <div class="col-md-8 pT-50">
-			{% if request.user.is_authenticated %}
-				{% render_published_articles request.user%}
-			{% endif %}
-        </div>
+<div class="container-fluid clearfix" id="wrapper">
+    <div class="overlay"></div>
+    {% include 'dashboard/leftbar.html' with active="published" %}
+    <div id="page-content-wrapper" class="col-md-10 dashboard-panel">
+    {% if request.user.is_authenticated %}
+    {% render_published_articles request.user%}
+    {% endif %}
     </div>
 </div>
 {% endblock %}

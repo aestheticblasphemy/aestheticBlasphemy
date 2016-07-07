@@ -13,7 +13,9 @@ It defined the wrapper class for specified content type.
 """
 
 class DefaultblogForm(forms.Form):
-    content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author'))
+    content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author',
+                                                                attrs={'row': 20,
+                                                                       'cols': 25}))
     title = forms.CharField(max_length = 100, 
                             widget=forms.TextInput(attrs={  'placeholder': 'Title of post',
                                                             'class':"form-control",}),

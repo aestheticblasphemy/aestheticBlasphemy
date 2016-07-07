@@ -6,8 +6,9 @@ function GlobalSiteContainer(){
 	this.user = {
             id: "0",
             username: "Guest",
-            gravatar: "images/male.png",
+            gravatar: "images/user.png",
             url: "#",
+            is_admin: false,
         };
 	
 	this.setupUser = function(user){
@@ -16,8 +17,9 @@ function GlobalSiteContainer(){
 	        ABC.user = {
 	                id: "0",
 	                username: "Guest",
-	                gravatar: "images/male.png",
+	                gravatar: "images/user.png",
 	                url: "#",
+	                isAdmin: false,
 	            };
 	    }
 	    else{

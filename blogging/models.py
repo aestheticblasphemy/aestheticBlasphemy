@@ -255,7 +255,6 @@ class BlogContent(BaseContentClass):
         return tag_list
     
     def get_author(self):
-        print self.author_id #Anshul: Changed, don't remember why. Maybe in REST
         return self.author_id
         #return self.author_id.first_name or self.author_id.username  
     def get_modified_year(self):
