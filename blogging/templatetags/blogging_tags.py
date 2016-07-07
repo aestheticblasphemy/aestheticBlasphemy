@@ -391,14 +391,18 @@ class PublishedTag(InclusionTag):
 
 @register.assignment_tag
 def get_blogging_tags():
-    tags = Tag.objects.all()[:10]
+    from random import sample
+    count = Tag.objects.all().count()
+    rand_ids = sample(xrange(1, count), 15)
+    
+    tags = Tag.objects.filter(id__in=rand_ids)
     tag_list = []
     for tag in tags:
         try:
             tmp = {}
             tmp['name'] = tag.slug
             kwargs = {'tag': tag.slug,}
-            if len(tmp['name']) > 0:                    
+            if len(tmp['name']) > 0:
                 tmp['url'] = reverse('blogging:tagged-posts',kwargs=kwargs)
                 tag_list.append(tmp)
             else:
