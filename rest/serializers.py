@@ -97,7 +97,10 @@ class CommentSerializer(ModelSerializer):
         if comment.author is not None and settings.COMMENT_MODERATION_ENABLED is not True:
             comment.published = True
         elif comment.author is not None and comment.author.is_staff:
-            comment.published = True 
+            comment.published = True
+        
+        comment.parent_comment = validated_data.get('parent_comment', None)
+        print comment.parent_comment
 
         comment.save()
         return comment

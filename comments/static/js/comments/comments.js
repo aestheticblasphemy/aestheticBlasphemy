@@ -30,6 +30,7 @@ $(document).ready(function(){
 		/* Bind click event */
 		$('#post_comment').on('click', postComment);
 	};
+	
 	/**
 	 * loadForm
 	 * @brief Fetch the Form HTML from Server
@@ -66,6 +67,21 @@ $(document).ready(function(){
 		});
 	};
 	
+	/**
+	 * replyToComment
+	 * 
+	 * @brief Clone the already existing form here and fill in the proper values
+	 */
+	var replyToComment = function(){
+		comment = $(this).parents('.comments-container-item');
+		id= parseInt(comment.attr('data-comment-id').split('_').slice(-1)[0]);
+		console.log(id);
+		form = $('.form-body').detach();
+		form.find('#id_parent_comment').val(id);
+		console.log(form.find('#id_parent_comment').val());
+		form.insertAfter(comment);
+	};
+
 	/**
 	 * postComment
 	 * @brief : Posts an annotation.
@@ -117,7 +133,7 @@ $(document).ready(function(){
 				author_name: (author_name.length > 0 ? author_name: null),
 				author_email: (author_email.length >0? author_email: null),
 				author_url: (author_url.length > 0? author_url: null),
-				parent_comment: null,
+				parent_comment: $('#id_parent_comment').val(),
 				post: post,
 				published : false,
 			};
@@ -223,6 +239,14 @@ $(document).ready(function(){
 		//console.log('Scroll to active view');
 		//console.log($('.comments-container-item[data-comment-id="cid_'+data['id']+'"]'));
 		//console.log($('.comments-container-item[data-comment-id="cid_'+data['id']+'"]').offset());
+		if(!$('.form-body').prev().hasClass('card-header')){
+			console.log('reattach');
+			form = $('.form-body').detach();
+			console.log($('#article-adjunct-tab-comments .card-header'));
+			form.insertAfter($('#article-adjunct-tab-comments .card-header'));
+			form.find('#id_parent_comment').prop('selectedIndex',0);
+			console.log(form.find('#id_parent_comment').val());
+		}
 		$('html, body').animate({
 	        scrollTop: $('.comments-container-item[data-comment-id="cid_'+data['id']+'"]').offset().top
 	    }, 2000);
@@ -237,7 +261,6 @@ $(document).ready(function(){
 	 */
 	var renderComments = function(data){
 		//console.log('renderComments');
-		console.log(data);
 		if ((typeof(commentContainer) === 'undefined') || 
 											commentContainer === null){
 			/* Create a fresh copy of the variable*/
@@ -256,6 +279,13 @@ $(document).ready(function(){
             					'<div class="comments-container--block">'+
             					'<a class="comments-author-link" href="#"><span class="comments-author-name"></span></a>'+
             					'<span class="comments-container--text"></span>'+
+            					'<div class="comments-control-box btn-group">'+
+            					'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+            					'<span class="fa fa-ellipsis-v"</span></button>'+
+            					'<div class="dropdown-menu">'+
+            					'<span class="dropdown-item comments-control comment-reply">Reply</span>'+
+            					'</div>'+
+            					'</div>'+
             					'</div>'+
             					'</div>');
 			
@@ -271,18 +301,13 @@ $(document).ready(function(){
 				currentComment.find('.comments-author-image').attr('src', data[i]['author']['gravatar']);
 			}
 			currentComment.find('.comments-container--text').text(data[i]['body']);
+			currentComment.find('.comment-reply').on('click', replyToComment);
 			/* Also add to main container if the comment has no parent. */
 			if(ABC.user['is_admin'] || (data[i]['author'] != null && data[i]['author']['id'] == ABC.user['id'])){
-				controls = $('<div class="comments-control-box btn-group">'+
-    					'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
-    					'<span class="fa fa-ellipsis-v"</span></button>'+
-    					'<div class="dropdown-menu">'+
-    					'<span class="dropdown-item comments-control comments-delete">Delete</span>'+
-    					'</div>'+
-    					'</div>');
-				currentComment.find('.comments-container--block').append(controls);
-				currentComment.find('.comments-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
-				currentComment.find('.comments-delete').on('click', deleteComment);
+				controls = $('<span class="dropdown-item comments-control comment-delete">Delete</span>');
+				currentComment.find('div.dropdown-menu').append(controls);
+				currentComment.find('.comment-delete').attr('data-comment-id', 'cid_'+data[i]['id']);
+				currentComment.find('.comment-delete').on('click', deleteComment);
 				if(data[i]['published']==false && ABC.user['is_admin']){
 					currentComment.find('div.dropdown-menu').append($('<span class="dropdown-item comments-control comment-publish">Publish</span>'));
 					currentComment.find('.comment-publish').attr('data-comment-id', 'cid_'+data[i]['id']);
