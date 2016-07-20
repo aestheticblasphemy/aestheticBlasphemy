@@ -13,12 +13,12 @@
                           <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
                        </header>
                         <p>{{ node.get_summary }}</p>
-                        <span>Posted on:</p> <strong>{{ node.publication_start|naturalday }}</strong></span>
+                        <span>Posted on: <strong>{{ node.publication_start|naturalday }}</strong></span>
                         <span><a class="btn btn-default btn-more" href="{{ node.get_absolute_url }}" role="button">Read More</a></span>
-                        <div class="teaser-tags"><span class="fa fa-tags"></span> <span><b>Tags:</b></span>
+                        <div class="teaser-tags">
                           <ul class="tag-list">
                           {% for tag in node.get_tags %}
-                            <li> <a href="{{ tag.url }}"> {{ tag.name }}</a></li>
+                            <li> <span>#</span><a href="{{ tag.url }}">{{tag.name}}</a></li>
                           {% endfor %} 
                           </ul>
                         </div>

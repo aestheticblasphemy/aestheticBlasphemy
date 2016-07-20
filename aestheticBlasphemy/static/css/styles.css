@@ -234,9 +234,13 @@ body {
   .site-mast .stationary-login {
     position: absolute;
     top: 1em;
-    right: 1em; }
+    right: 1em;
+    color: #888; }
     .site-mast .stationary-login * {
       background-color: #ffffff; }
+    .site-mast .stationary-login a {
+      text-decoration: none;
+      color: #818181; }
     .site-mast .stationary-login .btn, .site-mast .stationary-login button {
       border-radius: 0.5em;
       border-width: 1px;
@@ -350,6 +354,8 @@ body {
       text-align: left; }
     .teaser-list .teaser-item .teaser-tags > * {
       display: inline-block; }
+    .teaser-list .teaser-item .teaser-tags .tag-list {
+      padding-left: 0; }
 
 .tag-list {
   list-style: none; }
@@ -723,5 +729,20 @@ footer {
     position: absolute;
     bottom: 0.5em;
     right: 0.5em; }
+
+.login-block {
+  max-width: 354px;
+  width: auto; }
+  .login-block .card-text {
+    margin-top: 10px;
+    font-size: 1.5rem; }
+  .login-block .c-indicator {
+    transform: translate(0, 35%); }
+  .login-block .btn-block {
+    margin-left: 5%;
+    margin-right: 5% px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    width: 90%; }
 
 /*# sourceMappingURL=styles.css.map */

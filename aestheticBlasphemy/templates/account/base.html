@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+<div class="content-area clearfix">
+{% block content %} 
+{% block messages %}
+{% include "message-panel.html" with messages=messages only %}
+{% endblock %}
+	<div id="priSect" class="pT-8 pB-16">
+	    <div class="_layout layout-L mdl-grid">
+	        <section class="__c mdl-cell mdl-cell--12-col pA-0">
+	            <div class="banner">
+	            {% block auth_content %}{% endblock %}
+	            </div>
+	        </section>
+	    </div>
+	</div>
+{% endblock %}
+</div>

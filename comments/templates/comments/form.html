@@ -2,29 +2,29 @@
 {% load socialaccount %}
 <div class="comment-form-head card-header">Leave a comment</div>
 <div class="card-text form-body">
-	<form id="comment-form" class="comment-form" autocomplete="on">
-	    {{ comment.non_field_errors }}
-	    <fieldset>
-	        {% csrf_token %}
-	        <div class="control-group invisible hidden-xs-up">
-	            {{ comment.post.errors }}
-	            <label for="{{ comment.post.id_for_post}}" 
-	                        class="control-label">Post ID:</label>
-	            <div class="controls">
-	                {{ comment.post }}
-	            </div>
-	            {{ comment.parent_comment.errors }}
-	            <label for="{{ comment.parent_comment.id_for_parent_comment }}" 
-	                                class="control-label">Parent Comment ID:</label>
-	            <div class="controls">
-	                {{ comment.parent_comment }}
-	            </div>
-	        </div>
-	        <div>
-	        {% if request.user.is_authenticated != True %}
-		        <div class="social-login-buttons">
-		          <small class="talk">Login using </small>
-		          {% get_providers as providers %}
+    <form id="comment-form" class="comment-form" autocomplete="on">
+        {{ comment.non_field_errors }}
+        <fieldset>
+            {% csrf_token %}
+            <div class="control-group invisible hidden-xs-up">
+                {{ comment.post.errors }}
+                <label for="{{ comment.post.id_for_post}}" 
+                            class="control-label">Post ID:</label>
+                <div class="controls">
+                    {{ comment.post }}
+                </div>
+                {{ comment.parent_comment.errors }}
+                <label for="{{ comment.parent_comment.id_for_parent_comment }}" 
+                                    class="control-label">Parent Comment ID:</label>
+                <div class="controls">
+                    {{ comment.parent_comment }}
+                </div>
+            </div>
+            <div>
+            {% if request.user.is_authenticated != True %}
+                <div class="social-login-buttons">
+                  <small class="talk">Login using </small>
+                  {% get_providers as providers %}
                   {% for provider in providers %}
                     {% if provider.name == "Facebook" %}
                     <a title="Facebook" class="social-account-fb" href="{% provider_login_url provider.id process='login' next=path|safe %}">
@@ -40,47 +40,47 @@
                     </a>
                     {% endif %}
                   {% endfor %}
-		        </div> 
-	            
-	            <div class="row form-group">
-		            {{ comment.author_name.errors }}
-		            <label for="{{ comment.author_name.id_for_author_name}}" class="form-control-label sr-only">Name</label>
-	                {{ comment.author_name }}
-		        </div>
-		        <div class="row form-group">
-	                {{ comment.author_email.errors }}
-	                <label for="{{ comment.author_email.id_for_author_email }}" class="form-control-label sr-only">e-mail</label>
+                </div> 
+                
+                <div class="row form-group">
+                    {{ comment.author_name.errors }}
+                    <label for="{{ comment.author_name.id_for_author_name}}" class="form-control-label sr-only">Name</label>
+                    {{ comment.author_name }}
+                </div>
+                <div class="row form-group">
+                    {{ comment.author_email.errors }}
+                    <label for="{{ comment.author_email.id_for_author_email }}" class="form-control-label sr-only">e-mail</label>
                     {{ comment.author_email }}
-	            </div>
-	            <div class="row form-group">
-					{{ comment.author_url.errors }}
-					<label for="{{ comment.author_url.id_for_url }}" class="form-control-label sr-only">Homepage</label>
-					{{ comment.author_url }}
-	            </div>
-	        {% else %}
-	            <div class="row form-group ">
-	                <label for="name" class="form-control-label sr-only">Name</label>
-                  	<input class ="user-input form-control" type="text" id="id_author_name" name="name" value="{{ request.user.profile.get_profile_name }}" disabled></input>
-	            </div>
-	            <div class="row form-group ">
-	                <label for="email" class="form-control-label sr-only">e-mail</label>
+                </div>
+                <div class="row form-group">
+                    {{ comment.author_url.errors }}
+                    <label for="{{ comment.author_url.id_for_url }}" class="form-control-label sr-only">Homepage</label>
+                    {{ comment.author_url }}
+                </div>
+            {% else %}
+                <div class="row form-group ">
+                    <label for="name" class="form-control-label sr-only">Name</label>
+                      <input class ="user-input form-control" type="text" id="id_author_name" name="name" value="{{ request.user.profile.get_profile_name }}" disabled></input>
+                </div>
+                <div class="row form-group ">
+                    <label for="email" class="form-control-label sr-only">e-mail</label>
                     <input class ="user-input form-control" type="email" id="id_author_email" name="email" value="{{ request.user.profile.get_email }}" disabled></input>
-	            </div>
-	            <div class="row form-group ">
-	                <label for="url" class="form-control-label sr-only">Homepage</label>
+                </div>
+                <div class="row form-group ">
+                    <label for="url" class="form-control-label sr-only">Homepage</label>
                     <input class ="user-input form-control" type="url" id="id_author_url" name="url" placeholder="www." value="{{ request.user.profile.get_website|default:"" }}"></input>
-	            </div>
-	        {% endif %}
-	        </div>
-	        <div class="row form-group ">
-	            {{ comment.body.errors }}
-	            <label for="{{ comment.body.id_for_body }}" class="form-control-label sr-only">Comment</label>
+                </div>
+            {% endif %}
+            </div>
+            <div class="row form-group ">
+                {{ comment.body.errors }}
+                <label for="{{ comment.body.id_for_body }}" class="form-control-label sr-only">Comment</label>
                 {{ comment.body }}
-	        </div>
-			<div class="row form-group">
+            </div>
+            <div class="row form-group">
                 <button id="post_comment" type="button" class="btn btn-primary btn-block btn-lg" title="Make a POST request on the Comments resource">Post Comment</button>
-	        </div>
+            </div>
         </fieldset>
-	</form>
+    </form>
 </div>
 {% providers_media_js %}

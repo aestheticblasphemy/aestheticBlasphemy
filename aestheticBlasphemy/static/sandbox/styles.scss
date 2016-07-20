@@ -51,9 +51,15 @@ body{
     position: absolute;
     top:1em;
     right:1em;
+    color: #888;
 
     *{
     background-color: #ffffff;
+    }
+
+    a{
+    text-decoration:none;
+    color: #818181;
     }
 
     .btn, button{
@@ -225,6 +231,10 @@ body{
 
         > * {
         display: inline-block;
+        }
+
+        .tag-list{
+          padding-left:0;
         }
       }
     }
@@ -758,4 +768,26 @@ footer{
     right:0.5em;
   }
 
+}
+
+.login-block{
+  max-width:354px;
+  width:auto;
+
+  .card-text{
+    margin-top:10px;
+    font-size:1.5rem;
+  }
+
+  .c-indicator{
+    transform: translate(0,35%);
+  }
+
+  .btn-block{
+    margin-left: 5%;
+    margin-right: 5%px;
+    margin-bottom:10px;
+    border-radius:0;
+    width:90%;
+  }
 }

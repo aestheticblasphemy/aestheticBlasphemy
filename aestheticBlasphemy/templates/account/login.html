@@ -1,0 +1,58 @@
+{% extends "account/base.html" %}
+{% load staticfiles %}
+{% load account socialaccount %}
+
+{% block title %}Login to {{ site.name }}{% endblock %}
+
+{% block content %}
+    <div class="card center-block login-block text-xs-center">
+    {% get_providers as providers %}
+    {% if providers %}
+        <h3 class="card-text">Log in with</h3>
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+        {% include "socialaccount/snippets/login_extra.html" %}
+        <div class="text-xs-center">
+            <hr/>
+            <span>or</span>
+            <hr/>
+        </div>
+    {% else %}
+        <h1 class="card-text">Log in</h1>
+    {% endif %}
+        <form class="text-xs-center center-block" method="POST" action="{% url 'account_login' %}">
+           {% csrf_token %}
+            <fieldset>
+                <div id="div_id_login" class="form-group">
+                    <label for="id_login" class="form-control-label sr-only">Username</label>
+                    <input id="id_login" autofocus="autofocus" maxlength="30" name="login" placeholder="Username" type="text" value="{{ form.login.value|default_if_none:'' }}"/>
+                {% if form.login.errors %}
+                    {% for error in form.login.errors %}<span class="errormsg">{{ error|escape }}</span>{% endfor %}
+                {% endif %}
+                </div>    
+                <div id="div_id_password" class="form-group">
+                    <label for="id_password" class="form-control-label sr-only"></label>
+                    <input id="id_password" name="password" placeholder="Password" type="password"/>
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}<span class="errormsg">{{ error|escape }}</span>{% endfor %}
+                {% endif %}    
+                {% for error in form.non_field_errors %}
+                    <span class="errormsg">{{ error }}</span>
+                {% endfor %}
+                </div>
+                <div id="div_id_remember" class="form-group">
+                    <label for="id_remember" class="form-control-label c-input c-checkbox">
+                        <input id="id_remember" name="remember" type="checkbox" />
+                        <span class="c-indicator"></span>
+                        <span>{{form.remember.label}}</span>
+                    </label>
+                </div>
+              {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}        
+            </fieldset>
+            <div class="">
+                <button class="btn btn-primary btn-block" type="submit">Log In</button> 
+            </div>
+        </form>
+    </div>
+{% endblock %}

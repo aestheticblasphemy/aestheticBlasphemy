@@ -1,0 +1,13 @@
+{% extends "socialaccount/base.html" %}
+
+{% block title %}Social Network Login Failure - {{ site.name }}{% endblock %}
+
+{% block content %}
+<div class="card center-block login-block text-xs-center">
+    <h3 class="card-header text-warn">Social Network Login Failure</h3>
+    <p>
+        <span>An error occurred while attempting to login via your social network account.</span>
+        <a href={% url 'account_login' %}>Retry.</a>
+    </p>
+</div>
+{% endblock %}
