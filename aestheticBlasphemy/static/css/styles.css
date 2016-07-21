@@ -275,7 +275,41 @@ body {
 .site-nav {
   margin: 0 auto;
   padding: 2% 0;
-  width: 100%; }
+  width: 100%;
+  position: relative; }
+  .site-nav .slidein {
+    margin-left: 0;
+    transition: margin-left 0.5s; }
+  @media (max-width: 544px) {
+    .site-nav .navbar-toggleable-xs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20rem;
+      margin: 0;
+      margin-left: -20rem;
+      padding: 0;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-width: 0 1px 0 0;
+      border-style: solid;
+      border-radius: 0px;
+      z-index: 1;
+      display: block; }
+      .site-nav .navbar-toggleable-xs .navbar-cross {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding-top: 1rem;
+        padding-right: 1rem; }
+        .site-nav .navbar-toggleable-xs .navbar-cross + * {
+          padding-top: 2rem; }
+      .site-nav .navbar-toggleable-xs ul.navbar-nav li {
+        display: block;
+        width: 100%; }
+      .site-nav .navbar-toggleable-xs.slidein {
+        margin-left: 0;
+        transition: margin-left 0.5s; } }
   .site-nav .nav-item.dropdown-toggle {
     margin-left: 0;
     padding-left: 0; }
