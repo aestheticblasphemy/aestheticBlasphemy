@@ -60,3 +60,4 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+aestheticBlasphemy/custom_settings.py
