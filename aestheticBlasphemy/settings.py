@@ -115,10 +115,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'migratedb',
+        'NAME': 'aestheticblasphemy',
         'HOST': '127.0.0.1', 
-        'USER': 'root', 
-        'PASSWORD': 'root', 
+        'USER': DB_NAME,
+        'PASSWORD': DB_PASSWORD, 
         'PORT': '3306',
         'TIME_ZONE': 'Asia/Kolkata',
     }
@@ -167,15 +167,15 @@ SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+#STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 STATICFILES_DIRS = [
                     os.path.join(PROJECT_PATH, 'static'),
                 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+#MEDIA_URL = '/media/'
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -185,7 +185,7 @@ AUTHENTICATION_BACKENDS = [
     ]
 
 LOGIN_REDIRECT_URL = '/'
-
+#
 #LOGGING = {
 #    'version': 1,
 #    'disable_existing_loggers': False,
@@ -512,7 +512,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': STATIC_ROOT+'/logs/log.txt',
+            'filename': STATIC_ROOT+'/logging/log.txt',
         },
     },
     'loggers': {
