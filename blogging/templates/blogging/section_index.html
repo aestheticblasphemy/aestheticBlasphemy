@@ -4,25 +4,67 @@
 <nav class="site-nav clearfix">
     <button id='navSlide' class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse-ing" data-target="#siteNavCollapse">&#9776;</button>
     <div class="collapse navbar-toggleable-xs" id="siteNavCollapse">
-        <button id='navSlideback' class="navbar-toggler hidden-sm-up navbar-cross" type="button" data-toggle="collapse-ing" data-target="#siteNavCollapse">&#10005;</button>
-        <ul class="nav navbar-nav dropdown clearfix" role="menu" aria-labelledby="dropdownMenu">
+        {% comment %}On regular screens {% endcomment %}
+        <ul class="nav navbar-nav dropdown hidden-xs-down clearfix" role="menu" aria-labelledby="dropdownMenu">
         {% recursetree sections %}
         {% if not node.is_leaf_node %}
-          <li class="btn-group">
+          <li class="btn-group panel">
             <a type="button" class="btn" href="{{ node.get_content_url }}">{{ node.get_menu_title }}</a>
-            <a type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle Dropdown</span></a>
-            <ul class="dropdown-menu">
-            {{ children }}
-            </ul>
-        {% elif node.parent == None %}
-          <li class="btn-group">
-            <span type="button" class="btn"><a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a></span>
-        {% else %}
-          <li class="dropdown-item">
-            <a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a>
-        {% endif %}        
+            <a type="button" class="btn navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#siteNav{{ node.id }}" aria-haspopup="true" aria-expanded="false" data-parent="#siteNavCollapse"><span class="sr-only">Toggle Dropdown</span></a>
           </li>
+        {% elif node.parent == None %}
+          <li class="btn-group panel">
+            <span type="button" class="btn"><a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a></span>
+          </li>
+        {% endif %}
         {% endrecursetree %}
+        <li class="btn-group panel">
+          <a type="button" class="btn" href="/about">About Me</a>
+        </li>
+        </ul>
+        
+        {% recursetree sections %}
+        {% if not node.is_leaf_node %}
+        <ul class="collapse collapse-container nav navbar-nav clearfix" id="siteNav{{ node.id }}">
+        {{ children }}
+        </ul>
+        {% elif node.parent == None %}
+        <span class="hidden-xs-up"></span>
+        {% else %}
+          <li class="btn-group panel">
+            <a type="button" class="btn" href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a>
+          </li>
+        {% endif %}
+        {% endrecursetree %}
+        
+        {% comment %}small screens{% endcomment %}
+        <ul id="toggleNav" class="nav navbar-nav dropdown hidden-sm-up clearfix" role="menu" aria-labelledby="dropdownMenu">
+        <li class="btn-group hidden-sm-up panel">
+          <a type="button" class="btn" href="/">Home</a>
+          <a id='navSlideback' type="button" class="navbar-toggler hidden-sm-up navbar-cross" data-toggle="collapse-ing" data-target="#toggleNav">&#10005;</a>
+        </li>
+        {% recursetree sections %}
+        {% if not node.is_leaf_node %}
+        <li class="btn-group panel">
+          <a type="button" class="btn" href="{{ node.get_content_url }}">{{ node.get_menu_title }}</a>
+          <a type="button" class="btn navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#siteNav{{ node.id }}Sm" aria-haspopup="true" aria-expanded="false" data-parent="#siteNavCollapse"><span class="sr-only">Toggle Dropdown</span></a>
+          <ul class="collapse" id="siteNav{{ node.id }}Sm">
+            {{ children }}
+          </ul>
+        </li>
+        {% elif node.parent == None %}
+        <li class="btn-group panel">
+          <span type="button" class="btn"><a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a></span>
+        </li>
+        {% else %}
+        <li class="dropdown-item">
+          <a href="{{ node.get_content_url }}" >{{ node.get_menu_title }}</a>
+        </li>
+        {% endif %}
+        {% endrecursetree %}
+        <li class="btn-group panel">
+          <a type="button" class="btn" href="/about">About Me</a>
+        </li>
         </ul>
     </div>
 </nav>

@@ -13,4 +13,8 @@ $(document).ready(function(){
 	
 	$('#navSlide').on('click', showSidebar);
 	$('#navSlideback').on('click', hideSidebar);
+	
+	$('.collapse-container').on('show.bs.collapse', function () {
+		$(this).siblings('.collapse-container').collapse('hide');
+	});
 });
