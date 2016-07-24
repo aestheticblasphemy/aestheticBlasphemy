@@ -294,7 +294,7 @@ $(document).ready(function(){
 			if(data[i]['author']===null){
 				currentComment.find('.comments-author-name').text(data[i]['author_name']);
 				currentComment.find('.comments-author-link').attr('href',data[i]['author_url']);
-				currentComment.find('.comments-author-image').attr('src', '/static/images/user.png');
+				currentComment.find('.comments-author-image').attr('src', '/static/static/images/user.png');
 			}else{
 				currentComment.find('.comments-author-name').text(data[i]['author']['username']);
 				currentComment.find('.comments-author-link').attr('href',data[i]['author']['url']);
