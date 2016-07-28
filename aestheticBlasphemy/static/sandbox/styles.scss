@@ -53,6 +53,12 @@ body{
     right:1em;
     color: #888;
 
+    @media only screen and (max-width: 640px)
+    {
+      top: 9em;
+      z-index:2;
+    }
+
     *{
     background-color: #ffffff;
     }

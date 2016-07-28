@@ -236,6 +236,10 @@ body {
     top: 1em;
     right: 1em;
     color: #888; }
+    @media only screen and (max-width: 640px) {
+      .site-mast .stationary-login {
+        top: 9em;
+        z-index: 2; } }
     .site-mast .stationary-login * {
       background-color: #ffffff; }
     .site-mast .stationary-login a {
