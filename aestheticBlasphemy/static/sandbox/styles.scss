@@ -169,6 +169,30 @@ body{
         transition:margin-left 0.5s;
       }
     }
+
+    #siteNavCollapse.slidein{
+
+      ul{
+        border-left-width:0;
+        border-right-width:0;
+        border-color: rgba(83,83,83, 0.5);
+      }
+
+      li .btn{
+        padding-left:0.5%;
+      }
+      a {
+        color: #f3f3f3;
+        text-decoration:none;
+      } 
+
+      .dropdown-item{
+        padding-left:0.8%;
+        &:hover{
+          background-color:rgba(63,63,63, 1);
+        }
+      }
+    }
   }
 
   .btn.navbar-toggler{
@@ -289,9 +313,9 @@ body{
         padding-bottom: 1.2em;
         display: table-cell;
         width:70%;
-        @media only screen and (min-width: 640px)
+        @media only screen and (max-width: 640px)
         {
-         // padding-left: 30%;
+         width:100%;
         }
 
         > * {
