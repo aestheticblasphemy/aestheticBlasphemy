@@ -84,7 +84,7 @@ class ContentTypeCreationForm(forms.ModelForm):
 		self.helper1.form_id = 'id-ContentTypeCreationForm'
 		#		self.helper.form_class = 'blueForms'
 		self.helper1.form_class = 'form-inline'
-		self.helper1.field_template = 'bootstrap3/layout/inline_field.html'
+		self.helper1.field_template = 'bootstrap4/layout/inline_field.html'
 		self.helper1.form_tag = False
 #		self.helper1.template = 'blogging/inline_field.html'
 
