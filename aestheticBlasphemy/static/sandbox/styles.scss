@@ -3,8 +3,8 @@
 
 
 $body-bg : #ffffff;
-$screen-lg: 920px;
-$screen-md: 740px;
+$screen-lg: 991px;
+$screen-md: 767px;
 
 $default-border-color: rgba(233,233,233,0.7);
 
@@ -52,12 +52,6 @@ body{
     top:1em;
     right:1em;
     color: #888;
-
-    @media only screen and (max-width: 640px)
-    {
-      top: 9em;
-      z-index:2;
-    }
 
     *{
     background-color: #ffffff;
@@ -122,8 +116,8 @@ body{
     transition:margin-left 0.5s;
   }
 
-  @media (max-width: 544px){
-    .navbar-toggleable-xs{
+  @media (max-width: 767px){
+    .navbar-toggleable-sm{
       position:fixed;
       top:0;
       left:0;
@@ -291,7 +285,7 @@ body{
         overflow: hidden;
         text-align: center;
 
-        @media (min-width: 640px){
+        @media (min-width: 767px){
           display: table-cell;
           width:30%;
           margin:0;

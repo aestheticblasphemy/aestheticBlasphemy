@@ -2,10 +2,10 @@
 {% load mptt_tags %}
 
 <nav class="site-nav clearfix">
-    <button id='navSlide' class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse-ing" data-target="#siteNavCollapse">&#9776;</button>
-    <div class="collapse navbar-toggleable-xs" id="siteNavCollapse">
+    <button id='navSlide' class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse-ing" data-target="#siteNavCollapse">&#9776;</button>
+    <div class="collapse navbar-toggleable-sm" id="siteNavCollapse">
         {% comment %}On regular screens {% endcomment %}
-        <ul class="nav navbar-nav dropdown hidden-xs-down clearfix" role="menu" aria-labelledby="dropdownMenu">
+        <ul class="nav navbar-nav dropdown hidden-sm-down clearfix" role="menu" aria-labelledby="dropdownMenu">
         {% recursetree sections %}
         {% if not node.is_leaf_node %}
           <li class="btn-group panel">
@@ -38,10 +38,25 @@
         {% endrecursetree %}
         
         {% comment %}small screens{% endcomment %}
-        <ul id="toggleNav" class="nav navbar-nav dropdown hidden-sm-up clearfix" role="menu" aria-labelledby="dropdownMenu">
-        <li class="btn-group hidden-sm-up panel">
+        <ul id="toggleNav" class="nav navbar-nav dropdown hidden-md-up clearfix" role="menu" aria-labelledby="dropdownMenu">
+        <li class="btn-group hidden-md-up panel">
           <a type="button" class="btn" href="/">Home</a>
-          <a id='navSlideback' type="button" class="navbar-toggler hidden-sm-up navbar-cross" data-toggle="collapse-ing" data-target="#toggleNav">&#10005;</a>
+          <a id='navSlideback' type="button" class="navbar-toggler hidden-md-up navbar-cross" data-toggle="collapse-ing" data-target="#toggleNav">&#10005;</a>
+        </li>
+        <li class="btn-group hidden-md-up panel">
+            {% if request.user.is_authenticated and request.user.is_staff %}
+            <a type="button" class="btn" href="{% url 'dashboard:dashboard-home' %}">Dashboard ({{ request.user.profile.get_profile_name }})</a>
+            <a type="button" class="btn navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#siteNavDashboardInner" aria-haspopup="true" aria-expanded="false" data-parent="#siteNavCollapse"><span class="sr-only">Toggle Dropdown</span></a>
+            <ul class="collapse" id="siteNavDashboardInner">
+                <li class="dropdown-item">
+                  <a href="{% url 'account_logout' %}?next={{ request.path|safe }}">Logout</a>
+                </li>
+            </ul>
+            {% elif request.user.is_authenticated %}
+            <span type="button" class="btn"><a href="{% url 'account_logout' %}?next={{ request.path|safe }}">Logout ({{ request.user.profile.get_profile_name }})</a></span>
+            {% else %}
+            <span type="button" class="btn"><a href="{% url 'account_login' %}?next={{ request.path|safe }}">Login</a></span>
+            {% endif %}
         </li>
         {% recursetree sections %}
         {% if not node.is_leaf_node %}

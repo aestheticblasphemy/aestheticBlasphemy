@@ -61,9 +61,9 @@
     {% endblock %}
     {% block site-head %}
       <div class="site-mast center-block text-xs-center">
-        <h1 class="site-head"><a href="http://{{ site.domain }}">Aesthetic Blasphemy</a></h1>
+        <h1 class="site-head"><a href="/">Aesthetic Blasphemy</a></h1>
         <h3 class="site-subhead">a million little things...</h3>
-        <div class="stationary-login btn-group">
+        <div class="stationary-login btn-group hidden-sm-down">
             {% if user.is_authenticated and user.is_staff %}
             <a class="btn staff-logged-in" href="{% url 'dashboard:dashboard-home' %}">Dashboard</a>
             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-image:url({{ user.profile.get_avatar_url }})">
