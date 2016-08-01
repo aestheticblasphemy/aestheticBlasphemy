@@ -417,7 +417,7 @@ body {
       padding-bottom: 1.2em;
       display: table-cell;
       width: 70%; }
-      @media only screen and (max-width: 640px) {
+      @media only screen and (max-width: 767px) {
         .teaser-list .teaser-item .teaser-content {
           width: 100%; } }
       .teaser-list .teaser-item .teaser-content > * {
@@ -595,7 +595,7 @@ body {
   top: 0;
   left: 0;
   z-index: 10; }
-  @media (min-width: 640px) {
+  @media (min-width: 767px) {
     .affix .article-actions-title-small {
       display: block; } }
   .affix + * {

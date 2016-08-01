@@ -313,7 +313,7 @@ body{
         padding-bottom: 1.2em;
         display: table-cell;
         width:70%;
-        @media only screen and (max-width: 640px)
+        @media only screen and (max-width: 767px)
         {
          width:100%;
         }
@@ -575,7 +575,7 @@ body{
   z-index: 10;
 
   .article-actions-title-small{
-    @media(min-width: 640px){
+    @media(min-width: 767px){
       display: block;
     }
   }
