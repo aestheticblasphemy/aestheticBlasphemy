@@ -74,29 +74,30 @@ class ContentTypeForm(forms.Form):
 
 
 class ContentTypeCreationForm(forms.ModelForm):
-
-	helper1 = FormHelper()
+	content_type = forms.CharField(widget=forms.Textarea(attrs={'cols': 20,
+    													 'rows': 1,
+    													 'class':"form-control",
+    													 'placeholder':'Content Type Name',
+    													 'aria-describedby':"contentTypeHelp"}),
+    											   		required=True)
+	is_leaf = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':"form-control",
+																'aria-describedby':"isLeafHelp"}))
 	
 	def __init__(self, *args, **kwargs):
-		
 		super(ContentTypeCreationForm, self).__init__(*args, **kwargs)
 		
-		self.helper1.form_id = 'id-ContentTypeCreationForm'
-		#		self.helper.form_class = 'blueForms'
-		self.helper1.form_class = 'form-inline'
-		self.helper1.field_template = 'bootstrap4/layout/inline_field.html'
-		self.helper1.form_tag = False
-#		self.helper1.template = 'blogging/inline_field.html'
-
-
-	
 	class Meta:
 		model = BlogContentType
-		fields = ['content_type', 'is_leaf',]
+		fields = ('content_type', 'is_leaf',)
+
 
 class FieldTypeForm(forms.Form):
-	field_name = forms.CharField()
-	field_type = forms.ChoiceField(widget = forms.Select(),choices=CUSTOM_FIELD_TYPE)
+	field_name = forms.CharField(widget=forms.Textarea(attrs={'cols': 20,
+    													 'rows': 1,
+    													 'class':"form-control",
+    													 'placeholder':'Field Name'}),
+    											   		required=True)
+	field_type = forms.ChoiceField(widget = forms.Select(attrs={'class':"form-control"}),choices=CUSTOM_FIELD_TYPE)
 	
 	def clean_field_name(self):
 		print "LOGS: clean_field_name called"

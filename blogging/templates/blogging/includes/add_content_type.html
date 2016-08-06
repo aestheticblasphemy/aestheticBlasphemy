@@ -14,34 +14,54 @@
 		})
 	})
 </script>
+<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
 {% endblock %}
 
 {% block content_blog %}
-{% load crispy_forms_tags %}
+
 <h2> Create new content type </h2>
-<form action="." id="id_content_type" class="form-inline" method="post">
-    {% crispy form1 form1.helper1 %}
-   
-   	<h4> Set the Fields <small> title field is already present so do not create that </small> </h4>
+<form action="." id="id_content_type" method="post">
+    {{ form.non_field_errors }}
+    <fieldset>
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form1.content_type.errors }}
+        <label for="{{ form1.content_type.id_for_content_type }}" class="form-control-label">Name of Content Type <span id="contentTypeHelp" class="form-text text-muted" data-toggle="popover" title="Content Type Help" data-placement="bottom" data-content="What do you want to call this content type. For example, we can have 'Section', 'Article', 'Blog'.">?</span></label>
+        {{ form1.content_type }}
+      </div>
+      <div class="form-group checkbox">
+        {{ form1.is_leaf.errors }}
+        <label for="{{ form1.is_leaf.id_for_is_leaf }}" class="form-control-label">
+        {{ form1.is_leaf }} Is leaf element?<span id="isLeafHelp" class="form-text text-muted" data-toggle="popover" title="Is Leaf Help" data-placement="bottom" data-content="Non-Leaf Content Types are containers, like a 'Book' which may contain 'Chapters', which may further contain 'Sections'. Leaf Nodes describe the schema of content creation - the elements of content. For example, an Article may have 'Summary', 'Detail', 'References'. An 'Image' may contain a 'Photo' and a 'Caption'.">
+          [What's this?]
+        </span>
+        </label>        
+      </div>
+    </fieldset>
+   	<h4> Set the Fields <small class="text-warn"> 'Title field' is already present so do not create that </small> </h4>
    	<div class="table-responsive">
 		<table class="table">
 			<tbody>
 				{% for forms in formset.forms %}
 	    		<tr id="{{ forms.prefix }}-row" class="dynamic-form">
-					<td>{{ forms.field_name|as_crispy_field:"bootstrap4" }}</td>
-					<td>{{ forms.field_type|as_crispy_field:"bootstrap4" }}</td>
+					<td >{{ forms.field_name }}</td>
+					<td scope="row">{{ forms.field_type}}</td>
 			 		<td{% if forloop.first %} class="hidden"{% endif %}>
 						<a id="remove-{{ forms.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger"> Delete </a>
 					</td>
 				</tr>    
 				{% endfor %}
 	 			<tr>
-					<td colspan="4"><a href="javascript:void(0)" class="add-row">add property</a></td>
+					<td colspan="4"><a href="javascript:void(0)" class="btn btn-primary add-row">add property</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	{{ formset.management_form|crispy }}
+	{{ formset.management_form }}
 
 	<div class=form-group>
 		<input type="submit" class="btn btn-primary" /> | <a class="btn btn-danger" href="javascript:window.close()">Cancel</a>

@@ -350,8 +350,11 @@ def add_new_model(request, model_name):
 						
 					
 					if (create_content_type(slugify_name(form1.cleaned_data['content_type']),form_dict,form1.cleaned_data['is_leaf']) == False ):
+						print 'Test'
 						raise forms.ValidationError("something got wronged")
 					new_obj = form1.save() #TODO many things
+					
+					print 'Test'
 					print new_obj.content_type
 				except forms.ValidationError:
 					new_obj = None
@@ -369,7 +372,6 @@ def add_new_model(request, model_name):
 		else:
 			form = ContentTypeCreationForm()
 			formset = FieldFormSet()
-			print form.as_table()
 
 			page_context = {'form1': form,'formset':formset,  'field': normal_model_name }
 			return render_to_response('blogging/includes/add_content_type.html', page_context, context_instance=RequestContext(request))

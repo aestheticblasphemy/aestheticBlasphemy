@@ -21,6 +21,7 @@ from django.conf import settings
 
 from blogging.sitemaps import BlogSitemap, BlogParentSitemap
 from django.conf.urls.static import static
+from django.contrib.flatpages import views
 
 urlpatterns = i18n_patterns(
     url(r'^admin/', admin.site.urls),
@@ -39,6 +40,7 @@ urlpatterns = i18n_patterns(
                                                       }}),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^rest/', include('rest.urls', namespace="rest")),
+    url(r'^about/', views.flatpage, {'url': '/about/'}, name='about'),
     url(r'^$', include("blogging.urls", namespace="blogging")),
     url(r'^', include("blogging.urls", namespace="blogging")),
 )

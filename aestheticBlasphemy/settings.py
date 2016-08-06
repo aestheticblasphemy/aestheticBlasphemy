@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'pl_messages',
     'rest_framework',
     'comments',
+    'django.contrib.flatpages',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -78,6 +79,7 @@ MIDDLEWARE_CLASSES = [
     'reversion.middleware.RevisionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'aestheticBlasphemy.urls'
