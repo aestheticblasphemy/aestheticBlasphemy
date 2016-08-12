@@ -396,7 +396,10 @@ body{
 
 //Article Detail Page
 //--------------------
-
+.article{
+  width: 70rem;
+  margin:0 auto;
+}
 .article-title{
   padding-left: 10px;
   text-decoration: none;

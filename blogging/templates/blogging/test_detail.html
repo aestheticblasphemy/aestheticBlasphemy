@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content_blog %}
-    <section class="header-ribbon" itemscope itemtype="http://schema.org/Article">
+    <section class="header-ribbon article" itemscope itemtype="http://schema.org/Article">
         <span class="hidden rest" data-id="{{ nodes.id }}" data-content-type="{{ nodes.get_content_type }}"></span>
         <h3 class="article-title" itemprop="headline">{{ content.title }}</h3>
         <div class="article-actions">
