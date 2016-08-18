@@ -1,18 +1,21 @@
 $(document).ready(function(){
 	var showSidebar = function(){
 		$('#siteNavCollapse').addClass('slidein');
-		$('body').on('click', clickHideSidebar);
+		$('html').on('click', clickHideSidebar);
 		return (false);
 	};
 	
 	var hideSidebar = function(){
 		$('#siteNavCollapse').removeClass('slidein');
-		$('body').off('click', clickHideSidebar);
+		$('html').off('click', clickHideSidebar);
 		return(false);
 	};
 	
 	var clickHideSidebar = function(e) {
-		  if ($('#siteNavCollapse').hasClass('slidein')) {
+		  var target = $(e.target);
+
+		  if(target.closest('#siteNavCollapse').length === 0){
+		  /*if ($('#siteNavCollapse').hasClass('slidein')) {*/
 		    hideSidebar();
 		  }
 		  return(false);
