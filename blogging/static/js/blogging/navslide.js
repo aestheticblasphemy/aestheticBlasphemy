@@ -18,7 +18,6 @@ $(document).ready(function(){
 		  /*if ($('#siteNavCollapse').hasClass('slidein')) {*/
 		    hideSidebar();
 		  }
-		  return(false);
 		};
 	
 	$('#navSlide').on('click', showSidebar);
