@@ -235,7 +235,7 @@ body {
 
 .card {
   background-color: #F9F5E8; }
-  .card * {
+  .card *:not(button) {
     background-color: #F9F5E8; }
 
 .site-mast {

@@ -53,9 +53,10 @@ body{
 .card{
   background-color: $body-bg;
 
-  & *{
+  & *:not(button){
     background-color: $body-bg;
   }
+
 }
 
 .site-mast{
