@@ -11,7 +11,7 @@
           <a href="{{ article.get_absolute_url }}" class="media-left"><img src="{{ article.get_image_url }}" alt="Link to {{ article.get_title }}" class="media-object"></a>
           <div class="media-body">
             <h4 class="media-heading"><a href="{{ article.get_absolute_url }}" class="card-link">{{ article.get_title }}</a></h4>
-              <p><a href="{{ article.get_parent.get_content_url }}" class="card-link">{{ article.get_parent.get_menu_title }}</a> • {{ article.publication_start|naturaltime }}</p>
+              <div class="small"><span class="pull-left"><small><a href="{{ article.get_parent.get_content_url }}" class="card-link">{{ article.get_parent.get_menu_title }}</a></small></span><span class="pull-right"><small>{{ article.publication_start|naturalday }}</small></span></div>
           </div>
         </li>
         {% endfor %}
@@ -25,7 +25,7 @@
       <ul class="tag-list nav nav-pills">
       {% get_blogging_tags as tags %}
       {% for tag in tags %}
-        <li class="nav-item">
+        <li class="nav-item small">
           <a href="{{ tag.url }}">{{ tag.name }}</a>
         </li>
       {% endfor %}

@@ -38,12 +38,6 @@ $text-color: #000000;
   animation: $function $duration;
 }
 
-@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,700i';
-body{
-  font-family: 'Roboto', sans-serif;
-  //font-weight:400;
-}
-
 body{
   font-family: Helvetica, Arial, sans-serif;
   font-size: 20px;
@@ -276,7 +270,7 @@ body{
       border-style: solid;
       
       padding-top: 5px;
-      padding-bottom:5px;
+      padding-bottom:15px;
       margin-top: 5px;
       position: relative;
 
@@ -389,7 +383,7 @@ body{
     border:none;
     border-top: 1px solid #ddd;
     margin-top: 0;
-    padding-bottom:0;
+    padding-bottom:5px;
 
    .media-left img {
     width: 60px;
