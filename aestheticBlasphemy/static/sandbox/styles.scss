@@ -2,7 +2,7 @@
 @import "beemuse";
 
 
-$body-bg : #ffffff;
+$body-bg : #F9F5E8;
 $screen-lg: 991px;
 $screen-md: 767px;
 
@@ -41,7 +41,21 @@ $text-color: #000000;
 @import 'https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,700i';
 body{
   font-family: 'Roboto', sans-serif;
-  font-weight:400;
+  //font-weight:400;
+}
+
+body{
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  background-color: $body-background-color;
+}
+
+.card{
+  background-color: $body-bg;
+
+  & *{
+    background-color: $body-bg;
+  }
 }
 
 .site-mast{
@@ -54,7 +68,7 @@ body{
     color: #888;
 
     *{
-    background-color: #ffffff;
+    background-color: darken($body-bg, 1%);
     }
 
     a{
@@ -257,13 +271,15 @@ body{
       border-left-width:0;
       border-right-width:0;
       border-bottom-width:1px;
-      border-color: #E1E1E1;
+      border-color: darken($body-bg, 10%);
       border-style: solid;
       
       padding-top: 5px;
       padding-bottom:5px;
       margin-top: 5px;
       position: relative;
+
+      background-color: darken($body-bg, 1%);
 
       > * {
         padding-bottom:1rem;
@@ -347,7 +363,7 @@ body{
     padding-left: 0.25em;
     padding-right: 0.25em;
     display: inline;
-    background-color:#EBF1F4;
+    background-color: darken($body-bg, 2%);
     border-radius:2px;
     border-color:#EBF1F4;
     padding: 3px;
@@ -380,7 +396,7 @@ body{
     }
 
     .media-heading {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     }
   }
@@ -391,13 +407,14 @@ body{
 
   .page-item{
     display:inline-block;
+    background-color: darken($body-bg, 1%);
   }
 }
 
 //Article Detail Page
 //--------------------
 .article{
-  width: 65rem;
+  width: 100%;
   margin:0 auto;
 }
 .article-title{
@@ -416,7 +433,7 @@ body{
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   display: block;
-  font-size: 1rem;
+  font-size: 1em;
   height: 3em;
   padding: 2px 5px;
   margin: 0 auto;
@@ -498,10 +515,9 @@ body{
   margin: 0 auto;
   margin-top: 2em;
   margin-right:0;
-  line-height: 1.5;
+  line-height: 1.6em;
   letter-spacing: 1px;
-  font-size: 1.1rem;
-  font-weight: 300;
+  font-size: 1em;
 
 /*
   border: 1px solid $default-border-color;
@@ -674,8 +690,11 @@ body{
         padding-top:0;
         padding-bottom:0;
 
+        background-color: darken($body-bg, 1%);
+
         .card-header{
           margin: 0 -1.25rem 0 -1.25rem;
+          background-color: darken($body-bg, 3%);
         }
 
         .card-text{
