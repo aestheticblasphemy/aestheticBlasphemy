@@ -1,6 +1,13 @@
 {% load blogging_tags %}
 {% load humanize %}
 <aside class="col-md-4 col-sm-12 side-panel">
+
+  <div class="card">
+    <div class="card-body clearfix text-xs-center center-block">
+      <div class="fb-like" data-href="https://www.facebook.com/AestheticBlasphemy" data-width="260" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+    </div>
+  </div>
+
   <!--recent articles -->
   <div class="card">
     <div class="card-header">Recent Articles</div>
@@ -32,4 +39,12 @@
       </ul>
     </div>
   </div>
+  <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7&appId=144948012369584";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 </aside>

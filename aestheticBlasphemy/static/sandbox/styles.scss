@@ -537,9 +537,8 @@ body{
     border-bottom-width: 0;
     font-style: italic;
     font-size: 0.9em;
-    line-height: 1.5rem;
+    line-height: 1.6rem;
     text-align: justify;
-    font-weight: 200;
   }
 
   strong, b{
@@ -907,4 +906,9 @@ footer{
     border-radius:0;
     width:90%;
   }
+}
+
+.fb-like{
+  padding-top: 5px;
+  padding-bottom: 5px;  
 }

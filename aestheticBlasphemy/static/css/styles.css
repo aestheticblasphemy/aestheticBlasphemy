@@ -567,9 +567,8 @@ body {
     border-bottom-width: 0;
     font-style: italic;
     font-size: 0.9em;
-    line-height: 1.5rem;
-    text-align: justify;
-    font-weight: 200; }
+    line-height: 1.6rem;
+    text-align: justify; }
   .article-body strong, .article-body b {
     font-weight: 400; }
   .article-body mark {
@@ -828,5 +827,9 @@ footer {
     margin-bottom: 10px;
     border-radius: 0;
     width: 90%; }
+
+.fb-like {
+  padding-top: 5px;
+  padding-bottom: 5px; }
 
 /*# sourceMappingURL=styles.css.map */
