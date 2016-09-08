@@ -25,7 +25,7 @@ from custom_settings import *
 SECRET_KEY = '%7ohz4qftz(8@^kly*+l))7_8&e*0#$+!a1pqwu(2cg0qi&nqy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = SITE_URLS
 
