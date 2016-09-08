@@ -79,6 +79,9 @@ body{
       &.logged-in{
         border-radius: 2em;
         display:none;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
 
         &+.dropdown-toggle{
           border-radius: 50%;
