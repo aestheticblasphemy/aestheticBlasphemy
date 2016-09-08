@@ -804,8 +804,17 @@ footer {
   footer > * {
     margin: 0 auto;
     padding: 5px; }
-  footer *:first-child {
-    margin-top: 1em; }
+  footer .social-network {
+    padding-top: 1em;
+    padding-bottom: 1em; }
+    footer .social-network > * {
+      padding: 1em; }
+    footer .social-network .fa-facebook {
+      color: #365899; }
+    footer .social-network .fa-twitter {
+      color: #398FD2; }
+    footer .social-network .fa-google-plus {
+      color: #DB4437; }
   footer .footer-upper > * {
     display: inline-block; }
   footer .fix-RB {

@@ -14,7 +14,7 @@
                        </header>
                         <p>{{ node.get_summary }}</p>
                         <div>
-                        <span class="pull-left small">Posted on: <strong>{{ node.publication_start|naturalday }}</strong></span>
+                        <span class="pull-left small"><span class="text-muted">Posted on:</span> {{ node.publication_start|naturalday }}</span>
                         <span class="pull-right"><a class="btn btn-default btn-more" href="{{ node.get_absolute_url }}" role="button"><strong>Read More</strong></a></span>
                         </div>
                         <div class="teaser-tags">

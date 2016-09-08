@@ -868,8 +868,25 @@ footer{
     padding: 5px;
   }
 
-  & *:first-child{
-    margin-top:1em;
+  .social-network{
+    padding-top:1em;
+    padding-bottom:1em;
+
+    >*{
+      padding: 1em;
+    }
+
+    .fa-facebook{
+      color: #365899;
+    }
+
+    .fa-twitter{
+      color: #398FD2;
+    }
+
+    .fa-google-plus{
+      color: #DB4437
+    }
   }
 
   .footer-upper{
