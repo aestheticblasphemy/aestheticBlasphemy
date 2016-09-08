@@ -68,7 +68,7 @@
         <div class="stationary-login btn-group hidden-sm-down">
             {% if user.is_authenticated and user.is_staff %}
             <a class="btn staff-logged-in" href="{% url 'dashboard:dashboard-home' %}">Dashboard</a>
-            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-image:url({{ user.profile.get_avatar_url }})">
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
