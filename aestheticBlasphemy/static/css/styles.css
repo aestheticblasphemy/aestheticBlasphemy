@@ -252,10 +252,8 @@ body {
       border-color: rgba(233, 233, 233, 0.7); }
       .site-mast .stationary-login .btn.logged-in, .site-mast .stationary-login button.logged-in {
         border-radius: 2em;
-        display: none;
         background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center; }
+        background-size: contain; }
         .site-mast .stationary-login .btn.logged-in + .dropdown-toggle, .site-mast .stationary-login button.logged-in + .dropdown-toggle {
           border-radius: 50%;
           padding: .75em;
