@@ -79,7 +79,7 @@ body{
       &.logged-in{
         border-radius: 2em;
         background-repeat:no-repeat;
-        background-size:contain;
+        background-size:cover;
 
         &+.dropdown-toggle{
           border-radius: 50%;

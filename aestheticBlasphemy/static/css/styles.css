@@ -253,7 +253,7 @@ body {
       .site-mast .stationary-login .btn.logged-in, .site-mast .stationary-login button.logged-in {
         border-radius: 2em;
         background-repeat: no-repeat;
-        background-size: contain; }
+        background-size: cover; }
         .site-mast .stationary-login .btn.logged-in + .dropdown-toggle, .site-mast .stationary-login button.logged-in + .dropdown-toggle {
           border-radius: 50%;
           padding: .75em;
