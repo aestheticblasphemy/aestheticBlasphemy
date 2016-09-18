@@ -25,5 +25,4 @@ class LatestBlogEntiresFeed(Feed):
     
     def item_description(self, item):
         json_obj = json.loads(item.data)
-        print json_obj['content']
         return mark_safe(json_obj['content'])
