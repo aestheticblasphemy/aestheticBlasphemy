@@ -23,6 +23,11 @@ from blogging.sitemaps import BlogSitemap, BlogParentSitemap
 from django.conf.urls.static import static
 from django.contrib.flatpages import views
 
+import dashboard
+import django
+import django.contrib.auth.views
+import django.contrib.sitemaps.views
+
 urlpatterns = i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^dashboard/', include('dashboard.urls',namespace='dashboard')),
@@ -30,10 +35,10 @@ urlpatterns = i18n_patterns(
     url(r'^blog/', include("blogging.urls", namespace="blogging")),
     url(r'^rest/', include("rest.urls", namespace="rest")),
     url(r'^messages/', include("pl_messages.urls", namespace="messages")),
-    url(r'^accounts/login/$', 'dashboard.views.custom_login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/'}),
+    url(r'^accounts/login/$', dashboard.views.custom_login),
+    url(r'^accounts/logout/$', django.contrib.auth.views.logout,{'next_page': '/'}),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', 
+    url(r'^sitemap\.xml$', django.contrib.sitemaps.views.sitemap, 
                                         {'sitemaps': {
                                                       'blog':BlogSitemap,
                                                       'sections':BlogParentSitemap

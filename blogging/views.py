@@ -26,8 +26,8 @@ from django.core.mail import send_mail, mail_admins
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.defaultfilters import slugify
 
-from reversion import revisions as reversion
-from reversion.helpers import generate_diffs
+#from reversion import revisions as reversion
+#from reversion.helpers import generate_diffs
 
 from meta_tags.views import Meta 
 from blogging.utils import strip_image_from_data
@@ -194,9 +194,9 @@ def new_post(request):
 		initial = {'pid_count': '0'}
 		post_form = form(reverse('blogging:create-post'),initial=initial)
 	context = {'form':post_form}
-	return render_to_response(
+	return render(request,
 	    "blogging/create_page.html",
-	    context, context_instance=RequestContext(request))
+	    context)
 
 @group_required('Administrator','Editor','Author')
 def edit_post(request,post_id):
@@ -263,9 +263,10 @@ def edit_post(request,post_id):
 			post_form = wrapper_form_class(reverse('blogging:edit-post',args = (post_id,)),initial=json_obj)
 
 		context = {'form':post_form}
-		return render_to_response(
+		return render(
+		    request,
 		    "blogging/create_page.html",
-		    context, context_instance=RequestContext(request))	
+		    context)	
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
@@ -312,9 +313,10 @@ def edit_section(request,section_id):
 			post_form = wrapper_form_class(reverse('blogging:edit-section',args = (section_id,)),instance=section)
 
 		context = {'form':post_form}
-		return render_to_response(
+		return render(
+		    request,
 		    "blogging/create_page.html",
-		    context, context_instance=RequestContext(request))	
+		    context)	
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
@@ -363,18 +365,18 @@ def add_new_model(request, model_name):
                 	(escape(new_obj._get_pk_val()), escape(new_obj)))
 				else:
 					page_context = {'form1': form1,'formset':form2,  'field': normal_model_name}
-					return render_to_response('blogging/includes/add_content_type.html', page_context, context_instance=RequestContext(request))
+					return render(request,'blogging/includes/add_content_type.html', page_context)
 			else:
 				print "form is not valid form1 ", form1.is_valid(), " form 2 ", form2.is_valid() 	
 				page_context = {'form1': form1,'formset':form2,  'field': normal_model_name}
-				return render_to_response('blogging/includes/add_content_type.html', page_context, context_instance=RequestContext(request))
+				return render(request,'blogging/includes/add_content_type.html', page_context)
 
 		else:
 			form = ContentTypeCreationForm()
 			formset = FieldFormSet()
 
 			page_context = {'form1': form,'formset':formset,  'field': normal_model_name }
-			return render_to_response('blogging/includes/add_content_type.html', page_context, context_instance=RequestContext(request))
+			return render(request,'blogging/includes/add_content_type.html', page_context)
 
 
 def section_index(request, slug=None):
@@ -503,14 +505,14 @@ def teaser(request,slug=None):
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			pages = paginator.page(paginator.num_pages)
 		context = {
-					'parent':None,
-                    'nodes': pages,
-                    'page': {'title':settings.SITE_TITLE, 
-							'tagline':settings.SITE_TAGLINE, 
-							'image': None
-							},
-                    'max_entry': max_entry,
-                   }
+					      'parent':None,
+                'nodes': pages,
+                'page': {'title':settings.SITE_TITLE, 
+							           'tagline':settings.SITE_TAGLINE, 
+							           'image': None
+							          },
+                'max_entry': max_entry,
+              }
 		return HttpResponse(template.render(context, request))
 		
 	try:
@@ -596,12 +598,12 @@ def detail(request, slug, post_id):
 			json_obj['author'] = blogs.author_id
 			json_obj['published'] = blogs.published_flag
 			
-			available_versions = reversion.get_for_object(blogs)
+			#available_versions = reversion.get_for_object(blogs)
 			patch_html = ""
-			if len(available_versions) > 1 :
-				new_version = available_versions[0]
-				old_version = available_versions[1]
-				patch_html = generate_diffs(old_version, new_version, "data",cleanup="semantic")
+			#if len(available_versions) > 1 :
+			#	new_version = available_versions[0]
+			#	old_version = available_versions[1]
+			#	patch_html = generate_diffs(old_version, new_version, "data",cleanup="semantic")
 		except:
 # 			log.user(self.request, "~SN~FRFailed~FY to fetch ~FGoriginal text~FY: Unexpected error '{0}'".format(sys.exc_info()[0]),logger)
 			print "Unexpected error:", sys.exc_info()[0]
@@ -687,7 +689,7 @@ def ContactUs(request):
 			print 'error during sending mail to Captain'
 	else:
 		form = ContactForm()
-	return render_to_response('blogging/contact.html', {'example_form': form}, context_instance=RequestContext(request))
+	return render(request, 'blogging/contact.html', {'example_form': form})
 
 def BuildIndex(request):
 	if request.is_ajax():

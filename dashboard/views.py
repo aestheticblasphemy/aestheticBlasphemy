@@ -52,10 +52,12 @@ def CreateProfile(sender, request, user,**kwargs):
             print "LOGS: Gender does not exist in social account"
         profile.save()
         # add user to Author Group
-        g = Group.objects.get(name='Author')
-        g.user_set.add(user) 
+        try:
+            g = Group.objects.get(name='Author')
+            g.user_set.add(user) 
+        except:
+            print "LOGS: Group does not exist."
               
-
     
 @login_required
 def dashboard_home(request):
@@ -70,10 +72,13 @@ def dashboard_home(request):
     stats['article_published'] = get_published_count(request.user)
     stats['article_draft'] = get_draft_count(request.user)
     stats['article_pending'] = get_pending_count(request.user)
-    context = RequestContext(request, {
-                                       "profile":profile,"stats":stats,
-                                      })
-    return HttpResponse(template.render(context))
+    #context = RequestContext(request, {
+    #                                   "profile":profile,"stats":stats,
+    #                                  })
+    context = {
+               "profile":profile,"stats":stats,
+              }
+    return HttpResponse(template.render(context, request))
 
 def dashboard_profile(request,user_id):
     print "LOGS: DashBoard Profile called with user id " , user_id
@@ -151,19 +156,27 @@ def my_profile(request):
             except User.DoesNotExist:
                 raise Http404
         else:
-            context = RequestContext(request, {
-                                       'profile': profile,
-                                       'profile_form': form,
-                                      })
+            #context = RequestContext(request, {
+            #                           'profile': profile,
+            #                           'profile_form': form,
+            #                          })
+            context = {'profile': profile,'profile_form': form,}
     else:
-        context = RequestContext(request, {
-                                       'profile': profile,
-                                       'profile_form': form,
-                                       'social' : social_info,
-                                       'articles':articles,
-                                       'bookmarks': user_bookmarks,
-                                      })
-    return HttpResponse(template.render(context))
+        #context = RequestContext(request, {
+        #                               'profile': profile,
+        #                               'profile_form': form,
+        #                               'social' : social_info,
+        #                               'articles':articles,
+        #                               'bookmarks': user_bookmarks,
+        #                              })
+        context = {
+                   'profile': profile,
+                   'profile_form': form,
+                   'social' : social_info,
+                   'articles':articles,
+                   'bookmarks': user_bookmarks,
+                  }
+    return HttpResponse(template.render(context, request))
     
 def public_profile(request,user_id):
     
@@ -206,34 +219,30 @@ def manage_articles(request):
     template = loader.get_template('dashboard/manage.html')
     profile = UserProfile.objects.get(user=request.user.id) or None
     
-    context = RequestContext(request, {
-                                       "profile":profile,
-                                      })
-    return HttpResponse(template.render(context))
+    context = {
+               "profile":profile,
+              }
+    return HttpResponse(template.render(context, request))
 
 @login_required
 def published_articles(request):
     template = loader.get_template('dashboard/published.html')
-    context = RequestContext(request, {})
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render({}, request))
 
 @login_required
 def pending_articles(request):
     template = loader.get_template('dashboard/pending.html')
-    context = RequestContext(request, {})
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render({}, request))
 
 @login_required
 def draft_articles(request):
     template = loader.get_template('dashboard/draft.html')
-    context = RequestContext(request, {})
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render({}, request))
 
 @login_required
 def bookmark_articles(request):
     template = loader.get_template('dashboard/bookmark.html')
-    context = RequestContext(request, {})
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render({}, request))
 
     
 class CustomLoginClass(LoginView):

@@ -49,7 +49,7 @@ class ContentRender(InclusionTag):
         try:
             template = self.get_template(context, **kwargs)
             data = self.get_context(context, **kwargs)
-            output = render_to_string(template, data)
+            output = render_to_string(template, data.flatten(), context['request'])
 #             print output
             context.pop()
             return output
@@ -143,7 +143,7 @@ class ContactTag(InclusionTag):
                                         'form': form,
 
                                       })
-            output = render_to_string(template, data)
+            output = render_to_string(template, data.flatten(), context['request'])
             context.pop()
             print output
             return output
@@ -170,10 +170,9 @@ class DraftTag(InclusionTag):
         context.push()
         print "draft tag is called"
         try:
-            request = context['request']
             template = self.get_template(context, **kwargs)
             data = self._get_context(context, **kwargs)
-            output = render_to_string(template, data)
+            output = render_to_string(template, data, context['request'])
             context.pop()
             print output
             return output
@@ -229,7 +228,7 @@ class PendingTag(InclusionTag):
         try:
             template = self.get_template(context, **kwargs)
             data = self.get_context(context, **kwargs)
-            output = render_to_string(template, data)
+            output = render_to_string(template, data.flatten(), context['request'])
 #             print output
             context.pop()
             return output
@@ -288,10 +287,9 @@ class ReviewTag(InclusionTag):
         context.push()
         print "draft tag is called"
         try:
-            request = context['request']
             template = self.get_template(context, **kwargs)
             data = self._get_context(context, **kwargs)
-            output = render_to_string(template, data)
+            output = render_to_string(template, data, context['request'])
             context.pop()
             print output
             return output
@@ -346,7 +344,7 @@ class PublishedTag(InclusionTag):
         try:
             template = self.get_template(context, **kwargs)
             data = self.get_context(context, **kwargs)
-            output = render_to_string(template, data)
+            output = render_to_string(template, data.flatten(), context['request'])
 #             print output
             context.pop()
             return output
@@ -393,7 +391,12 @@ class PublishedTag(InclusionTag):
 def get_blogging_tags():
     from random import sample
     count = Tag.objects.all().count()
-    rand_ids = sample(xrange(1, count), 15)
+    if count>0 and count >15:
+        rand_ids = sample(xrange(1, count), 15)
+    elif count >0:
+        rand_ids = range(1, count+1)
+    else:
+        return []
     
     tags = Tag.objects.filter(id__in=rand_ids)
     tag_list = []

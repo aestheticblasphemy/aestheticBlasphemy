@@ -1,0 +1,28 @@
+- Migrations need to be built for each module at the start of the day. 'makemigrations'
+- Calling views from urls.py in quotes no longer works properly. Had to import and call.
+- Reversion calls have been deprecated. There is no 'helper' object in it. 'generate_diffs' is also not available.
+- `patterns` module is no longer available in Django 1.11 (pl_messages)
+- 'Dashboard' views: CreateProfile: Group `Author` does not exist at the start of project. Nor do social media plugins, hence, admin login asserts. Put a try-catch block to evade it.
+- Social App is a pain in the ass: configured hosts to make 127.0.0.1 to localsite.com
+  - Why does a social app have to be neceaasrily configured for my site to work? [TODO]
+- If Apache is running on localhost, we can't start django server there. So, stop apache service and then start django server using full python path to virtual env for proper library resolution. Then, localsite works.
+- Adding site example.com to social app's available list opens the homepage well.
+- `context must be a dict rather than RequestContext` in dashboard view.
+- Flatpages have something changed. Now, I'll have to create a template folder for that.
+- Profile page shows some '404'pages. Apparently, that is because no social profile has been connected.
+  - Trying to open login page gives error.
+  - [TODO] Verify email address and SMTP settings for Aesthetic Blasphemy on server
+  - Code asserts because no proper webmail server is setup: Removing email settings resolves it. FB login works OK.
+  - How do I link my social profile? /accounts/social/connections [TODO: Add URL]
+  - Why can't I link already existing profiles? [TODO]
+  - How can I delete my social profile? [TODO]
+  - template's render_to_string method has issues in templatetags/social_profile.py 
+    - Need to flatten the context into a dictionary context.flatten()
+  - Social Account names need to be lowercase now.
+- Create Content: Blogging views: All render_to_response shortcuts have been replaced by render() now.
+- Ckeditor won't load in runserver: syntaxhighlight and other plugins are not present in ckeditor in lib/python/site-pack...
+- 'Pending' gives 404
+  - Same old render_to_string issue. Fixed all
+- Comments: Admin section showing comments does not show my name if I am the author. That is sad. [TODO]
+- Logout button on the admin page should work.[TODO]
+
