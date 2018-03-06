@@ -100,8 +100,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'aestheticBlasphemy.context_processors.site_processor',
                 'aestheticBlasphemy.context_processors.getvars',
-                'django.template.context_processors.media',
-                'django.template.context_processors.csrf',
+                'django.core.context_processors.media',
+                'django.core.context_processors.csrf',
             ],
         },
     },
@@ -115,9 +115,8 @@ WSGI_APPLICATION = 'aestheticBlasphemy.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.mysql',
-        'ENGINE':'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+         #'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': DB_BASENAME,
         'HOST': '127.0.0.1', 
         'USER': DB_NAME,
@@ -209,13 +208,13 @@ LOGIN_REDIRECT_URL = '/'
 #}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-#EMAIL_SUBJECT_PREFIX = '[Aesthetic Blasphemy]'
-#EMAIL_HOST = 'smtp.webfaction.com'
-#EMAIL_HOST_USER = 'pirate_learner_mailbox'
-#EMAIL_HOST_PASSWORD = 'pirate@world'
-#SERVER_EMAIL = 'rai812@web379.webfaction.com'
-#EMAIL_USE_TLS = True
-#EMAIL_PORT = 25
+EMAIL_SUBJECT_PREFIX = '[PirateLearner]'
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'pirate_learner_mailbox'
+EMAIL_HOST_PASSWORD = 'pirate@world'
+SERVER_EMAIL = 'rai812@web379.webfaction.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 25
 #Comments App settings
 COMMENT_MODERATION_ENABLED = True
 
@@ -513,7 +512,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': STATIC_ROOT+'/logging/log.txt',
         },
@@ -521,7 +520,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': True,
         },
     },
