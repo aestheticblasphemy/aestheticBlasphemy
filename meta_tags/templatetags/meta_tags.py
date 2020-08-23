@@ -47,7 +47,7 @@ def googleplus_html_scope(value):
     This is meant to be used as attribute to html / body or other tags to
     define schema.org type
     """
-    return ' itemscope itemtype="http://schema.org/%s" ' % value
+    return ' itemscope itemtype="https://schema.org/%s" ' % value
 
 
 @register.simple_tag

@@ -115,8 +115,12 @@ $(document).ready(function(){
 			if(author_url.indexOf('http://')==-1 || 
 					author_url.indexOf('http://') != 0)
 			{
-				author_url = 'http://'+author_url;
+				author_url = 'https://'+author_url;
 			}
+                        else
+                        {
+                                author_url = author_url.replace("http", "https");
+                        }
 		}
 		body = $("#id_body").val();
 		

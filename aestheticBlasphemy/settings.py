@@ -488,7 +488,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
 
-META_SITE_PROTOCOL = 'http'
+META_SITE_PROTOCOL = 'https'
 # META_SITE_DOMAIN = 'pirateLearner.com' using META_USE_SITE SETTING
 META_SITE_TYPE = 'article' # override when passed in __init__
 META_SITE_NAME = 'Aesthetic Blasphemy'
@@ -509,12 +509,13 @@ BLOGGING_CSS_FRAMEWORK = 'bootstrap4'
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': STATIC_ROOT+'/logging/log.txt',
+            #'filename': STATIC_ROOT+'/logging/log.txt',
+            'filename': '/home/rai812/logs/user/abLog.txt',
         },
     },
     'loggers': {

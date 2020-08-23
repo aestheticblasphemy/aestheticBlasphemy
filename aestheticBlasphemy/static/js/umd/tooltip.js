@@ -37,7 +37,7 @@
      * Tether - http://github.hubspot.com/tether/
      */
     if (window.Tether === undefined) {
-      throw new Error('Bootstrap tooltips require Tether (http://github.hubspot.com/tether/)');
+      throw new Error('Bootstrap tooltips require Tether (https://github.hubspot.com/tether/)');
     }
 
     /**
