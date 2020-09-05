@@ -44,7 +44,7 @@ class ContactPlugin(BlogPlugin):
 
         name = ''
         email = ''
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             User = request.user
             name = User.profile.get_name()
             email = User.profile.get_email()
@@ -52,13 +52,13 @@ class ContactPlugin(BlogPlugin):
         if contact_type is None:
             contact_type = 'Queries'
         
-        print "Contact form contact_type : ", contact_type
+        print("Contact form contact_type : ", contact_type)
             
         if request.method == "POST":
-            print "Contact form inside post"
+            print("Contact form inside post")
             return ContactForm(data=request.POST)
         else:
-            print "Contact form inside get"
+            print("Contact form inside get")
             return ContactForm(initial={'contact_type':contact_type,'name': name, 'email': email})    
     def render(self, context, instance, placeholder):
         request = context['request']

@@ -55,7 +55,7 @@ class CreateClass():
         
         
        
-        for member_name, member_type in member_dict.iteritems():
+        for member_name, member_type in list(member_dict.items()):
                  
             ## Creating form fields in FormClass
             if str(member_type) == 'TextField':
@@ -104,7 +104,7 @@ class CreateTemplate():
         self.start_string += '\t\t{% autoescape off %}\n'
         self.member_list = []
         self.end_string = '\t\t{% endautoescape %}\n\t{% endblock %}\n'
-        for member_name, member_type in member_dict.iteritems():
+        for member_name, member_type in list(member_dict.items()):
             member_string = '\n\t\t\t{{ content.' + member_name + ' }}\n'
             self.member_list.append(member_string)
     
@@ -127,4 +127,4 @@ def test_fun():
     create_class = CreateClass(name,member_dict)
     
     string =  create_class.form_string()
-    print string
+    print(string)

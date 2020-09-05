@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+
 
 from django import template
 
@@ -23,7 +23,7 @@ def get_range(value):
 
     Instead of 3 one may use the variable set in the views
   """
-  return range(value)
+  return list(range(value))
 
 @register.filter
 def make_range(value, arg=1):
@@ -45,7 +45,7 @@ def make_range(value, arg=1):
 
     Instead of 3 one may use the variable set in the views
   """
-  return range(value, value+int(arg))
+  return list(range(value, value+int(arg)))
 
 
 @register.filter('has_group')

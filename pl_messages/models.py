@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import F
 import datetime
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from aestheticBlasphemy.models import BaseContentClass
 
@@ -11,9 +11,9 @@ class Messages(BaseContentClass):
         Message Model
         basic element for thread, which is to be exchanged between users
     """
-    sender = models.ForeignKey(User, related_name='message_sender')
+    sender = models.ForeignKey(User, related_name='message_sender',on_delete = models.CASCADE)
     body = models.TextField(blank=False)
-    parent = models.ForeignKey('self', null=True)
+    parent = models.ForeignKey('self', null=True,on_delete = models.SET_NULL)
     created = models.DateTimeField(editable=False)
     is_deleted = models.BooleanField(default=False)
 
@@ -33,7 +33,7 @@ class Thread(BaseContentClass):
         Thread is collection of messages exchanges between users
     """
     participants = models.ManyToManyField(User, related_name='thread_participants')
-    last_message = models.ForeignKey(Messages, related_name='last_message_in_thread', verbose_name='Last Message')
+    last_message = models.ForeignKey(Messages, related_name='last_message_in_thread', verbose_name='Last Message',on_delete = models.CASCADE)
     messages = models.ManyToManyField(Messages, related_name='thread_messages', verbose_name='Thread Messages')
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(auto_now=True)
@@ -48,7 +48,7 @@ class Thread(BaseContentClass):
             self.created = datetime.datetime.today()
         return super(Thread, self).save(*args, **kwargs)
     def get_absolute_url(self):
-        print "get_absolute_url for thread is called"
+        print("get_absolute_url for thread is called")
         return reverse('messages:thread_messages', args=(self.pk,))
 
 class ParticipantThreads(BaseContentClass):
@@ -56,7 +56,7 @@ class ParticipantThreads(BaseContentClass):
         Participant Thread Model
         Has collection of threads for the participant
     """
-    participant = models.ForeignKey(User, related_name='thread_participant', verbose_name='Thread Participant')
+    participant = models.ForeignKey(User, related_name='thread_participant', verbose_name='Thread Participant',on_delete = models.CASCADE)
     threads = models.ManyToManyField(Thread, related_name='participant_threads', verbose_name='Participant Threads')
 
     class Meta:
@@ -69,8 +69,8 @@ class ParticipantNotifications(BaseContentClass):
         Participant Notification Model
         Notifications generated when a message is exchanged between users
     """
-    participant = models.ForeignKey(User, related_name='notified_participant', verbose_name='Notification Participant')
-    thread = models.ForeignKey(Thread, related_name='participant_thread')
+    participant = models.ForeignKey(User, related_name='notified_participant', verbose_name='Notification Participant',on_delete = models.CASCADE)
+    thread = models.ForeignKey(Thread, related_name='participant_thread',on_delete = models.CASCADE)
     message_count = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=False)

@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% load socialaccount %}
 <div class="comment-form-head card-header">Leave a comment</div>
 <div class="card-text form-body">
@@ -8,13 +8,13 @@
             {% csrf_token %}
             <div class="control-group invisible hidden-xs-up">
                 {{ comment.post.errors }}
-                <label for="{{ comment.post.id_for_post}}" 
+                <label for="{{ comment.post.id_for_post}}"
                             class="control-label">Post ID:</label>
                 <div class="controls">
                     {{ comment.post }}
                 </div>
                 {{ comment.parent_comment.errors }}
-                <label for="{{ comment.parent_comment.id_for_parent_comment }}" 
+                <label for="{{ comment.parent_comment.id_for_parent_comment }}"
                                     class="control-label">Parent Comment ID:</label>
                 <div class="controls">
                     {{ comment.parent_comment }}
@@ -40,8 +40,8 @@
                     </a>
                     {% endif %}
                   {% endfor %}
-                </div> 
-                
+                </div>
+
                 <div class="row form-group">
                     {{ comment.author_name.errors }}
                     <label for="{{ comment.author_name.id_for_author_name}}" class="form-control-label sr-only">Name</label>
@@ -68,7 +68,8 @@
                 </div>
                 <div class="row form-group ">
                     <label for="url" class="form-control-label sr-only">Homepage</label>
-                    <input class ="user-input form-control" type="url" id="id_author_url" name="url" placeholder="www." value="{{ request.user.profile.get_website|default:"" }}"></input>
+                    <input class ="user-input form-control" type="url" id="id_author_url" name=
+                    "url" placeholder="www." value="{{ request.user.profile.get_website|default:'' }}"></input>
                 </div>
             {% endif %}
             </div>

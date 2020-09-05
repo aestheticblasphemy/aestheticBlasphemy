@@ -28,8 +28,8 @@ class UserSerializer(serializers.ModelSerializer):
                   'gravatar', 'url', 'comments', 'is_admin')
         
     def get_gravatar(self, obj):
-        print "in get_gravatar"
-        print obj
+        print("in get_gravatar")
+        print(obj)
         return UserProfile.objects.get(user=obj).get_avatar_url()
     
     def get_url(self, obj):
@@ -76,7 +76,7 @@ class CommentSerializer(ModelSerializer):
         functions
         """
         
-        print 'In create'
+        print('In create')
         
         comment = Comment()
         
@@ -100,7 +100,7 @@ class CommentSerializer(ModelSerializer):
             comment.published = True
         
         comment.parent_comment = validated_data.get('parent_comment', None)
-        print comment.parent_comment
+        print(comment.parent_comment)
 
         comment.save()
         return comment
@@ -111,7 +111,7 @@ class CommentSerializer(ModelSerializer):
         validated data
         """
         
-        print "CommentSerializer: In Update"
+        print("CommentSerializer: In Update")
         
         instance.body = validated_data.get('body', instance.body)
         instance.author = validated_data.get('author', instance.author)
