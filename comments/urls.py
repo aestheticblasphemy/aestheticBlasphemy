@@ -7,6 +7,8 @@ from django.conf.urls import include, url
 from comments.views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 
+app_name="comments"
+
 comment_post = CommentPost.as_view({
     'post': 'create'
     })

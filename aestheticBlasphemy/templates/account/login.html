@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% load account socialaccount %}
 
 {% block title %}Login to {{ site.name }}{% endblock %}
@@ -28,13 +28,13 @@
                 {% if form.login.errors %}
                     {% for error in form.login.errors %}<span class="errormsg">{{ error|escape }}</span>{% endfor %}
                 {% endif %}
-                </div>    
+                </div>
                 <div id="div_id_password" class="form-group">
                     <label for="id_password" class="form-control-label sr-only"></label>
                     <input id="id_password" name="password" placeholder="Password" type="password"/>
                 {% if form.password.errors %}
                     {% for error in form.password.errors %}<span class="errormsg">{{ error|escape }}</span>{% endfor %}
-                {% endif %}    
+                {% endif %}
                 {% for error in form.non_field_errors %}
                     <span class="errormsg">{{ error }}</span>
                 {% endfor %}
@@ -48,10 +48,10 @@
                 </div>
               {% if redirect_field_value %}
               <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-              {% endif %}        
+              {% endif %}
             </fieldset>
             <div class="">
-                <button class="btn btn-primary btn-block" type="submit">Log In</button> 
+                <button class="btn btn-primary btn-block" type="submit">Log In</button>
             </div>
         </form>
     </div>

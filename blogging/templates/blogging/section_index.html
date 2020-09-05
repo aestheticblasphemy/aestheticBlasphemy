@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% load mptt_tags %}
 
 <nav class="site-nav clearfix">
@@ -22,7 +22,7 @@
           <a type="button" class="btn" href="/about">About Me</a>
         </li>
         </ul>
-        
+
         {% recursetree sections %}
         {% if not node.is_leaf_node %}
         <ul class="collapse collapse-container nav navbar-nav clearfix" id="siteNav{{ node.id }}">
@@ -36,7 +36,7 @@
           </li>
         {% endif %}
         {% endrecursetree %}
-        
+
         {% comment %}small screens{% endcomment %}
         <ul id="toggleNav" class="nav navbar-nav dropdown hidden-md-up clearfix" role="menu" aria-labelledby="dropdownMenu">
         <li class="btn-group hidden-md-up panel">

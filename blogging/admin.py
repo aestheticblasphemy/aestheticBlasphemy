@@ -1,5 +1,7 @@
 from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
+#from mptt.admin import MPTTModelAdmin
+from treebeard.admin import TreeAdmin
+from treebeard.forms import movenodeform_factory
 from blogging.models import BlogParent,BlogContentType,BlogContent
 #from blogging.forms import PostForm, ParentForm
 
@@ -9,8 +11,8 @@ if 'cms' in settings.INSTALLED_APPS:
     try:
         from cms.admin.placeholderadmin import FrontendEditableAdmin, PlaceholderAdmin
     except ImportError:
-        print 'CMS not installed'
-    
+        print('CMS not installed')
+
 import reversion
 
 def mark_published(modeladmin, request, queryset):
@@ -19,16 +21,19 @@ mark_published.short_description = "Mark selected content as published"
 
 
 
-class ParentAdmin(MPTTModelAdmin):
+#class ParentAdmin(MPTTModelAdmin):
+class ParentAdmin(TreeAdmin):
     fieldsets = [
                  ('',     {'fields': ['title', 'parent','slug','data','content_type']} ),
                  ]
-    list_display = ('title', 'parent', 'level')
+    #list_display = ('title', 'parent', 'level')
+    list_display = ('title', 'parent')
     list_filter = ['parent']
     search_fields = ['title']
     #form = ParentForm
     ordering = ['title']
     prepopulated_fields = {'slug': ('title',), }
+    form = movenodeform_factory(BlogParent)
 
 if 'cms' in settings.INSTALLED_APPS:
     class ContentAdmin(FrontendEditableAdmin,PlaceholderAdmin):
@@ -44,7 +49,7 @@ if 'cms' in settings.INSTALLED_APPS:
                      ('Info',     {'fields': ['title','slug', 'data','publication_start']} ),
                      ('Other',     {'fields': ['section', 'author_id', 'published_flag', 'special_flag', 'content_type','tags']} )
                      ]
-        
+
 
 
 admin.site.register(BlogParent, ParentAdmin)

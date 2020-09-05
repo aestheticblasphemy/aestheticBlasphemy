@@ -1,6 +1,6 @@
 
 {% extends "blogging/base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% block extra_script %}
 
 <script type="text/javascript" src="{% static "js/blogging/add_form.js" %}"></script>
@@ -39,7 +39,7 @@
         {{ form1.is_leaf }} Is leaf element?<span id="isLeafHelp" class="form-text text-muted" data-toggle="popover" title="Is Leaf Help" data-placement="bottom" data-content="Non-Leaf Content Types are containers, like a 'Book' which may contain 'Chapters', which may further contain 'Sections'. Leaf Nodes describe the schema of content creation - the elements of content. For example, an Article may have 'Summary', 'Detail', 'References'. An 'Image' may contain a 'Photo' and a 'Caption'.">
           [What's this?]
         </span>
-        </label>        
+        </label>
       </div>
     </fieldset>
    	<h4> Set the Fields <small class="text-warn"> 'Title field' is already present so do not create that </small> </h4>
@@ -53,7 +53,7 @@
 			 		<td{% if forloop.first %} class="hidden"{% endif %}>
 						<a id="remove-{{ forms.prefix }}-row" href="javascript:void(0)" class="delete-row btn btn-danger"> Delete </a>
 					</td>
-				</tr>    
+				</tr>
 				{% endfor %}
 	 			<tr>
 					<td colspan="4"><a href="javascript:void(0)" class="btn btn-primary add-row">add property</a></td>
@@ -65,6 +65,6 @@
 
 	<div class=form-group>
 		<input type="submit" class="btn btn-primary" /> | <a class="btn btn-danger" href="javascript:window.close()">Cancel</a>
-	</div>     
+	</div>
 </form>
 {% endblock %}

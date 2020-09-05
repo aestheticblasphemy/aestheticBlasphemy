@@ -4,20 +4,21 @@ from django.conf import settings
 
 from django.contrib.admin import widgets
 from blogging.models import *
-
-import taggit
+from taggit.models import Tag
 from blogging.widgets import SelectWithPopUp
 from django.db import models
 from ckeditor.widgets import CKEditorWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
+from django.utils.encoding import force_text, smart_text
 from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
 
 import json
 from blogging import tag_lib
 from blogging.utils import slugify_name
+from django.forms.models import  ModelChoiceField, ModelMultipleChoiceField
 
 from aestheticBlasphemy.forms import TagField
 
@@ -38,7 +39,7 @@ CONTACT_TYPE = (
 
 def validate_empty(value):
 	if value :
-		raise ValidationError(u'It seems you are not human!!!')
+		raise ValidationError('It seems you are not human!!!')
 
 class ContentTypeForm(forms.Form):
 	ContentType = forms.ModelChoiceField(
@@ -50,7 +51,7 @@ class ContentTypeForm(forms.Form):
 	def __init__(self, *args, **kwargs):
 		super(ContentTypeForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper()
-		
+
 		self.helper.form_id = 'id-ContentTypeForm'
 #		self.helper.form_class = 'blueForms'
 		self.helper.form_class = 'form-horizontal'
@@ -63,13 +64,13 @@ class ContentTypeForm(forms.Form):
                 'You can select the existing Content Type or Create New for your Post.',
                 'ContentType',
             ),
-			
+
             ButtonHolder(
                 Submit('submit', 'next', css_class='button white'),
                 Submit('submit', 'delete', css_class='btn-danger')
-                
+
             ),
-			
+
 			)
 
 
@@ -82,10 +83,10 @@ class ContentTypeCreationForm(forms.ModelForm):
     											   		required=True)
 	is_leaf = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':"form-control",
 																'aria-describedby':"isLeafHelp"}))
-	
+
 	def __init__(self, *args, **kwargs):
 		super(ContentTypeCreationForm, self).__init__(*args, **kwargs)
-		
+
 	class Meta:
 		model = BlogContentType
 		fields = ('content_type', 'is_leaf',)
@@ -98,17 +99,17 @@ class FieldTypeForm(forms.Form):
     													 'placeholder':'Field Name'}),
     											   		required=True)
 	field_type = forms.ChoiceField(widget = forms.Select(attrs={'class':"form-control"}),choices=CUSTOM_FIELD_TYPE)
-	
+
 	def clean_field_name(self):
-		print "LOGS: clean_field_name called"
+		print("LOGS: clean_field_name called")
 		data = slugify_name(self.cleaned_data['field_name'])
 		return data
 
-	
+
 class FormsetHelper(FormHelper):
 	def __init__(self, *args, **kwargs):
 		super(FormsetHelper, self).__init__(*args, **kwargs)
-		
+
 		self.form_id = 'id-FieldTypeForm'
 #		self.helper.form_class = 'blueForms'
 		self.form_class = 'form-inline'
@@ -120,7 +121,7 @@ class FormsetHelper(FormHelper):
                 'field_name',
                 'field_type',
 			)
-	
+
 class ContactForm(forms.Form):
 	contact_type = forms.ChoiceField(label="Choose Type of Contact",required=True,
 									widget = forms.Select(),choices=CONTACT_TYPE)
@@ -129,7 +130,7 @@ class ContactForm(forms.Form):
         max_length=80,
         required=True,
     )
-	
+
 	email = forms.EmailField(
 			label="Your email?",
 			required=True,
@@ -147,11 +148,11 @@ class ContactForm(forms.Form):
 							required=False,
 							validators=[validate_empty],
 							)
-	
+
 	def __init__(self, *args, **kwargs):
 		super(ContactForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper()
-		
+
 		self.helper.form_id = 'id-ContactForm'
 #		self.helper.form_class = 'blueForms'
 		self.helper.form_class = 'form-horizontal'
@@ -169,11 +170,11 @@ class ContactForm(forms.Form):
                 'extra',
 				Field('honeypot', type="hidden"),
             ),
-			
+
             ButtonHolder(
                 Submit('submit', 'Submit', css_class='button white')
             ),
-			
+
 			)
 #		self.helper.add_input(Submit('submit', 'Submit'))
 
@@ -186,7 +187,7 @@ class TestFormClass(forms.Form):
 	pid_count = forms.IntegerField(required=False)
 	def __init__(self, *args, **kwargs):
 		self.helper = FormHelper()
-		
+
 		self.helper.form_id = 'id-TestFormClass'
 #		self.helper.form_class = 'blueForms'
 		self.helper.form_class = 'form-horizontal'
@@ -204,19 +205,19 @@ class TestFormClass(forms.Form):
                 'section',
                 Field('pid_count', type="hidden"),
             ),
-			
+
             ButtonHolder(
                 Submit('submit', 'Submit', css_class='button white')
             ),
-			
+
 			)
 		super(TestFormClass, self).__init__(*args, **kwargs)
 
-	
+
 	def save(self,post,db_instance=None):
-		print "LOGS: Section --> ", post.pop('section')
-		print "LOGS: Tags --> ", post.pop('tags')
-		print "LOGS: Tags --> ", post.pop('title')
+		print(("LOGS: Section --> ", post.pop('section')))
+		print(("LOGS: Tags --> ", post.pop('tags')))
+		print(("LOGS: Tags --> ", post.pop('title')))
 		post.pop('csrfmiddlewaretoken')
 		post.pop('submit')
 		if db_instance != None:
@@ -226,18 +227,18 @@ class TestFormClass(forms.Form):
 		instance.title = self.cleaned_data["title"]
 		instance.section = self.cleaned_data["section"]
 
-		for k,v in post.iteritems():
+		for k,v in list(post.items()):
 			if str(k) != 'pid_count' :
 				tmp = {}
 				tmp = tag_lib.insert_tag_id(str(v),self.cleaned_data["pid_count"])
 				post[k] = tmp['content']
 				post['pid_count'] = tmp['pid_count']
-			
+
 		json_str = json.dumps(post.dict())
 		instance.data = str(json_str)
-		print "LOGS: printing the json_str", json_str
+		print(("LOGS: printing the json_str", json_str))
 		return instance
-		
+
 
 """
 class PageForm(forms.Form):

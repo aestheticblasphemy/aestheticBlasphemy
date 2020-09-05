@@ -12,19 +12,17 @@ class BloggingConfig(AppConfig):
     def ready(self):
         try:
             BlogContentType = self.get_model('BlogContentType')
-            
-    
             defaultSection = BlogContentType.objects.filter(content_type='defaultsection')
             if len(defaultSection) is 0:
                 defaultSection = BlogContentType()
-                defaultSection.content_type=u'defaultsection'
+                defaultSection.content_type='defaultsection'
                 defaultSection.is_leaf = False
                 defaultSection.save()
             defaultBlog = BlogContentType.objects.filter(content_type='defaultblog')
             if len(defaultBlog) is 0:
                 defaultBlog = BlogContentType()
-                defaultBlog.content_type=u'defaultblog'
+                defaultBlog.content_type='defaultblog'
                 defaultBlog.is_leaf = True
                 defaultBlog.save()
         except:
-            print 'Something is wrong'
+            print('Something is wrong')

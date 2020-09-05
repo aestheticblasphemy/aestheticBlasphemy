@@ -1,6 +1,7 @@
 {% extends "socialaccount/base.html" %}
+{% load i18n %}
 
-{% block title %}Sign up for {{ site.name }}{% endblock %}
+{% block title %}{% trans "Signup for" %} {{ site.name }}{% endblock %}
 
 {% block content %}
 <div class="card center-block login-block text-xs-center">

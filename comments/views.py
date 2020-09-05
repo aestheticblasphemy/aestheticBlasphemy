@@ -11,7 +11,7 @@ from rest_framework.status import (HTTP_200_OK,HTTP_400_BAD_REQUEST,
 from comments.models import Comment
 from rest.serializers import CommentSerializer
 
-from forms import CommentForm
+from .forms import CommentForm
 
 import traceback, sys
 from blogging.models import BlogContent
@@ -28,7 +28,7 @@ from django.conf import settings
 
 # Create your views here.
 class JSONResponse(HttpResponse):
-    
+
     def __init__(self, data, **kwargs):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
@@ -42,22 +42,22 @@ class CommentList(GenericAPIView):
     permission_classes = (AllowAny,)
     queryset = Comment.objects.all().order_by('-date_created')
     page_size_query_param = 'size'
-    
+
     max_page_size = 1000
     pagination_class = PageNumberPagination
     serializer_class = CommentSerializer
 
     def get(self, request, postID=None, format=None):
         if postID is not None:
-            if request.user.is_authenticated() and request.user.is_staff:
-                print 'Staff'
+            if request.user.is_authenticated and request.user.is_staff:
+                #print('Staff')
                 self.queryset = Comment.objects.filter(post_id=postID).order_by('parent_comment','-date_created')
-            elif request.user.is_authenticated():
-                print 'User'
+            elif request.user.is_authenticated:
+                #print('User')
                 self.queryset = Comment.objects.filter(post_id=postID).order_by('parent_comment','-date_created')
                 self.queryset = self.queryset.filter(published=True)|self.queryset.filter(author=self.user)
             else:
-                print 'Guest'
+                #print('Guest')
                 self.queryset = Comment.objects.filter(post_id=postID).order_by('parent_comment','-date_created')
                 self.queryset = self.queryset.filter(published=True)
         else:
@@ -75,7 +75,7 @@ class CommentList(GenericAPIView):
                                             ('previous', self.paginator.get_previous_link()),
                                             ('results', serializer.data)
                                         ]))
-        
+
         serializer = self.get_serializer(self.queryset, many=True)
         return JSONResponse(serializer.data)
 
@@ -102,7 +102,7 @@ def comment_list(request, postID=None):
                    ]
         context = {"comments": pages, "actions": actions
                    }
-        
+
         template = loader.get_template('comments/manage.html')
         return HttpResponse(template.render(context, request))
 
@@ -118,15 +118,15 @@ class CommentPost(viewsets.ModelViewSet):
         if self.request.user is not None and self.request.user.is_staff:
             published = True
             serializer.save(author=self.request.user, published=published)
-        elif self.request.user is not None and self.request.user.is_authenticated() and settings.COMMENT_MODERATION_ENABLED is not True:
-            print 'User'
-            published = True 
+        elif self.request.user is not None and self.request.user.is_authenticated and settings.COMMENT_MODERATION_ENABLED is not True:
+            #print('User')
+            published = True
             serializer.save(author=self.request.user, published=published)
         else:
-            print 'Guest'
+            #print('Guest')
             published = False
             serializer.save(published=published)
-        
+
 
 
 def comment_detail(request, cid):
@@ -134,20 +134,20 @@ def comment_detail(request, cid):
         comment = Comment.objects.get(pk=cid)
     except Comment.DoesNotExist:
         return HttpResponse(status=HTTP_404_NOT_FOUND)
-    
+
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
         return JSONResponse(serializer.data)
-    
+
     elif request.method== 'PUT':
         data = JSONParser().parse(request)
         serializer = CommentSerializer(comment, data=data)
-        
+
         if serializer.is_valid():
             serializer.save()
             return JSONResponse(serializer.data)
         return JSONResponse(serializer.errors, status = HTTP_400_BAD_REQUEST)
-    
+
     elif request.method=='DELETE':
         comment.delete()
         return HttpResponse(status = HTTP_204_NO_CONTENT)
@@ -156,14 +156,14 @@ def comment_detail(request, cid):
 @permission_classes((AllowAny,))
 @renderer_classes((TemplateHTMLRenderer,))
 def comment_form(request, postID, commentID=0):
-    print 'commentForm', postID, commentID
+    #print('commentForm', postID, commentID)
     if len(postID) is 0:
         return HttpResponse(status=HTTP_400_BAD_REQUEST)
-    
+
     if request.method == 'GET':
         try:
             post = BlogContent.objects.get(pk=int(postID))
-            if commentID is not None:
+            if commentID is not 0:
                 parent_comment = Comment.objects.get(pk=int(commentID))
                 comment = CommentForm(initial={'post': post,
                                                'parent_comment': parent_comment})
@@ -176,12 +176,13 @@ def comment_form(request, postID, commentID=0):
                             template_name="comments/form.html"))
         except Comment.DoesNotExist:
             return Response(status=HTTP_404_NOT_FOUND)
-        except:
-            print 'Some exception occurred.'
-            print "Unexpected error:", sys.exc_info()[0]
-            for frame in traceback.extract_tb(sys.exc_info()[2]):
-                fname,lineno,fn,text = frame
-                print "Error in %s on line %d" % (fname, lineno)
+        except Exception as e:
+            print(e)
+            #print('Some exception occurred.')
+            # print("Unexpected error:", sys.exc_info()[0])
+            # for frame in traceback.extract_tb(sys.exc_info()[2]):
+            #     fname,lineno,fn,text = frame
+            #     print("Error in %s on line %d" % (fname, lineno))
             return Response(status=HTTP_400_BAD_REQUEST)
 
 
@@ -190,40 +191,41 @@ def comment_approve(request):
     if request.method=='POST':
         try:
             data = JSONParser().parse(request)
-            
+
             action = data.get('action')
             pks = data.get("selection")
             comment_ids =[]
             for pk in pks:
                 comment_ids.append(int(pk))
-            
-            print action
+
+            #print(action)
             if len(comment_ids):
                 objs = Comment.objects.filter(pk__in=comment_ids)
 
-                if action == u'Approve':
-                    print "LOGS: Promote the given comments"
+                if action == 'Approve':
+                    #print("LOGS: Promote the given comments")
                     for obj in objs:
                         obj.published = True
                         obj.save()
-                elif action == u'Unpublish':
-                    print "LOGS: Unpublish the given comments"
+                elif action == 'Unpublish':
+                    #print("LOGS: Unpublish the given comments")
                     for obj in objs:
                         obj.published = False
                         obj.save()
-                elif action == u'Delete':
-                    print "LOGS: Delete the given comments"
+                elif action == 'Delete':
+                    #print("LOGS: Delete the given comments")
                     for obj in objs:
                         obj.delete()
                 else:
-                    print "LOGS: Nothing"
+                    #print("LOGS: Nothing")
                     return JSONResponse(pks, status=HTTP_400_BAD_REQUEST)
             return JSONResponse(pks, status=HTTP_200_OK)
-        
-        except:
-            print 'Some exception occurred.'
-            print "Unexpected error:", sys.exc_info()[0]
-            for frame in traceback.extract_tb(sys.exc_info()[2]):
-                fname,lineno,fn,text = frame
-                print "Error in %s on line %d" % (fname, lineno)
+
+        except Exception as e:
+            print(e)
+            # print('Some exception occurred.')
+            # print("Unexpected error:", sys.exc_info()[0])
+            # for frame in traceback.extract_tb(sys.exc_info()[2]):
+            #     fname,lineno,fn,text = frame
+            #     print("Error in %s on line %d" % (fname, lineno))
             return JSONResponse(None, status=HTTP_400_BAD_REQUEST)

@@ -1,8 +1,8 @@
-{% load mptt_tags staticfiles %}
+{% load mptt_tags static %}
 
 <section id="section-view">
 	<div class="row">
-	
+
 		{% if nodes|length > 0 %}
 			{% recursetree nodes %}
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 p-10">
@@ -23,16 +23,16 @@
 						</p>
 					</div>
 				</article>
-			
+
 			</div>
 			{% endrecursetree %}
-		
+
 		{% else %}
 			<div class="col-xs-12">
 				<h1> Page Under Construction!!!</h1>
 			</div>
 		{% endif %}
-	
+
 	</div>
 
 {% if nodes.paginator.count > max_entry %}
@@ -48,6 +48,6 @@
 </ul>
 </div>
 {% endif %}
-	
+
 </section>
 

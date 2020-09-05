@@ -31,7 +31,7 @@ class CommentSerializer(ModelSerializer):
         Serializers have a save method, which will in turn invoke these 
         functions
         """
-        print "CommentSerializer: In Create"
+        print("CommentSerializer: In Create")
         comment = Comment()
         
         comment.author = validated_data.get('author', None)
@@ -60,7 +60,7 @@ class CommentSerializer(ModelSerializer):
         Update and return an existing 'Comment' instance, given the 
         validated data
         """
-        print "CommentSerializer: In Update"
+        print("CommentSerializer: In Update")
         instance.body = validated_data.get('body', instance.body)
         instance.author = validated_data.get('author', instance.author)
         instance.parent_comment = validated_data.get('parent_comment',

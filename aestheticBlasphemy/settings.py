@@ -11,12 +11,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
-from custom_settings import *
+from .custom_settings import *
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -25,7 +26,7 @@ from custom_settings import *
 SECRET_KEY = '%7ohz4qftz(8@^kly*+l))7_8&e*0#$+!a1pqwu(2cg0qi&nqy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = SITE_URLS
 
@@ -44,10 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'mptt',
+    #'treebeard',
     'blogging',
     'django_select2',
     'crispy_forms',
-    'formtools',
     'dashboard',
     'meta_tags',
     'django.contrib.redirects',
@@ -65,24 +66,33 @@ INSTALLED_APPS = [
     'rest_framework',
     'comments',
     'django.contrib.flatpages',
+    'events',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 ]
 
 ROOT_URLCONF = 'aestheticBlasphemy.urls'
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
 TEMPLATES = [
     {
@@ -100,15 +110,17 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'aestheticBlasphemy.context_processors.site_processor',
                 'aestheticBlasphemy.context_processors.getvars',
-                'django.core.context_processors.media',
-                'django.core.context_processors.csrf',
+                'django.template.context_processors.media',
+                'django.template.context_processors.csrf',
+                'pl_messages.context_processor.notifications'
             ],
+        'debug': DEBUG,
         },
     },
 ]
 
 WSGI_APPLICATION = 'aestheticBlasphemy.wsgi.application'
-
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -118,9 +130,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': DB_BASENAME,
-        'HOST': '127.0.0.1', 
+        'HOST': '127.0.0.1',
         'USER': DB_NAME,
-        'PASSWORD': DB_PASSWORD, 
+        'PASSWORD': DB_PASSWORD,
         'PORT': '3306',
         'TIME_ZONE': 'Asia/Kolkata',
     }
@@ -220,16 +232,16 @@ COMMENT_MODERATION_ENABLED = True
 
 CKEDITOR_UPLOAD_PATH = 'images/'
 CKEDITOR_CONFIGS = {
-    'default': {                        
+    'default': {
         'toolbar': [
                       ["Format", "Bold", "Italic", "Underline", "Strike", "Blockquote","Subscript", "Superscript", "SpellChecker"],
                       [ "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
                  'JustifyRight', 'JustifyBlock'],
-                      ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink",'NumberedList', 'BulletedList', 'HorizontalRule', 'CreateDiv'], 
+                      ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink",'NumberedList', 'BulletedList', 'HorizontalRule', 'CreateDiv'],
                       ['Undo', 'Redo'], ["Source", 'RemoveFormat','Iframe'],["Maximize"],['ShowBlocks', 'Syntaxhighlight', 'Mathjax'],
                      ],
         'contentsCss': STATIC_URL+'css/bootstrap.css',
-    
+
         'codemirror' : {
                         # Set this to the theme you wish to use (codemirror themes)
                         'theme': 'default',
@@ -274,36 +286,36 @@ CKEDITOR_CONFIGS = {
                         # Whether or not to highlight the currently active line
                         'styleActiveLine': 'true'
                         },
-             
-             'disallowedContent':{      
+
+             'disallowedContent':{
                         'p h1 h2 h3 h4 span blockquote':{
                                     #Disallow setting font-family or font-size
                                     'styles':['font*'],
                                 },
-                        },   
+                        },
 
-                
+
             'allowedContent':{
                         '*': {
-                              
+
                               'attributes': ['id', 'itemprop', 'title', 'placeholder', 'type', 'data-*'],
-                              'classes':['text-center', 'text-left', 'text-right', 'text-justify', 'center-text', 'text-muted', 
+                              'classes':['text-center', 'text-left', 'text-right', 'text-justify', 'center-text', 'text-muted',
                                          'align-center', 'pull-left', 'pull-right', 'center-block', 'media', 'image',
                                          'list-unstyled', 'list-inline',
-                                         'language-*', '*', 
+                                         'language-*', '*',
                                         ],
                             },
                         'p': {
-                                'attributes': ['id'],   
+                                'attributes': ['id'],
                             },
                         'h1 h2 h3 h4 em i b strong caption h5 h6 u s br hr': 'true',
                         'a': {
                                 'attributes': ['!href','target','name', 'id', 'name', 'rel'],
-                            },      
+                            },
                         'img':{
                                #Do not allow image height and width styles
                                'attributes': ['!src', 'alt', 'id'],
-                            },                        
+                            },
                         'span ul ol li sup sub': 'true',
                         'div':{
                                'classes':'*',
@@ -318,7 +330,7 @@ CKEDITOR_CONFIGS = {
                                'classes':['*']
                             },
                         'code': 'true',
-                        
+
                         'blockquote':'true',
                         'table':'true',
                         'tr':'true',
@@ -326,8 +338,8 @@ CKEDITOR_CONFIGS = {
                         'td':'true',
                         },
             'justifyClasses': ['text-left', 'text-center', 'text-right', 'text-justify'],
-            'extraPlugins': 'button,toolbar,codesnippet,about,stylescombo,richcombo,floatpanel,panel,button,listblock,dialog,dialogui,syntaxhighlight,htmlwriter,removeformat,horizontalrule,widget,lineutils,mathjax,div,fakeobjects,iframe,image2,justify,blockquote,indent,indentlist,indentblock',
-            'ignoreEmptyParagraph': 'true',   
+            'extraPlugins': 'button,toolbar,codesnippet,about,stylescombo,richcombo,floatpanel,panel,button,listblock,dialog,dialogui,htmlwriter,removeformat,horizontalrule,widget,lineutils,mathjax,div,fakeobjects,iframe,image2,justify,blockquote,indent,indentlist,indentblock',
+            'ignoreEmptyParagraph': 'true',
             'coreStyles_bold': {
                             'element': 'b',
                             'overrides': 'strong',
@@ -341,18 +353,18 @@ CKEDITOR_CONFIGS = {
             'mathJaxClass':'math-tex',
             'mathJaxLib':STATIC_URL+'js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
             'tabSpaces':'4',
-            'indentClasses': ['col-xs-offset-1', 'col-xs-offset-2', 'col-xs-offset-3', 'col-xs-offset-4'],     
+            'indentClasses': ['col-xs-offset-1', 'col-xs-offset-2', 'col-xs-offset-3', 'col-xs-offset-4'],
     },
-    'author': {                        
+    'author': {
         'toolbar': [
                       ["Format", "Bold", "Italic", "Underline", "Strike", "Blockquote","Subscript", "Superscript", "SpellChecker"],
                       [ "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
                  'JustifyRight', 'JustifyBlock'],
-                      ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink",'NumberedList', 'BulletedList', 'HorizontalRule', 'CreateDiv'], 
+                      ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink",'NumberedList', 'BulletedList', 'HorizontalRule', 'CreateDiv'],
                       ['Undo', 'Redo'], ["Source", 'RemoveFormat','Iframe'],["Maximize"],['ShowBlocks', 'Syntaxhighlight', 'Mathjax'],
                      ],
         'contentsCss': STATIC_URL+'css/bootstrap.css',
-    
+
         'codemirror' : {
                         # Set this to the theme you wish to use (codemirror themes)
                         'theme': 'default',
@@ -397,36 +409,36 @@ CKEDITOR_CONFIGS = {
                         # Whether or not to highlight the currently active line
                         'styleActiveLine': 'true'
                         },
-             
-             'disallowedContent':{      
+
+             'disallowedContent':{
                         'p h1 h2 h3 h4 span blockquote':{
                                     #Disallow setting font-family or font-size
                                     'styles':['font*'],
                                 },
-                        },   
+                        },
 
-                
+
             'allowedContent':{
                         '*': {
-                              
+
                               'attributes': ['id', 'itemprop', 'title', 'placeholder', 'type', 'data-*'],
-                              'classes':['text-center', 'text-left', 'text-right', 'text-justify', 'center-text', 'text-muted', 
+                              'classes':['text-center', 'text-left', 'text-right', 'text-justify', 'center-text', 'text-muted',
                                          'align-center', 'pull-left', 'pull-right', 'center-block', 'media', 'image',
                                          'list-unstyled', 'list-inline',
-                                         'language-*', '*', 
+                                         'language-*', '*',
                                         ],
                             },
                         'p': {
-                                'attributes': ['id'],   
+                                'attributes': ['id'],
                             },
                         'h1 h2 h3 h4 em i b strong caption h5 h6 u s br hr': 'true',
                         'a': {
                                 'attributes': ['!href','target','name', 'id', 'name', 'rel'],
-                            },      
+                            },
                         'img':{
                                #Do not allow image height and width styles
                                'attributes': ['!src', 'alt', 'id'],
-                            },                        
+                            },
                         'span ul ol li sup sub': 'true',
                         'div':{
                                'classes':'*',
@@ -441,7 +453,7 @@ CKEDITOR_CONFIGS = {
                                'classes':['*']
                             },
                         'code': 'true',
-                        
+
                         'blockquote':'true',
                         'table':'true',
                         'tr':'true',
@@ -449,8 +461,8 @@ CKEDITOR_CONFIGS = {
                         'td':'true',
                         },
             'justifyClasses': ['text-left', 'text-center', 'text-right', 'text-justify'],
-            'extraPlugins': 'button,toolbar,codesnippet,about,stylescombo,richcombo,floatpanel,panel,button,listblock,dialog,dialogui,syntaxhighlight,htmlwriter,removeformat,horizontalrule,widget,lineutils,mathjax,div,fakeobjects,iframe,image2,justify,blockquote,indent,indentlist,indentblock',
-            'ignoreEmptyParagraph': 'true',   
+            'extraPlugins': 'button,toolbar,codesnippet,about,stylescombo,richcombo,floatpanel,panel,button,listblock,dialog,dialogui,htmlwriter,removeformat,horizontalrule,widget,lineutils,mathjax,div,fakeobjects,iframe,image2,justify,blockquote,indent,indentlist,indentblock',
+            'ignoreEmptyParagraph': 'true',
             'coreStyles_bold': {
                             'element': 'b',
                             'overrides': 'strong',
@@ -464,7 +476,7 @@ CKEDITOR_CONFIGS = {
             'mathJaxClass':'math-tex',
             'mathJaxLib':STATIC_URL+'js/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML',
             'tabSpaces':'4',
-            'indentClasses': ['col-xs-offset-1', 'col-xs-offset-2', 'col-xs-offset-3', 'col-xs-offset-4'],     
+            'indentClasses': ['col-xs-offset-1', 'col-xs-offset-2', 'col-xs-offset-3', 'col-xs-offset-4'],
     },
 }
 CKEDITOR_RESTRICT_BY_USER=True
@@ -494,35 +506,65 @@ META_SITE_TYPE = 'article' # override when passed in __init__
 META_SITE_NAME = 'Aesthetic Blasphemy'
 #META_INCLUDE_KEYWORDS = [] # keyword will be included in every article
 #META_DEFAULT_KEYWORDS = [] # default when no keyword is provided in __init__
-#META_IMAGE_URL = '' # Use STATIC_URL 
+#META_IMAGE_URL = '' # Use STATIC_URL
 META_USE_OG_PROPERTIES = True
 META_USE_TWITTER_PROPERTIES = True
 META_USE_GOOGLEPLUS_PROPERTIES = True
 META_USE_SITES = True
 META_PUBLISHER_FB_ID = 'https://www.facebook.com/PirateLearner' # can use PAGE URL or Publisher id ID
-META_PUBLISHER_GOOGLE_ID = 'https://plus.google.com/116465481265465787624' # Google+ ID 
+META_PUBLISHER_GOOGLE_ID = 'https://plus.google.com/116465481265465787624' # Google+ ID
 META_FB_APP_ID = ''
 
 #blogging app settings
 BLOGGING_MAX_ENTRY_PER_PAGE = 5
 BLOGGING_CSS_FRAMEWORK = 'bootstrap4'
+BLOGGING_USE_REVERSION = False
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
+
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)-12s] %(message)s',
+            'datefmt': '%b %d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stderr,
+        },
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             #'filename': STATIC_ROOT+'/logging/log.txt',
-            'filename': '/home/rai812/logs/user/abLog.txt',
+            'filename': '/home/craft/projects/aestheticblasphemy/aestheticBlasphemy/logs/abLog.txt',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+            'handlers': ['console'],
+            'level': 'ERROR',
             'propagate': True,
         },
-    },
+        'PirateLearner': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    }
 }

@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages as mm
 from django.shortcuts import get_object_or_404
@@ -15,7 +15,8 @@ def home(request):
     """
     threads = get_user_threads(user=request.user)
     context = {
-        'threads': threads
+        'threads': threads,
+
     }
     return render(request, 'home.html', context)
 

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="{% static "js/blogging/manage.js" %}"></script>
 {% endblock %}
 
-{% load staticfiles %}
+{% load static %}
 
 
 {% block content_blog %}
@@ -99,7 +99,7 @@
    {% endif %}
 </div> <!-- dashboard-panel -->
 
-{% endblock %}	
+{% endblock %}
 {% block site-head %}
     <nav class="navbar navbar-dark bg-inverse dashboard-head">
         <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

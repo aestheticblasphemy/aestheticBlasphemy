@@ -1,12 +1,14 @@
 from django.conf.urls import *
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, routers
+from django.contrib.contenttypes.views import shortcut
 
-from views import (api_root, BlogContentViewSet, 
+from .views import (api_root, BlogContentViewSet, 
                    UserViewSet, CurrentUserView)
 
 from rest_framework.urlpatterns import format_suffix_patterns
 
+app_name="rest"
 
 blogcontent_list = BlogContentViewSet.as_view({
     'get': 'list'                                           
