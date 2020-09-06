@@ -654,12 +654,12 @@ def tagged_post(request,tag):
 			pages = paginator.page(paginator.num_pages)
 
 		template = loader.get_template('blogging/teaser.html')
-		context = RequestContext(request, {
+		context = {
                                        'nodes': pages,
                                        'page': {'title':tag, 'tagline':'We learn from stolen stuff'},
                                        'max_entry': max_entry,
-                                      })
-		return HttpResponse(template.render(context))
+                                      }
+		return render(request, 'blogging/teaser.html', context)
 	except ObjectDoesNotExist:
 		raise Http404
 
