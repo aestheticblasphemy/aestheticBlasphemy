@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from .utils import get_css_styles
 """
 
-tags to be identified 
+tags to be identified
 Body, content
 
 
@@ -21,7 +21,7 @@ def get_field_name_from_tag(current_tag):
 def get_pattern(current_tag):
     tag_start_pattern = "\\%\\% " + str(current_tag['name']) + " \\%\\%"
     tag_end_pattern = "\\%\\% endtag "+ str(current_tag['name']) + " \\%\\%"
-    final_pattern =  tag_start_pattern + "(.*?)" + tag_end_pattern 
+    final_pattern =  tag_start_pattern + "(.*?)" + tag_end_pattern
     return final_pattern
 
 
@@ -48,9 +48,9 @@ def strip_tag_from_data(data):
     line = p.sub('', data)
     return line
 
-    
+
 def has_no_id(tag):
-    
+
     print(("tag return has no id ", tag.has_attr('id')))
     return  not tag.has_attr('id')
 
@@ -59,10 +59,10 @@ def has_enough_length(tag):
     check for tag.string --> if it is None then it has more than one children.
     """
     print(("has_enough_length()-->", tag.name))
-    
+
     if tag.string is None:
         tag_string = ''.join(str(tag_child.encode('utf-8')) for tag_child in tag.contents)
-        print(("Printing contents string ", tag_string)) 
+        print(("Printing contents string ", tag_string))
         flag = len(tag_string) > 100
         print(("returning ", flag))
         return flag
@@ -80,25 +80,25 @@ def has_eligible_child(tag):
 
 def insert_tag_id(data,id_count):
     """
-    
+
     Search for all children of body tag:
     1. if it is <p> then check for id, set it if not present.
     2. if it is <ul> or <ol> traverse through its children.
         a) if length of <li> is greater then 100 then set the id.
         b) if none of the <li> is suitable for id then give its parent the id.
     3. if it is <img> then set the id.
-    
+
     Each set operation --> increament the pid_count and then set it to id field
     return the dictionary containing content and final pid_count
-    
+
     """
 
-    
+
 #    print soup.body.contents
 
     filter_elements = ['p','span','img']
     css_styles = get_css_styles()
-    
+
     if isinstance(id_count, str):
         print(("s is unicode, %r" % id_count))
         id_count = str(id_count)
@@ -114,18 +114,23 @@ def insert_tag_id(data,id_count):
 
     if isinstance(id_count, int):
         print("type is int")
-    
+    elif id_count is None:
+        id_count = 0
+
+    if isinstance(data, int):
+        print("data is int")
+        data = str(data)
 
     if len(data) > 0:
 
         print("Entering Soup")
         soup = BeautifulSoup(data,"html5lib")
-        
+
         initial_content = ''.join(str(tag) for tag in soup.body.contents)
         initial_content = initial_content.replace('\xc2\xa0', ' ')
-        
+
         print(("printing original html: \n {content}".format(content=initial_content)))
-        
+
         # add description itemproperty in the first paragraph
         try:
             if soup('p') is not None:
@@ -134,21 +139,21 @@ def insert_tag_id(data,id_count):
                 soup('li')[0]['itemprop'] = "description"
         except IndexError as ex:
             print(ex)
-        
+
         for tag in soup.body.children:
-            
+
             if tag.name == 'p' and has_no_id(tag):
                 print("setting tag p")
                 id_count = id_count + 1
-                tag['id'] = id_count 
-    
+                tag['id'] = id_count
+
             elif (tag.name == 'ul' or tag.name == 'ol') and has_no_id(tag):
                 if has_eligible_child(tag) == True:
                     for tag_child in tag.contents:
                         if tag_child.name == 'li' and has_no_id(tag_child):
-                            print(("setting tag ",tag_child.name)) 
+                            print(("setting tag ",tag_child.name))
                             id_count = id_count + 1
-                            tag_child['id'] = id_count 
+                            tag_child['id'] = id_count
                 else:
                     print(("setting tag ", tag.name))
                     id_count = id_count + 1
@@ -156,9 +161,9 @@ def insert_tag_id(data,id_count):
             elif tag.name == 'img' and has_no_id(tag):
                 id_count = id_count + 1
                 tag['id'] = id_count
-                
-             
-                
+
+
+
         for tag_child in soup.body.descendants:
             if tag_child.name == 'img':
                 tag_child['itemprop'] = "image"
@@ -166,10 +171,10 @@ def insert_tag_id(data,id_count):
                     tag_child['class'].append(css_styles['image'])
                 else:
                     tag_child['class'] = css_styles['image']
-            
+
             if tag_child.name in filter_elements:
                 tag_child['style'] = " "
-            
+
             if type(tag_child) is bs4.element.Tag and tag_child.get('class', None) is not None:
                 if 'rtecenter' in tag_child['class']:
                     tag_child['class'].remove('rtecenter')
@@ -177,15 +182,15 @@ def insert_tag_id(data,id_count):
                 elif 'rtejustify' in tag_child['class']:
                     tag_child['class'].remove('rtejustify')
                     tag_child['class'].append(css_styles['justify'])
-            
-    
-        final_content = ''.join(str(tag.encode('utf-8')) for tag in soup.body.contents)
+
+        print("Now printing altered html ")
+        final_content = ''.join(str(tag) for tag in soup.body.contents)
         final_content = final_content.replace('\xc2\xa0', ' ')
-        print(("Now printing altered html: \n{content}".format(content=final_content)))
+        print(final_content)
     else:
         final_content = data
     return_dict = {}
     return_dict['content'] = final_content
-    return_dict['pid_count'] = id_count 
-    
+    return_dict['pid_count'] = id_count
+
     return return_dict
