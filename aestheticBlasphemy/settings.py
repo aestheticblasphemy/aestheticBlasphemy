@@ -20,13 +20,10 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 from .custom_settings import *
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%7ohz4qftz(8@^kly*+l))7_8&e*0#$+!a1pqwu(2cg0qi&nqy'
-
+SECRET_KEY = '#nx*j2uv70r7vh-ofi8yv=1_^_&u%3jzz(#t=-fq3ga=$m_a@8'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = SITE_URLS
 
@@ -549,12 +546,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stderr,
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
+        #'file': {
+            #'level': 'INFO',
+            #'class': 'logging.FileHandler',
             #'filename': STATIC_ROOT+'/logging/log.txt',
-            'filename': '/home/craft/projects/aestheticblasphemy/aestheticBlasphemy/logs/abLog.txt',
-        },
+            #'filename': '/home/craft/projects/aestheticblasphemy/aestheticBlasphemy/logs/abLog.txt',
+        #},
     },
     'loggers': {
         'django': {

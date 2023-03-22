@@ -694,7 +694,8 @@ def ContactUs(request):
 	return render(request, 'blogging/contact_page.html',context)
 
 def BuildIndex(request):
-	if request.is_ajax():
+	#if request.is_ajax():
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 		template = loader.get_template('blogging/includes/index.html')
 # 		course = BlogParent.objects.get(title='Course')
 		section = None

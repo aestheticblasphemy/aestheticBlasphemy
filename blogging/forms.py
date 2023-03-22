@@ -12,7 +12,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.core.exceptions import ValidationError
 from django.urls import reverse
-from django.utils.encoding import force_text, smart_text
+from django.utils.encoding import force_str as force_text 
+from django.utils.encoding import smart_str as smart_text
 from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
 
 import json

@@ -34,8 +34,6 @@ from pl_messages.models import get_notification_count, get_user_notifications
 from events.signals import generate_event
 
 
-
-
 class CustomAccountAdapter(DefaultAccountAdapter):
     '''
     @summary: custom account adapter class. To make it work,
@@ -294,7 +292,8 @@ class TagList(ListView):
 class CustomLoginClass(LoginView):
 
     def get_template_names(self):
-        if self.request.is_ajax():
+        #if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             print("LOGS: get_template() LOGIN through ajax ")
             return "socialaccount/login.html"
         else:
@@ -303,7 +302,8 @@ class CustomLoginClass(LoginView):
 
     def get_context_data(self, **kwargs):
         ret = super(CustomLoginClass, self).get_context_data(**kwargs)
-        if self.request.is_ajax():
+        #if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             ret.update({"ajax_request": True},)
             print("LOGS: LOGIN through ajax ")
         return ret
