@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'blogging',
     'django_select2',
     'crispy_forms',
+    'crispy_bootstrap5',
     'dashboard',
     'meta_tags',
     'django.contrib.redirects',
@@ -73,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -216,7 +218,8 @@ LOGIN_REDIRECT_URL = '/'
 #    },
 #}
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 EMAIL_SUBJECT_PREFIX = '[PirateLearner]'
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_HOST_USER = 'pirate_learner_mailbox'

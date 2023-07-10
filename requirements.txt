@@ -1,7 +1,10 @@
 asgiref
 beautifulsoup4
 certifi
+cffi
 chardet
+charset-normalizer
+cryptography
 defusedxml
 Django
 django-allauth
@@ -20,6 +23,8 @@ djangorestframework
 idna
 mysqlclient
 oauthlib
+pycparser
+PyJWT
 python3-openid
 pytz
 requests
@@ -28,3 +33,5 @@ six
 soupsieve
 sqlparse
 urllib3
+crispy-bootstrap5
+html5lib

@@ -241,7 +241,8 @@ class PendingTag(InclusionTag):
 
 
     def _get_data_context(self,context,user):
-        extra_context = copy(context)
+        #extra_context = copy(context)
+        extra_context = {}
         if user:
             blogs = BlogContent.objects.filter(published_flag=False,special_flag=False,author_id=user)
         else:
@@ -358,7 +359,8 @@ class PublishedTag(InclusionTag):
 
 
     def _get_data_context(self,context,user):
-        extra_context = copy(context)
+        #extra_context = copy(context)
+        extra_context = {}
         if user:
             blogs = BlogContent.objects.filter(published_flag=True,author_id=user)
         else:

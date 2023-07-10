@@ -4,32 +4,32 @@
   
   <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
     <ul class="nav navbar-nav list-group">
-      <li class="nav-item list-group-item {% ifequal active 'dashboard' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'dashboard' %} active {% endif %}">
         <a href="{% url 'dashboard:dashboard-home' %}" class="nav-link"><span class="fa fa-home"></span> Dashboard</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'profile' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'profile' %} active {% endif %}">
         <a href="{% url 'dashboard:dashboard-profile' user_id=request.user.id %}" class="nav-link"><span class="fa fa-user"></span> Profile</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'create' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'create' %} active {% endif %}">
       <a href="{% url 'blogging:content-type' %}" class="nav-link"><span class="fa fa-plus"></span> Create Article</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'published' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'published' %} active {% endif %}">
         <a href="{% url 'dashboard:dashboard-published' %}" class="nav-link"><span class="fa fa-save"></span> Publication</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'pending' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'pending' %} active {% endif %}">
         <a href="{% url 'dashboard:dashboard-pending' %}" class="nav-link"><span class="fa fa-calendar-o"></span> Pending</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'draft' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'draft' %} active {% endif %}">
       <a href="{% url 'dashboard:dashboard-draft' %}" class="nav-link"><span class="fa fa-sticky-note"></span> Draft</a>
       </li>
       {% if request.user.is_staff %}
-      <li class="nav-item list-group-item {% ifequal active 'manage' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'manage' %} active {% endif %}">
         <a href=" {% url 'dashboard:dashboard-admin-articles'%}" class="nav-link"><span class="fa fa-tasks"></span> Review</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'manage_articles' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'manage_articles' %} active {% endif %}">
         <a href=" {% url 'blogging:manage_articles'%}" class="nav-link"><span class="fa fa-tasks"></span> Manage Articles</a>
       </li>
-      <li class="nav-item list-group-item {% ifequal active 'manage_comments' %} active {% endifequal %}">
+      <li class="nav-item list-group-item {% if active == 'manage_comments' %} active {% endif %}">
         <a href="{% url 'comments:comments-manage'%}" class="nav-link"><span class="fa fa-comments-o"></span> Manage Comments</a>
       </li>
       {% endif %}
