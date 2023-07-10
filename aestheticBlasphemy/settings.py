@@ -20,11 +20,8 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 from .custom_settings import *
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%7ohz4qftz(8@^kly*+l))7_8&e*0#$+!a1pqwu(2cg0qi&nqy'
-
+SECRET_KEY = '#nx*j2uv70r7vh-ofi8yv=1_^_&u%3jzz(#t=-fq3ga=$m_a@8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -49,6 +46,7 @@ INSTALLED_APPS = [
     'blogging',
     'django_select2',
     'crispy_forms',
+    'crispy_bootstrap5',
     'dashboard',
     'meta_tags',
     'django.contrib.redirects',
@@ -219,7 +217,8 @@ LOGIN_REDIRECT_URL = '/'
 #    },
 #}
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 EMAIL_SUBJECT_PREFIX = '[PirateLearner]'
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_HOST_USER = 'pirate_learner_mailbox'
@@ -549,12 +548,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'stream': sys.stderr,
         },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
+        #'file': {
+            #'level': 'INFO',
+            #'class': 'logging.FileHandler',
             #'filename': STATIC_ROOT+'/logging/log.txt',
-            'filename': '/home/craft/projects/aestheticblasphemy/aestheticBlasphemy/logs/abLog.txt',
-        },
+            #'filename': '/home/craft/projects/aestheticblasphemy/aestheticBlasphemy/logs/abLog.txt',
+        #},
     },
     'loggers': {
         'django': {

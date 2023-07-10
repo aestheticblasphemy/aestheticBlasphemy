@@ -244,7 +244,7 @@ def edit_post(request,post_id):
 				else:
 					blog.save()
 					#print("LOGS: tags are ", post_form.cleaned_data['tags'])
-					blog.tags.set(*post_form.cleaned_data['tags'])
+					blog.tags.set(post_form.cleaned_data['tags'])
 
 				if action == 'Publish':
 					generate_event.send(sender = blog.__class__, event_label = "blogging_content_submit", user = request.user, source_content_type = ContentType.objects.get_for_model(blog), source_object_id= blog.pk)
@@ -694,7 +694,8 @@ def ContactUs(request):
 	return render(request, 'blogging/contact_page.html',context)
 
 def BuildIndex(request):
-	if request.is_ajax():
+	#if request.is_ajax():
+	if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 		template = loader.get_template('blogging/includes/index.html')
 # 		course = BlogParent.objects.get(title='Course')
 		section = None

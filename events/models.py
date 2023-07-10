@@ -4,7 +4,7 @@ import base64
 from django.db import models
 from django.db.models.query import QuerySet
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language, activate
 from six import python_2_unicode_compatible
 from six.moves import cPickle as pickle  # pylint: disable-msg=F

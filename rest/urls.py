@@ -1,4 +1,4 @@
-from django.conf.urls import *
+from django.urls import path, re_path, include
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, routers
 from django.contrib.contenttypes.views import shortcut
@@ -26,13 +26,13 @@ user_detail = UserViewSet.as_view({
 
 
 urlpatterns = [
-    url(r'^$', api_root),
-    url(r'^blogcontent/$', blogcontent_list, name='blogcontent-list'),
-    url(r'^blogcontent/(?P<pk>[0-9]+)/$', blogcontent_detail, name='blogcontent-detail'),
+    re_path(r'^$', api_root),
+    re_path(r'^blogcontent/$', blogcontent_list, name='blogcontent-list'),
+    re_path(r'^blogcontent/(?P<pk>[0-9]+)/$', blogcontent_detail, name='blogcontent-detail'),
     
-    url(r'^users/$', user_list, name='user-list'),
-    url(r'^users/current/$', CurrentUserView.as_view(), name='current-user'),
-    url(r'^users/(?P<pk>[0-9]+)/$', user_detail, name='user-detail'),
+    re_path(r'^users/$', user_list, name='user-list'),
+    re_path(r'^users/current/$', CurrentUserView.as_view(), name='current-user'),
+    re_path(r'^users/(?P<pk>[0-9]+)/$', user_detail, name='user-detail'),
     
     ]
 

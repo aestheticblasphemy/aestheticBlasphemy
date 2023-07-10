@@ -1,7 +1,7 @@
 from events.conf import settings
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string, get_template
-from django.utils.translation import ugettext
+from django.utils.translation import gettext_lazy as ugettext
 from django.utils.html import strip_tags
 
 from events.backends.base import BaseBackend

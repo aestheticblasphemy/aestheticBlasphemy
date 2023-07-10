@@ -2,7 +2,7 @@
 <div class="card">
     <div class="card-header">Pending for Approval</div>
     <div class="table-responsive card-text">
-	{% if not pending|length > 0 %}
+		{% if not pending|length > 0 %}
 		<div class="alert alert-success" role="alert">
 			No Articles Pending!!!
 		</div>
@@ -13,7 +13,9 @@
 	        </div>
 	    {% endif %}
 		<table class="table table-striped">
-			<thead><tr><td>Title</td><td>Section</td><td>Last Updated</td></tr></thead>
+			<thead class="thead-inverse">
+				<tr><td>Title</td><td>Section</td><td>Last Updated</td></tr>
+			</thead>
 			<tbody>
 			{% for el in pending %}
 			  <tr>
