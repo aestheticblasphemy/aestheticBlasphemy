@@ -55,6 +55,7 @@ urlpatterns = i18n_patterns(
     path('ckeditor/', include('ckeditor_uploader.urls')),
     re_path(r'^sitemap\.xml$', sitemap, {'sitemaps':sitemaps}),
     path('about/', views.flatpage, {'url': '/about/'}, name='about'),
+    path('user_deletion/', views.flatpage, {'url': '/user_deletion/'}, name='user_deletion'),
     path('', include("blogging.urls", namespace="blogging")),
 )
 # This is only needed when using runserver.

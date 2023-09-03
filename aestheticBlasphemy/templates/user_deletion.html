@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% load section_tags %}
+{% block title %}
+About Me
+{% endblock %}
+
+{% block meta %}
+{% include "meta.html" with meta=meta only %}
+{% endblock %}
+
+{% block section_menu %}
+    {% section_tree %}
+{% endblock %}
+{% block content %}
+<div class="content-area clearfix">
+{% block content_blog %}
+    <section class="header-ribbon col-lg-8 col-md-12" itemscope itemtype="https://schema.org/Article">
+        <h3 class="article-title" itemprop="headline">User profile deletion</h3>
+
+        <article class="article-body" itemprop="articleBody">
+            <meta itemprop="datePublished" content=" {{ meta.date_time }} "/>
+            <h3 class="text-xs-center">Deleting your social login from the site</h3>
+            <p>In case you want to remove the social login profile created during the signup process for any reason, please drop an email at 
+                <email>blasphemous.aesthete(at)aestheticblasphemy(dot)com</email></p>
+        </article>
+    </section>
+    {% include 'rightbar.html' %}
+{% endblock %}
+</div>
+{% endblock %}

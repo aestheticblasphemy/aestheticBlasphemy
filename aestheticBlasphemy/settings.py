@@ -27,7 +27,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = SITE_URLS
 
-
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.twitter',
     'taggit',
     'ckeditor',
     'ckeditor_uploader',
@@ -220,7 +219,7 @@ LOGIN_REDIRECT_URL = '/'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-EMAIL_SUBJECT_PREFIX = '[PirateLearner]'
+EMAIL_SUBJECT_PREFIX = '[AestheticBlasphemy]'
 EMAIL_HOST = 'smtp.webfaction.com'
 EMAIL_HOST_USER = 'pirate_learner_mailbox'
 EMAIL_HOST_PASSWORD = 'pirate@world'
@@ -567,4 +566,45 @@ LOGGING = {
             'level': 'DEBUG',
         },
     }
+}
+
+SOCIALACCOUNT_EMAIL_REQUIRED=True
+SOCIALACCOUNT_QUERY_EMAIL=True
+SOCIALACCOUNT_PROVIDERS = {
+  'google': {
+      'EMAIL_AUTHENTICATION': True,
+      "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        'OAUTH_PKCE_ENABLED': True,
+  },
+ 'facebook': {
+    'METHOD': 'js_sdk',  # Set to 'js_sdk' to use the Facebook connect SDK
+     #'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+    'SCOPE': ['email', 'public_profile'],
+    'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+    'INIT_PARAMS': {'cookie': True},
+    'FIELDS': [
+        'id',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'name',
+        'name_format',
+        'picture',
+        'short_name'
+    ],
+    'EXCHANGE_TOKEN': True,
+    'LOCALE_FUNC': lambda request: 'en_IN',
+    'VERIFIED_EMAIL': False,
+    'VERSION': 'v13.0',
+    'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
+  },
+ 'twitter': {
+      'EMAIL_AUTHENTICATION': True
+  }
 }

@@ -34,11 +34,6 @@
                     <a title="Google" class="social-account-g" href="{% provider_login_url provider.id process='login' next=path|safe %}">
                     <span class="fa fa-google-plus"></span>
                     </a>
-                    {% elif provider.name == "Twitter"%}
-                    <a title="Twitter" class="social-account-t" href="{% provider_login_url provider.id process='login' next=path|safe %}">
-                    <span class="fa fa-twitter"></span>
-                    </a>
-                    {% endif %}
                   {% endfor %}
                 </div>
 

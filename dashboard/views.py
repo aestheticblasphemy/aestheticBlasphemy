@@ -146,7 +146,7 @@ def my_profile(request):
     form = ProfileEditForm(initial = data)
 
     social_info = []
-    providers = ["Facebook", "Google", "Twitter"]
+    providers = ["Facebook", "Google"]
     for provider in providers:
         if profile.is_social_account_exist(provider):
             extra_context = {}
@@ -217,7 +217,7 @@ def public_profile(request,user_id):
             groups.append('staff')
 
         social_info = []
-        providers = ["Facebook", "Google", "Twitter"]
+        providers = ["Facebook", "Google"]
         for provider in providers:
             if profile.is_social_account_exist(provider):
                 extra_context = {}
