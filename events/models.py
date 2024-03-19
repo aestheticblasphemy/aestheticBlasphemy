@@ -149,7 +149,7 @@ def queue(to, label, extra_context=None, sender=None, template=None):
     extract pk if to is queryset; extract user.pk after getting all user from given gruop if to is str object;
     otherwise to is a list of users objects, extract user.pk
     """
-    if extra_context is None:
+    if extra_context == None:
         extra_context = {}
     if isinstance(to, QuerySet):
         users = [row["pk"] for row in to.values("pk")]

@@ -35,7 +35,7 @@ def execute_actions(*args, **kwargs):
     if kwargs:
         label = kwargs.get('event_label',None)
 
-    if label is None:
+    if label == None:
         label = args[1]
 
 

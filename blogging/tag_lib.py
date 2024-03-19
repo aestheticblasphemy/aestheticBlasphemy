@@ -60,7 +60,7 @@ def has_enough_length(tag):
     """
     print(("has_enough_length()-->", tag.name))
 
-    if tag.string is None:
+    if tag.string == None:
         tag_string = ''.join(str(tag_child.encode('utf-8')) for tag_child in tag.contents)
         print(("Printing contents string ", tag_string))
         flag = len(tag_string) > 100
@@ -114,7 +114,7 @@ def insert_tag_id(data,id_count):
 
     if isinstance(id_count, int):
         print("type is int")
-    elif id_count is None:
+    elif id_count == None:
         id_count = 0
 
     if isinstance(data, int):
@@ -133,9 +133,9 @@ def insert_tag_id(data,id_count):
 
         # add description itemproperty in the first paragraph
         try:
-            if soup('p') is not None:
+            if soup('p') != None:
                 soup('p')[0]['itemprop'] = "description"
-            elif soup('li') is not None:
+            elif soup('li') != None:
                 soup('li')[0]['itemprop'] = "description"
         except IndexError as ex:
             print(ex)
@@ -167,7 +167,7 @@ def insert_tag_id(data,id_count):
         for tag_child in soup.body.descendants:
             if tag_child.name == 'img':
                 tag_child['itemprop'] = "image"
-                if tag_child.get('class', None) is not None:
+                if tag_child.get('class', None) != None:
                     tag_child['class'].append(css_styles['image'])
                 else:
                     tag_child['class'] = css_styles['image']
@@ -175,7 +175,7 @@ def insert_tag_id(data,id_count):
             if tag_child.name in filter_elements:
                 tag_child['style'] = " "
 
-            if type(tag_child) is bs4.element.Tag and tag_child.get('class', None) is not None:
+            if type(tag_child) == bs4.element.Tag and tag_child.get('class', None) != None:
                 if 'rtecenter' in tag_child['class']:
                     tag_child['class'].remove('rtecenter')
                     tag_child['class'].append(css_styles['center'])

@@ -3,7 +3,8 @@ from django.db import models
 from blogging.models import *
 from django import forms
 from blogging.forms import *
-from ckeditor.widgets import CKEditorWidget
+#from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 from taggit.forms import * 
 from django.db.models import Q 
 from mptt.forms import TreeNodeChoiceField 

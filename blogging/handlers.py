@@ -13,16 +13,16 @@ def handle_submit_event(sender, *args,**kwargs):
     source_content_type = kwargs.get("source_content_type",None)
     source_object_id = kwargs.get("source_object_id",None)
 
-    if label is None:
+    if label == None:
         label = args[0]
 
-    if user is None:
+    if user == None:
         user = args[1]
 
-    if source_content_type is None:
+    if source_content_type == None:
         source_content_type = args[2]
 
-    if source_object_id is None:
+    if source_object_id == None:
         source_object_id = args[3]
         
     # get object from content type
@@ -55,16 +55,16 @@ def handle_publish_event(sender, *args,**kwargs):
     source_content_type = kwargs.get("source_content_type",None)
     source_object_id = kwargs.get("source_object_id",None)
 
-    if label is None:
+    if label == None:
         label = args[0]
 
-    if user is None:
+    if user == None:
         user = args[1]
 
-    if source_content_type is None:
+    if source_content_type == None:
         source_content_type = args[2]
 
-    if source_object_id is None:
+    if source_object_id == None:
         source_object_id = args[3]
         
     # get object from content type

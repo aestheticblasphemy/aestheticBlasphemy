@@ -49,7 +49,7 @@ class ContactPlugin(BlogPlugin):
             name = User.profile.get_name()
             email = User.profile.get_email()
         
-        if contact_type is None:
+        if contact_type == None:
             contact_type = 'Queries'
         
         print("Contact form contact_type : ", contact_type)

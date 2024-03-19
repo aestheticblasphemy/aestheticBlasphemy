@@ -3,7 +3,8 @@ from django.db import models
 from blogging.models import *
 from django import forms
 from blogging.forms import *
-from ckeditor.widgets import CKEditorWidget
+#from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 import json
 from django.db.models import Q 
 from mptt.forms import TreeNodeChoiceField
@@ -16,7 +17,8 @@ class PageForm(forms.Form):
 	title = forms.CharField(max_length = 100)
 	pid_count = forms.IntegerField(required=False)
 	section = TreeNodeChoiceField(queryset=BlogParent.objects.all().filter(~Q(title="Orphan"),Q(children=None)),required=True,empty_label=None, label = "Select Section" )
-	body = forms.CharField(widget = CKEditorWidget(config_name="author"), required=False)
+	body = forms.CharField(widget = CKEditor5Widget(config_name='author',
+                                                    attrs={"class": "django_ckeditor_5"}), required=False)
 	tags = TagField()
 	def __init__(self,action, *args, **kwargs):
 		self.helper = FormHelper()

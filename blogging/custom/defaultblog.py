@@ -3,7 +3,8 @@ from django.db import models
 from blogging.models import *
 from django import forms
 from blogging.forms import *
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
+#from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 import json
 from django.db.models import Q
 from mptt.forms import TreeNodeChoiceField
@@ -15,9 +16,10 @@ It defined the wrapper class for specified content type.
 """
 
 class DefaultblogForm(forms.ModelForm):
-    content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author',
-                                                                attrs={'row': 20,
-                                                                       'cols': 25}))
+    content =  forms.CharField(widget = CKEditor5Widget(config_name='author',
+                                                    attrs={"class": "django_ckeditor_5",
+                                                           'row': 20,
+                                                            'cols': 25}))
     title = forms.CharField(max_length = 100,
                             widget=forms.TextInput(attrs={  'placeholder': 'Title of post',
                                                             'class':"form-control",}),
@@ -31,10 +33,10 @@ class DefaultblogForm(forms.ModelForm):
     pid_count = forms.IntegerField(required=False,
                                    widget=forms.HiddenInput(attrs={'class': 'hidden-xs-up'}))
     def __init__(self,action, *args, data=None, initial=None, instance=None, **kwargs):
-        initial = {} if initial is None else initial
-        if data is not None:
+        initial = {} if initial == None else initial
+        if data != None:
             data['data'] = ''
-        if instance is not None:
+        if instance != None:
             initial['content'] = json.loads(instance.data).get('content', None)
 
         super(DefaultblogForm, self).__init__(*args, instance=instance, initial=initial, data=data, **kwargs)

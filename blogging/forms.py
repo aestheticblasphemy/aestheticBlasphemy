@@ -7,7 +7,8 @@ from blogging.models import *
 from taggit.models import Tag
 from blogging.widgets import SelectWithPopUp
 from django.db import models
-from ckeditor.widgets import CKEditorWidget
+#from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.core.exceptions import ValidationError

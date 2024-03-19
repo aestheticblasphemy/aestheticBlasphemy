@@ -43,7 +43,7 @@ class EventFilterView(TemplateView):
         setting = self.filter_for_user(event_type, action_id)
         if val == "on" and setting:
             setting.delete()
-        elif setting is None and val is None:
+        elif setting == None and val == None:
             create_filter_for_user(self.request.user, event_type, action_id)
         else:
             print("process_cell: Nothing to do for ", label)
@@ -55,7 +55,7 @@ class EventFilterView(TemplateView):
             row = []
             for action_id, medium_display in EVENT_MEDIA:
                 setting = self.filter_for_user(event_type, action_id)
-                val = bool(setting is None)
+                val = bool(setting == None)
                 row.append((
                     self.form_label(event_type, action_id),
                     val)

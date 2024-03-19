@@ -6,7 +6,7 @@ class CreateClass():
     
     def __init__(self, name, member_dict,is_leaf):
         self.import_string = 'from blogging import tag_lib\nfrom django.db import models\nfrom blogging.models import *\nfrom django import forms\n' + \
-        'from blogging.forms import *\nfrom ckeditor.widgets import CKEditorWidget\nimport json\n' + \
+        'from blogging.forms import *\nfrom django_ckeditor_5.widgets import CKEditor5Widget\nimport json\n' + \
         'from django.db.models import Q \nfrom mptt.forms import TreeNodeChoiceField\nfrom crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit\n' 
         self.file_start = '"""\nThis is auto generated script file.\nIt defined the wrapper class for specified content type.\n"""\n'
         self.class_name = 'class ' + str(name).capitalize() +'Form(forms.Form):\n'
@@ -59,7 +59,7 @@ class CreateClass():
                  
             ## Creating form fields in FormClass
             if str(member_type) == 'TextField':
-                class_member = '\t' + member_name + ' = forms.CharField(widget = CKEditorWidget(config_name="author"), required=False)\n'
+                class_member = '\t' + member_name + ' = forms.CharField(widget = CKEditor5Widget(config_name="author",attrs={"class": "django_ckeditor_5"}), required=False)\n'
             if str(member_type) == 'CharField':
                 class_member = '\t' + member_name + ' = forms.CharField(max_length=100, required=False)\n'
             self.class_member_string_list.append(class_member)

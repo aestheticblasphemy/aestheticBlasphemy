@@ -48,7 +48,7 @@ class CommentList(GenericAPIView):
     serializer_class = CommentSerializer
 
     def get(self, request, postID=None, format=None):
-        if postID is not None:
+        if postID != None:
             if request.user.is_authenticated and request.user.is_staff:
                 #print('Staff')
                 self.queryset = Comment.objects.filter(post_id=postID).order_by('parent_comment','-date_created')
@@ -67,7 +67,7 @@ class CommentList(GenericAPIView):
 
         comments = self.paginate_queryset(self.queryset)
 
-        if comments is not None:
+        if comments != None:
             serializer = self.get_serializer(comments, many=True)
             return JSONResponse(OrderedDict([
                                             ('count', self.paginator.page.paginator.count),
@@ -81,7 +81,7 @@ class CommentList(GenericAPIView):
 
 def comment_list(request, postID=None):
     if request.method=='GET':
-        if postID is not None:
+        if postID != None:
             comments = Comment.objects.filter(post_id=postID).order_by('-date_created')
         else:
             comments = Comment.objects.all().order_by('-date_created')
@@ -115,10 +115,10 @@ class CommentPost(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def perform_create(self, serializer):
-        if self.request.user is not None and self.request.user.is_staff:
+        if self.request.user != None and self.request.user.is_staff:
             published = True
             serializer.save(author=self.request.user, published=published)
-        elif self.request.user is not None and self.request.user.is_authenticated and settings.COMMENT_MODERATION_ENABLED is not True:
+        elif self.request.user != None and self.request.user.is_authenticated and settings.COMMENT_MODERATION_ENABLED != True:
             #print('User')
             published = True
             serializer.save(author=self.request.user, published=published)
@@ -157,13 +157,13 @@ def comment_detail(request, cid):
 @renderer_classes((TemplateHTMLRenderer,))
 def comment_form(request, postID, commentID=0):
     #print('commentForm', postID, commentID)
-    if len(postID) is 0:
+    if len(postID) == 0:
         return HttpResponse(status=HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
         try:
             post = BlogContent.objects.get(pk=int(postID))
-            if commentID is not 0:
+            if commentID != 0:
                 parent_comment = Comment.objects.get(pk=int(commentID))
                 comment = CommentForm(initial={'post': post,
                                                'parent_comment': parent_comment})

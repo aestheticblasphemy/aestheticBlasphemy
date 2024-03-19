@@ -23,7 +23,7 @@ from .custom_settings import *
 
 SECRET_KEY = '#nx*j2uv70r7vh-ofi8yv=1_^_&u%3jzz(#t=-fq3ga=$m_a@8'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = SITE_URLS
 
@@ -56,8 +56,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'taggit',
-    'ckeditor',
-    'ckeditor_uploader',
+    #'ckeditor',
+    #'ckeditor_uploader',
+    'django_ckeditor_5',
     'reversion',
     'pl_messages',
     'rest_framework',
@@ -80,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'reversion.middleware.RevisionMiddleware',
+    #'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'aestheticBlasphemy.urls'
@@ -228,6 +230,168 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 25
 #Comments App settings
 COMMENT_MODERATION_ENABLED = True
+
+
+CKEDITOR_5_CONFIGS = {
+        'default': {
+            "toolbar": ["fontFamily","heading","|",
+                "bold",
+                "italic",
+                "underline",
+                "strikethrough",
+                "|",
+                "alignment",
+                "horizontalLine",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "|",
+                "insertTable",
+                "imageUpload",
+                "link",
+                "blockQuote",
+                "code",
+                "math",
+                "|",
+                "undo",
+                "redo",
+            ],
+            
+            "alignment": {"options": ["left", "center", "right"]},
+            "image": {
+                "toolbar": [
+                    "imageStyle:alignLeft",
+                    "imageStyle:full",
+                    "imageStyle:alignRight",
+                    "imageStyle:alignCenter",
+                    "imageStyle:side",
+                ],
+                "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter",],
+            },
+            "table": {
+                "contentToolbar": ["tableColumn", "tableRow", "mergeTableCells", "tableProperties", "tableCellProperties"]
+            },
+            "heading": {
+                "options": [
+                    {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
+                    {"model": "heading1", "view": "h1", "title": "Heading 1", "class": "ck-heading_heading1"},
+                    {"model": "heading2", "view": "h2", "title": "Heading 2", "class": "ck-heading_heading2"},
+                    {"model": "heading3", "view": "h3", "title": "Heading 3", "class": "ck-heading_heading3"},
+                ]
+            },
+            "basicEntities": False,
+            "entities": False,
+            "math": {
+                "engine": 'mathjax',
+                "outputType": 'script',
+                "forceOutputType": False,
+                "enablePreview": True,
+                "className": 'math-tex',
+            }
+        },
+        'author': {
+            "toolbar": ["fontFamily","heading","|",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "|",
+                    "alignment",
+                    "horizontalLine",
+                    "|",
+                    "bulletedList",
+                    "numberedList",
+                    "|",
+                    "insertTable",
+                    "imageUpload",
+                    "link",
+                    "blockQuote",
+                    "code",
+                    "math",
+                    "|",
+                    "undo",
+                    "redo",
+                ],
+                
+            "alignment": {"options": ["left", "center", "right"]},
+            "image": {
+                "toolbar": [
+                    "imageStyle:alignLeft",
+                    "imageStyle:full",
+                    "imageStyle:alignRight",
+                    "imageStyle:alignCenter",
+                    "imageStyle:side",
+                ],
+                "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter",],
+            },
+            "table": {
+                "contentToolbar": ["tableColumn", "tableRow", "mergeTableCells", "tableProperties", "tableCellProperties"]
+            },
+            "heading": {
+                "options": [
+                    {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
+                    {"model": "heading1", "view": "h1", "title": "Heading 1", "class": "ck-heading_heading1"},
+                    {"model": "heading2", "view": "h2", "title": "Heading 2", "class": "ck-heading_heading2"},
+                    {"model": "heading3", "view": "h3", "title": "Heading 3", "class": "ck-heading_heading3"},
+                ]
+            },
+            "basicEntities": False,
+            "entities": False,
+            "math": {
+                "engine": 'mathjax',
+                "outputType": 'script',
+                "forceOutputType": False,
+                "enablePreview": True,
+                "className": 'math-tex',
+            }
+        },
+        'extends': {
+            'blockToolbar': [
+                'paragraph', 'heading1', 'heading2', 'heading3',
+                '|',
+                'bulletedList', 'numberedList',
+                '|',
+                'blockQuote',
+            ],
+            'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+            'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+                        'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+                        'insertTable',],
+            'image': {
+                'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+                            'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+                'styles': [
+                    'full',
+                    'side',
+                    'alignLeft',
+                    'alignRight',
+                    'alignCenter',
+                ]
+
+            },
+            'table': {
+                'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
+                'tableProperties', 'tableCellProperties' ],
+            },
+            'heading' : {
+                'options': [
+                    { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+                    { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+                    { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+                    { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+                ]
+            }
+        },
+        'list': {
+            'properties': {
+                'styles': 'true',
+                'startIndex': 'true',
+                'reversed': 'true',
+            }
+        }
+    }
+
 
 CKEDITOR_UPLOAD_PATH = 'images/'
 CKEDITOR_CONFIGS = {
@@ -603,8 +767,5 @@ SOCIALACCOUNT_PROVIDERS = {
     'VERIFIED_EMAIL': False,
     'VERSION': 'v13.0',
     'GRAPH_API_URL': 'https://graph.facebook.com/v13.0',
-  },
- 'twitter': {
-      'EMAIL_AUTHENTICATION': True
   }
 }

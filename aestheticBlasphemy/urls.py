@@ -58,6 +58,9 @@ urlpatterns = i18n_patterns(
     path('user_deletion/', views.flatpage, {'url': '/user_deletion/'}, name='user_deletion'),
     path('', include("blogging.urls", namespace="blogging")),
 )
+urlpatterns += [
+    path("ckeditor5/", include('django_ckeditor_5.urls'), name="ck_editor_5_upload_file"),
+]
 # This is only needed when using runserver.
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

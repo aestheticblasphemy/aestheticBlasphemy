@@ -13,7 +13,7 @@ class BaseBackend(object):
     """
     def __init__(self, medium_id, spam_sensitivity=None):
         self.medium_id = medium_id
-        if spam_sensitivity is not None:
+        if spam_sensitivity != None:
             self.spam_sensitivity = spam_sensitivity
 
     def can_send(self, user, notice_type, scoping):
@@ -21,7 +21,7 @@ class BaseBackend(object):
         Determines whether this backend is allowed to send a notification to
         the given user and notice_type.
         """
-        return bool(event_filter_for_user(user, notice_type, self.medium_id, scoping) is None)
+        return bool(event_filter_for_user(user, notice_type, self.medium_id, scoping) == None)
 
     def deliver(self, recipient, sender, notice_type, **kwargs):
         """

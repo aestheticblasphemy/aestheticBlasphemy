@@ -36,20 +36,20 @@ class CommentSerializer(ModelSerializer):
         
         comment.author = validated_data.get('author', None)
 
-        if comment.author is None:
+        if comment.author == None:
             comment.author_name = validated_data.get('author_name', None)
             comment.author_email = validated_data.get('author_email', None)
             comment.author_url = validated_data.get('author_url', None)
             
-            if comment.author_name is None and comment.author_email is None:
+            if comment.author_name == None and comment.author_email == None:
                 return None 
         
         comment.body = validated_data.get('body')
         comment.post = validated_data.get('post')
         comment.published = False
-        if comment.author is not None and settings.COMMENT_MODERATION_ENABLED is not True:
+        if comment.author != None and settings.COMMENT_MODERATION_ENABLED != True:
             comment.published = True
-        elif comment.author is not None and comment.author.is_staff:
+        elif comment.author != None and comment.author.is_staff:
             comment.published = True 
 
         comment.save()

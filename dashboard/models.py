@@ -142,7 +142,7 @@ class UserProfile(BaseContentClass):
 
     def get_profile_name(self):
         name  = self.get_first_name(None)
-        if name is None or len(name) == 0:
+        if name == None or len(name) == 0:
             name = self.get_username(None)
         try:
             name = name.decode('utf-8')

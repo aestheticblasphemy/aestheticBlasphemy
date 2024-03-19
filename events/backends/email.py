@@ -28,7 +28,7 @@ class EmailBackend(BaseBackend):
         """
 
         context = self.default_context()
-        if sender is None:
+        if sender == None:
             sender = settings.DEFAULT_FROM_EMAIL
         else:
             sender = sender.email
@@ -41,7 +41,7 @@ class EmailBackend(BaseBackend):
         })
         if extra_context:
             notice = extra_context.get('notice',None)
-            if notice is None:
+            if notice == None:
                 extra_context['notice'] = ugettext(notice_type.display)
             context.update(extra_context)
 
@@ -51,7 +51,7 @@ class EmailBackend(BaseBackend):
         ), notice_type.label, context)
 
         subject = extra_context.get('subject',None)
-        if subject is None:
+        if subject == None:
             subject = "".join(render_to_string("events/notifications/email_subject.txt", {
                 "message": messages["short.txt"],
             }, context).splitlines())

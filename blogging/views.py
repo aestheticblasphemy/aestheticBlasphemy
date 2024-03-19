@@ -381,14 +381,14 @@ def section_index(request, slug=None):
 	template = loader.get_template('blogging/section.html')
 	max_entry = getattr(settings, 'BLOGGING_MAX_ENTRY_PER_PAGE', 10)
 
-	if slug is not None and len(slug) > 0:
+	if slug != None and len(slug) > 0:
 		current_section = slug.split('/')[-1]
 		if len(slug.split('/')[-1])==0:
 			current_section = slug.split('/')[-2]
 		#print(("Printing slug {slug}".format(slug=slug)))
 		logger.debug("Printing slug {slug}".format(slug=slug))
 
-	if current_section is not None:
+	if current_section != None:
 		try:
 			section = BlogParent.objects.get(slug = str(current_section))
 			#print(section)
@@ -405,7 +405,7 @@ def section_index(request, slug=None):
 	else:
 		nodes = BlogParent.objects.filter(level=0)
 
-	if nodes is not None:
+	if nodes != None:
 		paginator = Paginator(nodes, max_entry,orphans=3)
 		page = request.GET.get('page')
 		try:
@@ -417,7 +417,7 @@ def section_index(request, slug=None):
 			# If page is out of range (e.g. 9999), deliver last page of results.
 			pages = paginator.page(paginator.num_pages)
 
-		if section is not None:
+		if section != None:
 			context = {
 					   'parent': section,
                        'nodes': pages,
@@ -434,7 +434,7 @@ def section_index(request, slug=None):
                            'max_entry': max_entry,
                        }
 	else:
-		if section is not None:
+		if section != None:
 			#This case should be made unhittable
 			context = {
 					   'parent': section,
@@ -513,12 +513,12 @@ def teaser(request,slug=None):
 	#Have a section. Get its contents
 	template = loader.get_template('blogging/teaser.html')
 
-	if request.GET.get('strict', None) is None:
+	if request.GET.get('strict', None) == None:
 		nodes = get_posts_for_section(section)
 	else:
 		nodes = BlogContent.published.filter(section=section)
 
-	if nodes is not None:
+	if nodes != None:
 		paginator = Paginator(nodes, max_entry,orphans=3)
 		page = request.GET.get('page', None)
 		try:
@@ -559,7 +559,7 @@ def detail(request, slug, post_id):
 			print('Did not find.')
 			raise Http404
 
-		if blogs.is_published() is False and request.user.is_staff is False:
+		if blogs.is_published() == False and request.user.is_staff == False:
 			print('Not published')
 			raise Http404
 
@@ -627,7 +627,7 @@ def get_posts_for_section(section=None):
 	Traverse the tree hierarchy for the section and return the posts for all
 	the descendents.
 	"""
-	if section is not None:
+	if section != None:
 		children = section.get_descendants(include_self=True)
 		qs = Q()
 		for child in children:
@@ -672,7 +672,7 @@ def ContactUs(request):
 		name = User.profile.get_profile_name()
 		email = User.profile.get_email()
 
-	if contact_type is None:
+	if contact_type == None:
 		contact_type = 'Queries'
 
 	if request.method == 'POST':
@@ -758,14 +758,14 @@ def manage(request):
 				if action == 'Publish':
 					#print("LOGS: Promote the given articles")
 					for obj in objs:
-						if obj.published_flag is not True:
+						if obj.published_flag != True:
 							obj.published_flag = True
 							obj.publication_start = datetime.datetime.now()
 							obj.save()
 				elif action == 'Unpublish':
 					#print("LOGS: Unpublish the given articles")
 					for obj in objs:
-						if obj.published_flag is not False:
+						if obj.published_flag != False:
 							obj.published_flag = False
 							obj.publication_start = None
 							obj.save()

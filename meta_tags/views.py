@@ -125,7 +125,7 @@ class Meta(object):
 
     @keywords.setter
     def keywords(self, keywords):
-        if keywords is None:
+        if keywords == None:
             kws = settings.DEFAULT_KEYWORDS
         else:
             if not hasattr(keywords, '__iter__'):
@@ -152,7 +152,7 @@ class Meta(object):
 
     @image.setter
     def image(self, image):
-        if image is None:
+        if image == None:
             self._image = None
             return
         if not image.startswith('http') and not image.startswith('/'):

@@ -3,7 +3,8 @@ from django.db import models
 from blogging.models import *
 from django import forms
 from blogging.forms import *
-from ckeditor_uploader.widgets import CKEditorUploadingWidget 
+#from ckeditor_uploader.widgets import CKEditorUploadingWidget 
+from django_ckeditor_5.widgets import CKEditor5Widget
 import json
 from django.db.models import Q 
 from mptt.forms import TreeNodeChoiceField
@@ -21,7 +22,8 @@ class DefaultsectionForm(forms.Form):
                                 empty_label='---', 
                                 label = "Select Parent" )
 
-    content =  forms.CharField(widget = CKEditorUploadingWidget(config_name='author'))
+    content =  forms.CharField(widget = CKEditor5Widget(config_name='author',
+                                                    attrs={"class": "django_ckeditor_5"}))
     def __init__(self,action, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_id = "id-DefaultSectionForm"
@@ -53,7 +55,6 @@ class DefaultsectionForm(forms.Form):
                         'parent': instance.parent,
                         'content': json_data['content'],
                         'pid_count': json_data['pid_count'],
-
                 })
 
 

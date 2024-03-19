@@ -109,7 +109,7 @@ class ContactTag(InclusionTag):
         contact_type = request.GET.get('contact_type',None)
 
 
-        if contact_type is None:
+        if contact_type == None:
             contact_type = 'Queries'
 
         #print("Contact form contact_type : ", contact_type)

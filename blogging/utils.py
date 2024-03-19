@@ -38,7 +38,7 @@ css_styles = {
 def get_css_styles():
 	try:
 		import django.conf.settings as settings
-		if settings is not None:
+		if settings != None:
 			return css_styles[settings.BLOGGING_CSS_FRAMEWORK]
 	except ImportError:
 		return css_styles['bootstrap4']
