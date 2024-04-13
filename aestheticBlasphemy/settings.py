@@ -231,10 +231,11 @@ EMAIL_PORT = 25
 #Comments App settings
 COMMENT_MODERATION_ENABLED = True
 
-
+#CKEDITOR_5_CUSTOM_CSS = STATIC_URL+'css/bootstrap.css',
+#CKEDITOR_5_FILE_STORAGE = MEDIA_ROOT+'/images/',
 CKEDITOR_5_CONFIGS = {
         'default': {
-            "toolbar": ["fontFamily","heading","|",
+            "toolbar": ["sourceEditing","fontFamily","heading","|",
                 "bold",
                 "italic",
                 "underline",
@@ -247,7 +248,9 @@ CKEDITOR_5_CONFIGS = {
                 "numberedList",
                 "|",
                 "insertTable",
-                "imageUpload",
+                "imageToolbar",
+                "imageInsert",
+                "uploadAdapter",
                 "link",
                 "blockQuote",
                 "code",
@@ -264,7 +267,7 @@ CKEDITOR_5_CONFIGS = {
                     "imageStyle:full",
                     "imageStyle:alignRight",
                     "imageStyle:alignCenter",
-                    "imageStyle:side",
+                    "imageStyle:side" ,
                 ],
                 "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter",],
             },
@@ -287,109 +290,167 @@ CKEDITOR_5_CONFIGS = {
                 "forceOutputType": False,
                 "enablePreview": True,
                 "className": 'math-tex',
+                
+                "lazyLoad": "load_mathjax"
             }
         },
         'author': {
-            "toolbar": ["fontFamily","heading","|",
-                    "bold",
-                    "italic",
-                    "underline",
-                    "strikethrough",
-                    "|",
-                    "alignment",
-                    "horizontalLine",
-                    "|",
-                    "bulletedList",
-                    "numberedList",
-                    "|",
-                    "insertTable",
-                    "imageUpload",
-                    "link",
-                    "blockQuote",
-                    "code",
-                    "math",
-                    "|",
-                    "undo",
-                    "redo",
-                ],
-                
-            "alignment": {"options": ["left", "center", "right"]},
-            "image": {
-                "toolbar": [
-                    "imageStyle:alignLeft",
-                    "imageStyle:full",
-                    "imageStyle:alignRight",
-                    "imageStyle:alignCenter",
-                    "imageStyle:side",
-                ],
-                "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter",],
+            "toolbar": ["sourceEditing", "|",
+                    "bold", "italic", "underline", "strikethrough", 'subscript', 'superscript', "|",
+                    "alignment", "horizontalLine", "|",
+                    "bulletedList", "numberedList", "outdent", "indent", "|",
+                    "insertTable", "imageInsert", "link", "blockQuote", "code", "codeBlock", "math", "|",
+                    "undo", "redo", "heading"],
+            "math": {
+                "engine": 'mathjax',
+                "outputType": 'span',
+                "forceOutputType": False,
+                "enablePreview": True,
+                "className": 'math-tex'
             },
-            "table": {
-                "contentToolbar": ["tableColumn", "tableRow", "mergeTableCells", "tableProperties", "tableCellProperties"]
+            "placeholder": 'Type or paste your content here!',
+            "style": {
+                "definitions": [
+                    {
+                        "name": 'Responsive Images',
+                        "element": 'img',
+                        "classes": [ 'img-fluid' ]
+                    },
+                    {
+                        "name": 'Figure wrappers',
+                        "element": 'figure',
+                        "classes": [ 'text-xs-center' ]
+                    }
+                ]
+            },
+            'htmlSupport': {
+                "allow": [
+                    {
+                        "name": "/.*/",
+                        "styles": False,
+                        "classes": True,
+                        "attributes": ['id', 'class', 'itemprop', 'title', 'placeholder', 'type', 'data-*']
+                    },
+                    {
+                        "name": "p",
+                        "attributes": ['id']
+                    },
+                    {
+                        "name": r"/^(h[1-6]|em|i|b|strong|caption|u|s|br|hr|a)$/",
+                        'attributes': ['!href','target','name', 'id', 'name', 'rel']
+                    },
+                    {
+                        "name": r"img",
+                        'attributes': ['!src', 'alt', 'id', 'class']
+                    },
+                    {
+                        "name": r"/^(span|ul|ol|li|sup|sub)$/"
+                    },
+                    {
+                        "name": "div",
+                        "classes": True
+                    },
+                    {
+                        "name": "iframe",
+                        "classes": True,
+                        "attributes": True
+                    },
+                    {
+                        "name": r"/^(small|abbr|address|footer|section|article|dl|dt|dd|kbd|var|samp|form|label|input|button|textarea|fieldset)$/",
+                        "classes": True,
+                        "attributes": True
+                    },
+                    {
+                        "name": "pre",
+                        'attributes': ['title'],
+                        'classes':True
+                    },
+                    {
+                        "name": r"/^(code|blockquote|table|tr|th|td)$/"
+                    },
+                ],
+                "disallow": [
+                    {
+                        "name": r"/^(p|h[1-4]|span|blockquote)$/",
+                        "styles": ['font*']
+                    },
+                    {
+                        "name": "img",
+                        "attributes": ["style", "width", "height"]
+                    }
+                ]
+            },
+            "codeBlock": {
+                "languages": [
+                    #Do not render the CSS class for the plain text code blocks.
+                    { "language": 'plaintext', "label": 'Plain text', "class": 'syntaxhighlighter' },
+                    # Use the "php-code" class for PHP code blocks.
+                    { "language": 'php', "label": 'PHP', "class": 'syntaxhighlighter php-code' },
+                    # Use the "js" class for JavaScript code blocks.
+                    # Note that only the first ("js") class will determine the language of the block when loading data.
+                    { "language": 'javascript', "label": 'JavaScript', "class": 'syntaxhighlighter js javascript js-code' },
+                    # Python code blocks will have the default "language-python" CSS class.
+                    { "language": 'python', "label": 'Python', "class": 'syntaxhighlighter python'},
+                    { "language": 'css', "label": 'CSS' , "class": 'syntaxhighlighter css' },
+                    { "language": 'html', "label": 'HTML' , "class": 'syntaxhighlighter xml' },
+                    { "language": 'C', "label": 'C' , "class": 'syntaxhighlighter cpp' },
+                    { "language": 'CPP', "label": 'C++' , "class": 'syntaxhighlighter cpp' },
+                    { "language": 'sh', "label": 'Shell' , "class": 'syntaxhighlighter bash' },
+                ]
             },
             "heading": {
                 "options": [
-                    {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
-                    {"model": "heading1", "view": "h1", "title": "Heading 1", "class": "ck-heading_heading1"},
-                    {"model": "heading2", "view": "h2", "title": "Heading 2", "class": "ck-heading_heading2"},
-                    {"model": "heading3", "view": "h3", "title": "Heading 3", "class": "ck-heading_heading3"},
+                    { "model": 'paragraph', "title": 'Paragraph', "class": 'ck-heading_paragraph' },
+                    { "model": 'heading1', "view": 'h1', "title": 'Heading 1', "class": 'ck-heading_heading1' },
+                    { "model": 'heading2', "view": 'h2', "title": 'Heading 2', "class": 'ck-heading_heading2' },
+                    { "model": 'heading3', "view": 'h3', "title": 'Heading 3', "class": 'ck-heading_heading3' },
+                    { "model": 'heading4', "view": 'h4', "title": 'Heading 4', "class": 'ck-heading_heading4' },
                 ]
             },
-            "basicEntities": False,
-            "entities": False,
-            "math": {
-                "engine": 'mathjax',
-                "outputType": 'script',
-                "forceOutputType": False,
-                "enablePreview": True,
-                "className": 'math-tex',
-            }
-        },
-        'extends': {
-            'blockToolbar': [
-                'paragraph', 'heading1', 'heading2', 'heading3',
-                '|',
-                'bulletedList', 'numberedList',
-                '|',
-                'blockQuote',
-            ],
-            'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-            'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-                        'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-                        'insertTable',],
-            'image': {
-                'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-                            'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
-                'styles': [
-                    'full',
-                    'side',
-                    'alignLeft',
-                    'alignRight',
-                    'alignCenter',
+            "image": {
+                "toolbar": [
+                            "imageStyle:alignCenter", "imageStyle:alignBlockLeft", 
+                            "imageStyle:alignBlockRight", '|', 
+                            'toggleImageCaption', 'linkImage'
+                ],
+                "styles": {
+                    "options": [
+                        {
+                            "name": "alignCenter",
+                            "className": 'text-xs-center',
+                        },
+                        {
+                            "name": "alignBlockLeft",
+                            "className": 'text-xs-left',
+                        },
+                        {
+                            "name": "alignBlockRight",
+                            "className": 'text-xs-right',
+                        }
+                    ]
+                }
+            },
+            "alignment": {
+                "options": [
+                    { "name": 'left', "className": 'text-xs-left' },
+                    { "name": 'right', "className": 'text-xs-right' },
+                    { "name": 'center', "className": 'text-xs-center' },
+                    { "name": 'justify', "className": 'text-xs-justify' }
                 ]
-
             },
-            'table': {
-                'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
-                'tableProperties', 'tableCellProperties' ],
+            
+            "table": {
+                "contentToolbar": ["tableColumn", "tableRow", "mergeTableCells", "tableProperties", "tableCellProperties"]
             },
-            'heading' : {
-                'options': [
-                    { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-                    { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-                    { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-                    { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+            "indentBlock": {
+                "classes": [
+                    'col-xs-offset-1',
+                    'col-xs-offset-2',
+                    'col-xs-offset-3',
+                    'col-xs-offset-4',
                 ]
             }
         },
-        'list': {
-            'properties': {
-                'styles': 'true',
-                'startIndex': 'true',
-                'reversed': 'true',
-            }
-        }
     }
 
 
