@@ -238,13 +238,13 @@ def edit_post(request,post_id):
 					with reversion.create_revision():
 						blog.save()
 						#print("LOGS: tags are ", post_form.cleaned_data['tags'])
-						blog.tags.set(*post_form.cleaned_data['tags'])
+						blog.tags.set(tags= list(post_form.cleaned_data['tags']))
 						reversion.set_user(request.user)
 						reversion.set_comment("Saving the Blog Content changes...")
 				else:
 					blog.save()
 					#print("LOGS: tags are ", post_form.cleaned_data['tags'])
-					blog.tags.set(post_form.cleaned_data['tags'])
+					blog.tags.set(tags= list(post_form.cleaned_data['tags']))
 
 				if action == 'Publish':
 					generate_event.send(sender = blog.__class__, event_label = "blogging_content_submit", user = request.user, source_content_type = ContentType.objects.get_for_model(blog), source_object_id= blog.pk)
@@ -504,6 +504,7 @@ def teaser(request,slug=None):
 		section = BlogParent.objects.get(slug = str(current_section))
 	except (BlogParent.DoesNotExist):
 		logger.error("Unexpected error:{val}".format(val= sys.exc_info()[0]))
+		print(traceback.format_exc())
 		for frame in traceback.extract_tb(sys.exc_info()[2]):
 			fname,lineno,fn,text = frame
 			logger.error("Error in %s on line %d" % (fname, lineno))
