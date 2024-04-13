@@ -19,7 +19,7 @@ class DefaultblogForm(forms.ModelForm):
     content =  forms.CharField(widget = CKEditor5Widget(config_name='author',
                                                     attrs={"class": "django_ckeditor_5",
                                                            'row': 20,
-                                                            'cols': 25}))
+                                                            'cols': 25}), required=False)
     title = forms.CharField(max_length = 100,
                             widget=forms.TextInput(attrs={  'placeholder': 'Title of post',
                                                             'class':"form-control",}),
