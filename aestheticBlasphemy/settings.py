@@ -258,6 +258,7 @@ CKEDITOR_5_CONFIGS = {
                 "|",
                 "undo",
                 "redo",
+                "removeFormat",
             ],
             
             "alignment": {"options": ["left", "center", "right"]},
@@ -300,7 +301,7 @@ CKEDITOR_5_CONFIGS = {
                     "alignment", "horizontalLine", "|",
                     "bulletedList", "numberedList", "outdent", "indent", "|",
                     "insertTable", "imageInsert", "link", "blockQuote", "code", "codeBlock", "math", "|",
-                    "undo", "redo", "heading"],
+                    "undo", "redo", "heading","removeFormat",],
             "math": {
                 "engine": 'mathjax',
                 "outputType": 'span',
