@@ -130,7 +130,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': DB_BASENAME,
-        'HOST': '127.0.0.1',
+        'HOST': 'db_ab',
         'USER': DB_NAME,
         'PASSWORD': DB_PASSWORD,
         'PORT': '3306',
@@ -345,7 +345,8 @@ CKEDITOR_5_CONFIGS = {
                         'attributes': ['!src', 'alt', 'id', 'class']
                     },
                     {
-                        "name": r"/^(span|ul|ol|li|sup|sub)$/"
+                        "name": r"/^(span|ul|ol|li|sup|sub)$/",
+                        "styles": False
                     },
                     {
                         "name": "div",
@@ -372,8 +373,12 @@ CKEDITOR_5_CONFIGS = {
                 ],
                 "disallow": [
                     {
+                        "name": "/.*/",
+                        "styles": True
+                    },
+                    {
                         "name": r"/^(p|h[1-4]|span|blockquote)$/",
-                        "styles": ['font*']
+                        "styles": True
                     },
                     {
                         "name": "img",
