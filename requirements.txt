@@ -35,3 +35,4 @@ sqlparse
 urllib3
 crispy-bootstrap5
 html5lib
+git+https://github.com/anshulthakur/django-ckeditor-5.git@local

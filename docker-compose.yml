@@ -17,14 +17,14 @@ services:
       context: .
       dockerfile: ./Dockerfile
     restart: always
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:80
     container_name: ab_c
     volumes:
     - .:/app
     - ../static:/static
     - ../media:/media
     ports:
-    - "8000:8000"
+    - "8001:80"
     #network_mode: "host"
     depends_on:
       - db_ab
